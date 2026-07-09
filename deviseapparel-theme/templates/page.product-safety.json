@@ -1,0 +1,56 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "text_AiQgeE": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<h2>Produktsäkerhet</h2><p>På Devise Clothing strävar vi efter att erbjuda produkter av hög kvalitet som uppfyller gällande säkerhetskrav inom EU.</p><p>Alla produkter tillverkas och hanteras genom våra produktionspartners enligt tillämpliga standarder och krav.</p><h3>Säkerhetsinformation</h3><ul><li><br/>Produkterna är avsedda för normal användning som klädesplagg.<br/></li><li><br/>Följ alltid tvättråd och skötselanvisningar på etiketten.<br/></li><li><br/>Håll emballage borta från små barn för att undvika kvävningsrisk.<br/></li><li><br/>Sluta använda produkten om den visar tecken på skada eller defekt.<br/></li></ul><h3>Garanti inom EU</h3><p>Konsumenter inom EU har rättigheter enligt gällande konsumentlagstiftning. Reklamationsrätt gäller enligt tillämpliga regler.</p><h3>Kontakt vid säkerhetsfrågor</h3><p>Om du har frågor eller vill rapportera ett säkerhetsrelaterat problem, kontakta oss:</p><p><a>devise.apparels@gmail.com</a></p><h3>Postadress</h3><p>Devise Clothing<br/><br/>Torp 310<br/><br/>39391 Mönsterås<br/><br/>Sverige</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_AiQgeE"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "gap": 0,
+        "background_color": "{{ settings.color_palette.color10 }}",
+        "padding-block-start": 6,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

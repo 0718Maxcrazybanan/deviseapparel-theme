@@ -1,0 +1,263 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "custom_liquid_rcE9GE": {
+      "type": "custom-liquid",
+      "name": "t:names.custom_liquid",
+      "settings": {
+        "custom_liquid": "{% if page.handle == 'contact-1' or page.handle == 'kontakt' %}<section class=\"devise-contact-section\">\n  <div class=\"devise-contact-wrap\">\n\n    <div class=\"devise-contact-head\">\n      <span>Kontakt</span>\n      <h2>Hur kan vi hjälpa dig?</h2>\n      <p>\n        Har du frågor om produkter, custom orders, leverans eller samarbete?\n        Skicka ett meddelande så återkommer vi så snabbt som möjligt.\n      </p>\n    </div>\n\n    <div class=\"devise-contact-card\">\n      <div class=\"devise-contact-info\">\n        <div class=\"devise-contact-info__badge\">DeviseApparel</div>\n\n        <h3>Kontakta oss</h3>\n\n        <p>\n          Fyll i formuläret med så tydlig information som möjligt.\n          Vi svarar vanligtvis inom 24 timmar.\n        </p>\n\n        <div class=\"devise-contact-points\">\n          <div>\n            <span>✓</span>\n            <p>Snabb respons</p>\n          </div>\n\n          <div>\n            <span>✓</span>\n            <p>Personlig hjälp</p>\n          </div>\n\n          <div>\n            <span>✓</span>\n            <p>Trygg kommunikation</p>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"devise-contact-formbox\">\n        {% form 'contact', id: 'devise-contact-form' %}\n\n          {% if form.posted_successfully? %}\n            <div class=\"devise-contact-success\">\n              Tack! Ditt meddelande har skickats. Vi återkommer så snart vi kan.\n            </div>\n          {% endif %}\n\n          {% if form.errors %}\n            <div class=\"devise-contact-error-box\">\n              {{ form.errors | default_errors }}\n            </div>\n          {% endif %}\n\n          <input type=\"hidden\" name=\"contact[Formulär]\" value=\"Kontaktformulär\">\n\n          <div class=\"devise-contact-two\">\n            <div>\n              <label for=\"deviseContactName\">Namn <b>*</b></label>\n              <input\n                id=\"deviseContactName\"\n                type=\"text\"\n                name=\"contact[name]\"\n                placeholder=\"Ditt namn\"\n                required\n              >\n            </div>\n\n            <div>\n              <label for=\"deviseContactEmail\">Email <b>*</b></label>\n              <input\n                id=\"deviseContactEmail\"\n                type=\"email\"\n                name=\"contact[email]\"\n                placeholder=\"din@email.se\"\n                required\n              >\n            </div>\n          </div>\n\n          <div class=\"devise-contact-two\">\n            <div>\n              <label for=\"deviseContactPhone\">Telefon</label>\n              <input\n                id=\"deviseContactPhone\"\n                type=\"tel\"\n                name=\"contact[phone]\"\n                placeholder=\"070 000 00 00\"\n              >\n            </div>\n\n            <div>\n              <label for=\"deviseContactSubject\">Ämne <b>*</b></label>\n              <select\n                id=\"deviseContactSubject\"\n                name=\"contact[Ämne]\"\n                required\n              >\n                <option value=\"\">Välj ämne</option>\n                <option value=\"Allmän fråga\">Allmän fråga</option>\n                <option value=\"Custom order\">Custom order</option>\n                <option value=\"Leverans\">Leverans</option>\n                <option value=\"Retur eller byte\">Retur eller byte</option>\n                <option value=\"Samarbete\">Samarbete</option>\n                <option value=\"Annat\">Annat</option>\n              </select>\n            </div>\n          </div>\n\n          <div>\n            <label for=\"deviseContactMessage\">Meddelande <b>*</b></label>\n\n            <div class=\"devise-contact-message-wrap\">\n              <textarea\n                id=\"deviseContactMessage\"\n                name=\"contact[body]\"\n                maxlength=\"1200\"\n                placeholder=\"Skriv ditt meddelande här...\"\n                required\n              ></textarea>\n\n              <small>\n                <span id=\"deviseContactCount\">0</span>/1200\n              </small>\n            </div>\n          </div>\n\n          <button type=\"submit\" class=\"devise-contact-submit\">\n            Skicka meddelande →\n          </button>\n\n          <p class=\"devise-contact-note\">\n            Genom att skicka formuläret godkänner du att vi kontaktar dig angående ditt ärende.\n          </p>\n\n        {% endform %}\n      </div>\n    </div>\n\n  </div>\n</section>\n\n<style>\n  .devise-contact-section {\n    background: #0A0A0A;\n    color: #FFFFFF;\n    font-family: Inter, Arial, sans-serif;\n    padding: 70px 20px;\n  }\n\n  .devise-contact-section * {\n    box-sizing: border-box;\n  }\n\n  .devise-contact-wrap {\n    max-width: 1180px;\n    margin: 0 auto;\n  }\n\n  .devise-contact-head {\n    max-width: 660px;\n    margin: 0 auto 34px;\n    text-align: center;\n  }\n\n  .devise-contact-head span {\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    background: #FFDE59;\n    color: #0A0A0A;\n    border-radius: 999px;\n    padding: 7px 13px;\n    font-size: 11px;\n    font-weight: 950;\n    letter-spacing: 0.12em;\n    text-transform: uppercase;\n    margin-bottom: 14px;\n  }\n\n  .devise-contact-head h2 {\n    margin: 0;\n    font-size: clamp(34px, 5vw, 56px);\n    line-height: 0.98;\n    letter-spacing: -0.055em;\n    font-weight: 950;\n  }\n\n  .devise-contact-head p {\n    max-width: 560px;\n    margin: 16px auto 0;\n    color: #A0A0A0;\n    font-size: 15px;\n    line-height: 1.6;\n    font-weight: 500;\n  }\n\n  .devise-contact-card {\n    display: grid;\n    grid-template-columns: 0.85fr 1.15fr;\n    gap: 22px;\n    background: #111111;\n    border: 1px solid rgba(255,255,255,0.10);\n    border-radius: 26px;\n    padding: 22px;\n    box-shadow: 0 30px 90px rgba(0,0,0,0.42);\n  }\n\n  .devise-contact-info {\n    border-radius: 22px;\n    padding: 30px;\n    background:\n      radial-gradient(circle at 20% 0%, rgba(255,222,89,0.18), transparent 34%),\n      linear-gradient(180deg, #171717 0%, #0E0E0E 100%);\n    border: 1px solid rgba(255,222,89,0.14);\n    min-height: 100%;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n  }\n\n  .devise-contact-info__badge {\n    width: fit-content;\n    background: rgba(255,222,89,0.12);\n    border: 1px solid rgba(255,222,89,0.24);\n    color: #FFDE59;\n    border-radius: 999px;\n    padding: 7px 12px;\n    font-size: 11px;\n    font-weight: 950;\n    letter-spacing: 0.12em;\n    text-transform: uppercase;\n    margin-bottom: 18px;\n  }\n\n  .devise-contact-info h3 {\n    margin: 0;\n    font-size: 30px;\n    line-height: 1;\n    letter-spacing: -0.045em;\n    font-weight: 950;\n  }\n\n  .devise-contact-info > p {\n    margin: 14px 0 0;\n    color: #A0A0A0;\n    font-size: 14px;\n    line-height: 1.6;\n  }\n\n  .devise-contact-points {\n    display: grid;\n    gap: 12px;\n    margin-top: 26px;\n  }\n\n  .devise-contact-points div {\n    display: flex;\n    align-items: center;\n    gap: 11px;\n  }\n\n  .devise-contact-points span {\n    width: 28px;\n    height: 28px;\n    border-radius: 999px;\n    background: #FFDE59;\n    color: #0A0A0A;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    font-size: 13px;\n    font-weight: 950;\n    flex-shrink: 0;\n  }\n\n  .devise-contact-points p {\n    margin: 0;\n    color: #FFFFFF;\n    font-size: 13px;\n    font-weight: 850;\n  }\n\n  .devise-contact-formbox {\n    background: #0D0D0D;\n    border: 1px solid rgba(255,255,255,0.10);\n    border-radius: 22px;\n    padding: 26px;\n  }\n\n  .devise-contact-success {\n    background: rgba(255,222,89,0.12);\n    border: 1px solid rgba(255,222,89,0.35);\n    color: #FFDE59;\n    padding: 14px 16px;\n    border-radius: 12px;\n    margin-bottom: 18px;\n    font-size: 14px;\n    font-weight: 850;\n  }\n\n  .devise-contact-error-box {\n    background: rgba(239,68,68,0.10);\n    border: 1px solid rgba(239,68,68,0.35);\n    color: #EF4444;\n    padding: 14px 16px;\n    border-radius: 12px;\n    margin-bottom: 18px;\n    font-size: 13px;\n    font-weight: 750;\n  }\n\n  .devise-contact-two {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 14px;\n  }\n\n  .devise-contact-formbox label {\n    display: block;\n    color: #FFFFFF;\n    font-size: 13px;\n    font-weight: 850;\n    margin: 0 0 8px;\n  }\n\n  .devise-contact-formbox label b {\n    color: #EF4444;\n  }\n\n  .devise-contact-formbox input,\n  .devise-contact-formbox select,\n  .devise-contact-formbox textarea {\n    width: 100%;\n    background: #151515;\n    border: 1px solid rgba(255,255,255,0.15);\n    color: #FFFFFF;\n    border-radius: 12px;\n    outline: none;\n    font-family: inherit;\n    font-size: 14px;\n    transition: 0.18s ease;\n    margin-bottom: 16px;\n  }\n\n  .devise-contact-formbox input,\n  .devise-contact-formbox select {\n    min-height: 48px;\n    padding: 0 14px;\n  }\n\n  .devise-contact-formbox textarea {\n    min-height: 160px;\n    padding: 14px;\n    resize: vertical;\n    margin-bottom: 0;\n  }\n\n  .devise-contact-formbox input::placeholder,\n  .devise-contact-formbox textarea::placeholder {\n    color: #777777;\n  }\n\n  .devise-contact-formbox input:focus,\n  .devise-contact-formbox select:focus,\n  .devise-contact-formbox textarea:focus {\n    border-color: #FFDE59;\n    box-shadow: 0 0 0 3px rgba(255,222,89,0.14);\n  }\n\n  .devise-contact-message-wrap {\n    position: relative;\n    margin-bottom: 18px;\n  }\n\n  .devise-contact-message-wrap small {\n    position: absolute;\n    right: 14px;\n    bottom: 12px;\n    color: #A0A0A0;\n    font-size: 11px;\n    pointer-events: none;\n  }\n\n  .devise-contact-submit {\n    width: 100%;\n    min-height: 52px;\n    border: 0;\n    border-radius: 12px;\n    background: #FFDE59;\n    color: #0A0A0A;\n    font-family: inherit;\n    font-size: 14px;\n    font-weight: 950;\n    cursor: pointer;\n    transition: 0.2s ease;\n  }\n\n  .devise-contact-submit:hover {\n    transform: translateY(-2px);\n    background: #FFFFFF;\n  }\n\n  .devise-contact-note {\n    margin: 12px 0 0;\n    color: #A0A0A0;\n    font-size: 11px;\n    line-height: 1.45;\n    text-align: center;\n  }\n\n  @media (max-width: 900px) {\n    .devise-contact-card {\n      grid-template-columns: 1fr;\n    }\n\n    .devise-contact-info {\n      min-height: auto;\n    }\n  }\n\n  @media (max-width: 620px) {\n    .devise-contact-section {\n      padding: 48px 14px;\n    }\n\n    .devise-contact-head h2 {\n      font-size: 34px;\n    }\n\n    .devise-contact-head p {\n      font-size: 13px;\n    }\n\n    .devise-contact-card {\n      padding: 14px;\n      border-radius: 20px;\n    }\n\n    .devise-contact-info,\n    .devise-contact-formbox {\n      padding: 20px;\n      border-radius: 18px;\n    }\n\n    .devise-contact-two {\n      grid-template-columns: 1fr;\n      gap: 0;\n    }\n\n    .devise-contact-info h3 {\n      font-size: 26px;\n    }\n  }\n</style>\n\n<script>\n  document.addEventListener(\"DOMContentLoaded\", function () {\n    const message = document.getElementById(\"deviseContactMessage\");\n    const count = document.getElementById(\"deviseContactCount\");\n\n    if (!message || !count) return;\n\n    message.addEventListener(\"input\", function () {\n      count.textContent = message.value.length;\n    });\n  });\n</script>\n{% endif %}",
+        "background_color": "{{ settings.color_palette.background }}",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "footer_m9NzUG": {
+      "type": "footer",
+      "blocks": {
+        "group_H6VpwJ": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 6,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_LWt8Pz": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Anmäl dig till vårt nyhetsbrev<br/><br/></p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_f9CFLH": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Få tillgång till exclusiva nyhetsbrev och nysläppta produkter</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_LWt8Pz",
+            "text_f9CFLH"
+          ]
+        },
+        "email_signup_crihX7": {
+          "type": "email-signup",
+          "settings": {
+            "width": "custom",
+            "custom_width": 100,
+            "heading": "",
+            "heading_preset": "h3",
+            "border_style": "all",
+            "input_style": "custom",
+            "border_width": 1,
+            "border_radius": 100,
+            "input_background_color": "{{ settings.color_palette.color3 }}",
+            "input_text_color": "#00000087",
+            "input_border_color": "#00000021",
+            "input_type_preset": "paragraph",
+            "style_class": "button-unstyled",
+            "display_type": "arrow",
+            "label": "Sign up",
+            "integrated_button": true,
+            "button_type_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "group_H6VpwJ",
+        "email_signup_crihX7"
+      ],
+      "custom_css": [
+        "& {border: 2px solid red !important;}"
+      ],
+      "name": "t:names.footer",
+      "settings": {
+        "section_width": "page-width",
+        "gap": 20,
+        "background_color": "{{ settings.color_palette.color9 }}",
+        "padding-block-start": 30,
+        "padding-block-end": 30
+      }
+    },
+    "footer_yC4Cap": {
+      "type": "footer",
+      "blocks": {
+        "menu_Ua37Ci": {
+          "type": "menu",
+          "name": "t:names.menu",
+          "settings": {
+            "menu": "footer",
+            "heading": "",
+            "menu_spacing": 0,
+            "show_as_accordion": false,
+            "accordion_icon": "caret",
+            "accordion_dividers": false,
+            "heading_preset": "h5",
+            "link_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "menu_Ua37Ci"
+      ],
+      "name": "t:names.footer",
+      "settings": {
+        "section_width": "page-width",
+        "gap": 20,
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 36,
+        "padding-block-end": 36
+      }
+    },
+    "footer_utilities_jLGE8U": {
+      "type": "footer-utilities",
+      "blocks": {
+        "footer_copyright_jweRK8": {
+          "type": "footer-copyright",
+          "settings": {
+            "show_powered_by": false,
+            "font_size": "0.75rem",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "footer_policy_list_VCdnpa": {
+          "type": "footer-policy-list",
+          "settings": {
+            "font_size": "0.75rem",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "social_links_Ew63Kq": {
+          "type": "social-links",
+          "settings": {
+            "facebook_url": "https://www.facebook.com/",
+            "instagram_url": "https://www.instagram.com/",
+            "youtube_url": "https://www.youtube.com/",
+            "tiktok_url": "https://www.tiktok.com/",
+            "twitter_url": "https://x.com/",
+            "threads_url": "",
+            "linkedin_url": "",
+            "bluesky_url": "",
+            "snapchat_url": "",
+            "pinterest_url": "",
+            "tumblr_url": "",
+            "vimeo_url": "",
+            "custom_url": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "footer_copyright_jweRK8",
+        "footer_policy_list_VCdnpa",
+        "social_links_Ew63Kq"
+      ],
+      "custom_css": [
+        "& {border: 2px solid red !important;}"
+      ],
+      "name": "t:names.utilities",
+      "settings": {
+        "section_width": "page-width",
+        "gap": 24,
+        "background_color": "{{ settings.color_palette.background }}",
+        "divider_thickness": 0,
+        "padding-block-start": 20,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "custom_liquid_rcE9GE",
+    "footer_m9NzUG",
+    "footer_yC4Cap",
+    "footer_utilities_jLGE8U"
+  ]
+}

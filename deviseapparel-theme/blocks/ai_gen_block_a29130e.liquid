@@ -1,0 +1,1051 @@
+{% doc %}
+  @prompt
+    Complete a 4-step custom apparel order form block for a streetwear brand. Use black #0a0a0a background, gold #ffde59 accent, white text, Inter font. Step 1: text area for design idea with 500 char counter, 5 garment cards with SVG icons (Hoodie, T-Shirt, Zip Hoodie, Sweatshirt, Tank Top), 7 color swatches, 7 size buttons and file upload with preview. Auto-advance to step 2 when garment and size are both selected. Step 2: color and size confirmation plus quantity. Step 3: print placement and notes. Step 4: contact form with order summary and submit to Shopify contact form. Gold next and previous buttons. Validate each step before advancing. Mobile responsive.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-custom-order-form-{{ ai_gen_id }} {
+    display: block;
+    background-color: {{ block.settings.background_color }};
+    padding: 40px 20px;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .ai-custom-order-form__container-{{ ai_gen_id }} {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .ai-custom-order-form__header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-custom-order-form__title-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 16px;
+  }
+
+  .ai-custom-order-form__subtitle-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: 16px;
+    opacity: 0.8;
+    margin: 0;
+  }
+
+  .ai-custom-order-form__progress-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    gap: 8px;
+  }
+
+  .ai-custom-order-form__progress-step-{{ ai_gen_id }} {
+    flex: 1;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-custom-order-form__progress-step-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.accent_color }};
+  }
+
+  .ai-custom-order-form__step-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  .ai-custom-order-form__step-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-custom-order-form__step-title-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 24px;
+  }
+
+  .ai-custom-order-form__field-{{ ai_gen_id }} {
+    margin-bottom: 24px;
+  }
+
+  .ai-custom-order-form__label-{{ ai_gen_id }} {
+    display: block;
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .ai-custom-order-form__textarea-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .ai-custom-order-form__textarea-{{ ai_gen_id }}::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .ai-custom-order-form__char-counter-{{ ai_gen_id }} {
+    text-align: right;
+    color: {{ block.settings.text_color }};
+    font-size: 12px;
+    margin-top: 4px;
+    opacity: 0.7;
+  }
+
+  .ai-custom-order-form__garment-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+  }
+
+  .ai-custom-order-form__garment-card-{{ ai_gen_id }} {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ai-custom-order-form__garment-card-{{ ai_gen_id }}:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: {{ block.settings.accent_color }};
+  }
+
+  .ai-custom-order-form__garment-card-{{ ai_gen_id }}.selected {
+    background-color: rgba(255, 222, 89, 0.1);
+    border-color: {{ block.settings.accent_color }};
+  }
+
+  .ai-custom-order-form__garment-icon-{{ ai_gen_id }} {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 12px;
+  }
+
+  .ai-custom-order-form__garment-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    fill: {{ block.settings.text_color }};
+  }
+
+  .ai-custom-order-form__garment-card-{{ ai_gen_id }}.selected .ai-custom-order-form__garment-icon-{{ ai_gen_id }} svg {
+    fill: {{ block.settings.accent_color }};
+  }
+
+  .ai-custom-order-form__garment-name-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .ai-custom-order-form__color-swatches-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .ai-custom-order-form__color-swatch-{{ ai_gen_id }} {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ai-custom-order-form__color-swatch-{{ ai_gen_id }}:hover {
+    transform: scale(1.1);
+  }
+
+  .ai-custom-order-form__color-swatch-{{ ai_gen_id }}.selected {
+    border-color: {{ block.settings.accent_color }};
+    box-shadow: 0 0 0 2px {{ block.settings.background_color }}, 0 0 0 4px {{ block.settings.accent_color }};
+  }
+
+  .ai-custom-order-form__size-buttons-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .ai-custom-order-form__size-button-{{ ai_gen_id }} {
+    min-width: 60px;
+    padding: 12px 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ai-custom-order-form__size-button-{{ ai_gen_id }}:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: {{ block.settings.accent_color }};
+  }
+
+  .ai-custom-order-form__size-button-{{ ai_gen_id }}.selected {
+    background-color: {{ block.settings.accent_color }};
+    border-color: {{ block.settings.accent_color }};
+    color: {{ block.settings.background_color }};
+  }
+
+  .ai-custom-order-form__file-upload-{{ ai_gen_id }} {
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ai-custom-order-form__file-upload-{{ ai_gen_id }}:hover {
+    border-color: {{ block.settings.accent_color }};
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .ai-custom-order-form__file-input-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  .ai-custom-order-form__file-label-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+  }
+
+  .ai-custom-order-form__file-preview-{{ ai_gen_id }} {
+    margin-top: 16px;
+    display: none;
+  }
+
+  .ai-custom-order-form__file-preview-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-custom-order-form__preview-image-{{ ai_gen_id }} {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px;
+    margin: 0 auto;
+  }
+
+  .ai-custom-order-form__input-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .ai-custom-order-form__input-{{ ai_gen_id }}::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .ai-custom-order-form__select-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .ai-custom-order-form__buttons-{{ ai_gen_id }} {
+    display: flex;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .ai-custom-order-form__button-{{ ai_gen_id }} {
+    flex: 1;
+    padding: 16px 32px;
+    background-color: {{ block.settings.accent_color }};
+    border: none;
+    border-radius: 8px;
+    color: {{ block.settings.background_color }};
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ai-custom-order-form__button-{{ ai_gen_id }}:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+
+  .ai-custom-order-form__button-{{ ai_gen_id }}:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .ai-custom-order-form__button-secondary-{{ ai_gen_id }} {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-custom-order-form__summary-{{ ai_gen_id }} {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+
+  .ai-custom-order-form__summary-title-{{ ai_gen_id }} {
+    color: {{ block.settings.accent_color }};
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 16px;
+  }
+
+  .ai-custom-order-form__summary-item-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .ai-custom-order-form__error-{{ ai_gen_id }} {
+    color: #ff6b6b;
+    font-size: 14px;
+    margin-top: 8px;
+    display: none;
+  }
+
+  .ai-custom-order-form__error-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-custom-order-form__success-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 40px;
+    display: none;
+  }
+
+  .ai-custom-order-form__success-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-custom-order-form__success-icon-{{ ai_gen_id }} {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+  }
+
+  .ai-custom-order-form__success-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    fill: {{ block.settings.accent_color }};
+  }
+
+  .ai-custom-order-form__success-title-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 16px;
+  }
+
+  .ai-custom-order-form__success-message-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: 16px;
+    opacity: 0.8;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-custom-order-form-{{ ai_gen_id }} {
+      padding: 24px 16px;
+    }
+
+    .ai-custom-order-form__title-{{ ai_gen_id }} {
+      font-size: 24px;
+    }
+
+    .ai-custom-order-form__garment-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 12px;
+    }
+
+    .ai-custom-order-form__garment-card-{{ ai_gen_id }} {
+      padding: 16px;
+    }
+
+    .ai-custom-order-form__garment-icon-{{ ai_gen_id }} {
+      width: 40px;
+      height: 40px;
+    }
+
+    .ai-custom-order-form__buttons-{{ ai_gen_id }} {
+      flex-direction: column;
+    }
+  }
+{% endstyle %}
+
+<custom-order-form-{{ ai_gen_id }} class="ai-custom-order-form-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-custom-order-form__container-{{ ai_gen_id }}">
+    <div class="ai-custom-order-form__header-{{ ai_gen_id }}">
+      <h2 class="ai-custom-order-form__title-{{ ai_gen_id }}">{{ block.settings.form_title }}</h2>
+      <p class="ai-custom-order-form__subtitle-{{ ai_gen_id }}">{{ block.settings.form_subtitle }}</p>
+    </div>
+
+    <div class="ai-custom-order-form__progress-{{ ai_gen_id }}">
+      <div class="ai-custom-order-form__progress-step-{{ ai_gen_id }} active" data-step="1"></div>
+      <div class="ai-custom-order-form__progress-step-{{ ai_gen_id }}" data-step="2"></div>
+      <div class="ai-custom-order-form__progress-step-{{ ai_gen_id }}" data-step="3"></div>
+      <div class="ai-custom-order-form__progress-step-{{ ai_gen_id }}" data-step="4"></div>
+    </div>
+
+    <div class="ai-custom-order-form__steps-{{ ai_gen_id }}">
+      <div class="ai-custom-order-form__step-{{ ai_gen_id }} active" data-step="1">
+        <h3 class="ai-custom-order-form__step-title-{{ ai_gen_id }}">Step 1: Design Details</h3>
+        
+        <div class="ai-custom-order-form__field-{{ ai_gen_id }}">
+          <label class="ai-custom-order-form__label-{{ ai_gen_id }}">Describe your design idea</label>
+          <textarea 
+            class="ai-custom-order-form__textarea-{{ ai_gen_id }}" 
+            id="design-idea-{{ ai_gen_id }}"
+            maxlength="500"
+            placeholder="Tell us about your custom design..."
+          ></textarea>
+          <div class="ai-custom-order-form__char-counter-{{ ai_gen_id }}">
+            <span id="char-count-{{ ai_gen_id }}">0</span>/500
+          </div>
+        </div>
+
+        <div class="ai-custom-order-form__field-{{ ai_gen_id }}">
+          <label class="ai-custom-order-form__label-{{ ai_gen_id }}">Select garment type</label>
+          <div class="ai-custom-order-form__garment-grid-{{ ai_gen_id }}">
+            <div class="ai-custom-order-form__garment-card-{{ ai_gen_id }}" data-garment="hoodie">
+              <div class="ai-custom-order-form__garment-icon-{{ ai_gen_id }}">
+                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M32 8c-4 0-8 2-10 6L8 20v24h8V28l8-4v32h24V24l8 4v16h8V20L42 14c-2-4-6-6-10-6zm0 4c2.5 0 4.5 1.5 6 4l10 4v12h-4V24l-10-5v30H30V19l-10 5v8h-4V16l10-4c1.5-2.5 3.5-4 6-4z"/>
+                </svg>
+              </div>
+              <div class="ai-custom-order-form__garment-name-{{ ai_gen_id }}">Hoodie</div>
+            </div>
+            <div class="ai-custom-order-form__garment-card-{{ ai_gen_id }}" data-garment="tshirt">
+              <div class="ai-custom-order-form__garment-icon-{{ ai_gen_id }}">
+                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M32 8L20 14l-12 6v12h8V24l8-4v36h24V20l8 4v8h8V20l-12-6L32 8zm0 4l8 4 8 4v6h-4v-6l-10-5v34H30V15l-10 5v6h-4v-6l8-4 8-4z"/>
+                </svg>
+              </div>
+              <div class="ai-custom-order-form__garment-name-{{ ai_gen_id }}">T-Shirt</div>
+            </div>
+            <div class="ai-custom-order-form__garment-card-{{ ai_gen_id }}" data-garment="ziphoodie">
+              <div class="ai-custom-order-form__garment-icon-{{ ai_gen_id }}">
+                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M32 8c-4 0-8 2-10 6L8 20v24h8V28l8-4v32h8V24h-2V16h4v8h-2v32h8V24l8 4v16h8V20L42 14c-2-4-6-6-10-6zm0 4c2.5 0 4.5 1.5 6 4l10 4v12h-4V24l-10-5v2h-4v-2l-10 5v8h-4V16l10-4c1.5-2.5 3.5-4 6-4z"/>
+                </svg>
+              </div>
+              <div class="ai-custom-order-form__garment-name-{{ ai_gen_id }}">Zip Hoodie</div>
+            </div>
+            <div class="ai-custom-order-form__garment-card-{{ ai_gen_id }}" data-garment="sweatshirt">
+              <div class="ai-custom-order-form__garment-icon-{{ ai_gen_id }}">
+                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M32 10c-3 0-6 1.5-8 4L12 18v20h6V24l8-3v31h20V21l8 3v14h6V18L48 14c-2-2.5-5-4-8-4h-8zm0 4h8c2 0 3.5 1 5 2.5l10 3.5v10h-2V22l-10-4v32H26V18l-10 4v8h-2v-10l10-3.5c1.5-1.5 3-2.5 5-2.5h3z"/>
+                </svg>
+              </div>
+              <div class="ai-custom-order-form__garment-name-{{ ai_gen_id }}">Sweatshirt</div>
+            </div>
+            <div class="ai-custom-order-form__garment-card-{{ ai_gen_id }}" data-garment="tanktop">
+              <div class="ai-custom-order-form__garment-icon-{{ ai_gen_id }}">
+                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M28 8v8h8V8l8 4v44H20V12l8-4zm4 4v4h-4v-4h4zm-8 4v40h16V16H24z"/>
+                </svg>
+              </div>
+              <div class="ai-custom-order-form__garment-name-{{ ai_gen_id }}">Tank Top</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-custom-order-form__field-{{ ai_gen_id }}">
+          <label class="ai-custom-order-form__label-{{ ai_gen_id }}">Select color</label>
+          <div class="ai-custom-order-form__color-swatches-{{ ai_gen_id }}">
+            <div class="ai-custom-order-form__color-swatch-{{ ai_gen_id }}" data-color="Black" style="background-color: #000000;"></div>
+            <div class="ai-custom-order-form__color-swatch-{{ ai_gen_id }}" data-color="White" style="background-color: #FFFFFF;"></div>
+            <div class="ai-custom-order-form__color-swatch-{{ ai_gen_id }}" data-color="Navy" style="background-color: #001f3f;"></div>
+            <div class="ai-custom-order-form__color-swatch-{{ ai_gen_id }}" data-color="Gray" style="background-color: #808080;"></div>
+            <div class="ai-custom-order-form__color-swatch-{{ ai_gen_id }}" data-color="Red" style="background-color: #FF4136;"></div>
+            <div class="ai-custom-order-form__color-swatch-{{ ai_gen_id }}" data-color="Green" style="background-color: #2ECC40;"></div>
+            <div class="ai-custom-order-form__color-swatch-{{ ai_gen_id }}" data-color="Blue" style="background-color: #0074D9;"></div>
+          </div>
+        </div>
+
+        <div class="ai-custom-order-form__field-{{ ai_gen_id }}">
+          <label class="ai-custom-order-form__label-{{ ai_gen_id }}">Select size</label>
+          <div class="ai-custom-order-form__size-buttons-{{ ai_gen_id }}">
+            <button type="button" class="ai-custom-order-form__size-button-{{ ai_gen_id }}" data-size="XS">XS</button>
+            <button type="button" class="ai-custom-order-form__size-button-{{ ai_gen_id }}" data-size="S">S</button>
+            <button type="button" class="ai-custom-order-form__size-button-{{ ai_gen_id }}" data-size="M">M</button>
+            <button type="button" class="ai-custom-order-form__size-button-{{ ai_gen_id }}" data-size="L">L</button>
+            <button type="button" class="ai-custom-order-form__size-button-{{ ai_gen_id }}" data-size="XL">XL</button>
+            <button type="button" class="ai-custom-order-form__size-button-{{ ai_gen_id }}" data-size="XXL">XXL</button>
+            <button type="button" class="ai-custom-order-form__size-button-{{ ai_gen_id }}" data-size="XXXL">XXXL</button>
+          </div>
+        </div>
+
+        <div class="ai-custom-order-form__field-{{ ai_gen_id }}">
+          <label class="ai-custom-order-form__label-{{ ai_gen_id }}">Upload design file (optional)</label>
+          <div class="ai-custom-order-form__file-upload-{{ ai_gen_id }}" id="file-upload-{{ ai_gen_id }}">
+            <input type="file" class="ai-custom-order-form__file-input-{{ ai_gen_id }}" id="file-input-{{ ai_gen_id }}" accept="image/*">
+            <div class="ai-custom-order-form__file-label-{{ ai_gen_id }}">Click to upload or drag and drop</div>
+          </div>
+          <div class="ai-custom-order-form__file-preview-{{ ai_gen_id }}" id="file-preview-{{ ai_gen_id }}">
+            <img class="ai-custom-order-form__preview-image-{{ ai_gen_id }}" id="preview-image-{{ ai_gen_id }}" alt="Preview">
+          </div>
+        </div>
+
+        <div class="ai-custom-order-form__error-{{ ai_gen_id }}" id="step1-error-{{ ai_gen_id }}">
+          Please select both a garment type and size to continue.
+        </div>
+      </div>
+
+      <div class="ai-custom-order-form__step-{{ ai_gen_id }}" data-step="2">
+        <h3 class="ai-custom-order-form__step-title-{{ ai_gen_id }}">Step 2: Confirm Selection</h3>
+        
+        <div class="ai-custom-order-form__summary-{{ ai_gen_id }}">
+          <h4 class="ai-custom-order-form__summary-title-{{ ai_gen_id }}">Your Selection</h4>
+          <div class="ai-custom-order-form__summary-item-{{ ai_gen_id }}">
+            <span>Garment:</span>
+            <span id="summary-garment-{{ ai_gen_id }}">-</span>
+          </div>
+          <div class="ai-custom-order-form__summary-item-{{ ai_gen_id }}">
+            <span>Color:</span>
+            <span id="summary-color-{{ ai_gen_id }}">-</span>
+          </div>
+          <div class="ai-custom-order-form__summary-item-{{ ai_gen_id }}">
+            <span>Size:</span>
+            <span id="summary-size-{{ ai_gen_id }}">-</span>
+          </div>
+        </div>
+
+        <div class="ai-custom-order-form__field-{{ ai_gen_id }}">
+          <label class="ai-custom-order-form__label-{{ ai_gen_id }}">Quantity</label>
+          <input type="number" class="ai-custom-order-form__input-{{ ai_gen_id }}" id="quantity-{{ ai_gen_id }}" min="1" value="1">
+        </div>
+
+        <div class="ai-custom-order-form__error-{{ ai_gen_id }}" id="step2-error-{{ ai_gen_id }}">
+          Please enter a valid quantity (minimum 1).
+        </div>
+      </div>
+
+      <div class="ai-custom-order-form__step-{{ ai_gen_id }}" data-step="3">
+        <h3 class="ai-custom-order-form__step-title-{{ ai_gen_id }}">Step 3: Print Details</h3>
+        
+        <div class="ai-custom-order-form__field-{{ ai_gen_id }}">
+          <label class="ai-custom-order-form__label-{{ ai_gen_id }}">Print placement</label>
+          <select class="ai-custom-order-form__select-{{ ai_gen_id }}" id="print-placement-{{ ai_gen_id }}">
+            <option value="">Select placement</option>
+            <option value="front">Front</option>
+            <option value="back">Back</option>
+            <option value="front-back">Front & Back</option>
+            <option value="sleeve">Sleeve</option>
+            <option value="chest">Chest</option>
+          </select>
+        </div>
+
+        <div class="ai-custom-order-form__field-{{ ai_gen_id }}">
+          <label class="ai-custom-order-form__label-{{ ai_gen_id }}">Additional notes</label>
+          <textarea 
+            class="ai-custom-order-form__textarea-{{ ai_gen_id }}" 
+            id="additional-notes-{{ ai_gen_id }}"
+            placeholder="Any special instructions or requests..."
+          ></textarea>
+        </div>
+
+        <div class="ai-custom-order-form__error-{{ ai_gen_id }}" id="step3-error-{{ ai_gen_id }}">
+          Please select a print placement.
+        </div>
+      </div>
+
+      <div class="ai-custom-order-form__step-{{ ai_gen_id }}" data-step="4">
+        <h3 class="ai-custom-order-form__step-title-{{ ai_gen_id }}">Step 4: Contact Information</h3>
+        
+        <div class="ai-custom-order-form__summary-{{ ai_gen_id }}">
+          <h4 class="ai-custom-order-form__summary-title-{{ ai_gen_id }}">Order Summary</h4>
+          <div class="ai-custom-order-form__summary-item-{{ ai_gen_id }}">
+            <span>Garment:</span>
+            <span id="final-garment-{{ ai_gen_id }}">-</span>
+          </div>
+          <div class="ai-custom-order-form__summary-item-{{ ai_gen_id }}">
+            <span>Color:</span>
+            <span id="final-color-{{ ai_gen_id }}">-</span>
+          </div>
+          <div class="ai-custom-order-form__summary-item-{{ ai_gen_id }}">
+            <span>Size:</span>
+            <span id="final-size-{{ ai_gen_id }}">-</span>
+          </div>
+          <div class="ai-custom-order-form__summary-item-{{ ai_gen_id }}">
+            <span>Quantity:</span>
+            <span id="final-quantity-{{ ai_gen_id }}">-</span>
+          </div>
+          <div class="ai-custom-order-form__summary-item-{{ ai_gen_id }}">
+            <span>Print Placement:</span>
+            <span id="final-placement-{{ ai_gen_id }}">-</span>
+          </div>
+        </div>
+
+        {%- form 'contact' -%}
+          <input type="hidden" name="contact[order_type]" value="Custom Apparel Order">
+          <input type="hidden" name="contact[garment]" id="form-garment-{{ ai_gen_id }}">
+          <input type="hidden" name="contact[color]" id="form-color-{{ ai_gen_id }}">
+          <input type="hidden" name="contact[size]" id="form-size-{{ ai_gen_id }}">
+          <input type="hidden" name="contact[quantity]" id="form-quantity-{{ ai_gen_id }}">
+          <input type="hidden" name="contact[print_placement]" id="form-placement-{{ ai_gen_id }}">
+          <input type="hidden" name="contact[design_idea]" id="form-design-{{ ai_gen_id }}">
+          <input type="hidden" name="contact[additional_notes]" id="form-notes-{{ ai_gen_id }}">
+
+          <div class="ai-custom-order-form__field-{{ ai_gen_id }}">
+            <label class="ai-custom-order-form__label-{{ ai_gen_id }}">Name</label>
+            <input 
+              type="text" 
+              class="ai-custom-order-form__input-{{ ai_gen_id }}" 
+              name="contact[name]"
+              id="contact-name-{{ ai_gen_id }}"
+              required
+            >
+          </div>
+
+          <div class="ai-custom-order-form__field-{{ ai_gen_id }}">
+            <label class="ai-custom-order-form__label-{{ ai_gen_id }}">Email</label>
+            <input 
+              type="email" 
+              class="ai-custom-order-form__input-{{ ai_gen_id }}" 
+              name="contact[email]"
+              id="contact-email-{{ ai_gen_id }}"
+              required
+            >
+          </div>
+
+          <div class="ai-custom-order-form__field-{{ ai_gen_id }}">
+            <label class="ai-custom-order-form__label-{{ ai_gen_id }}">Phone</label>
+            <input 
+              type="tel" 
+              class="ai-custom-order-form__input-{{ ai_gen_id }}" 
+              name="contact[phone]"
+              id="contact-phone-{{ ai_gen_id }}"
+            >
+          </div>
+
+          <div class="ai-custom-order-form__error-{{ ai_gen_id }}" id="step4-error-{{ ai_gen_id }}">
+            Please fill in all required fields.
+          </div>
+
+          <div class="ai-custom-order-form__buttons-{{ ai_gen_id }}">
+            <button type="button" class="ai-custom-order-form__button-{{ ai_gen_id }} ai-custom-order-form__button-secondary-{{ ai_gen_id }}" id="prev-step4-{{ ai_gen_id }}">
+              Previous
+            </button>
+            <button type="submit" class="ai-custom-order-form__button-{{ ai_gen_id }}" id="submit-form-{{ ai_gen_id }}">
+              Submit Order
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+
+    <div class="ai-custom-order-form__buttons-{{ ai_gen_id }}" id="nav-buttons-{{ ai_gen_id }}">
+      <button type="button" class="ai-custom-order-form__button-{{ ai_gen_id }} ai-custom-order-form__button-secondary-{{ ai_gen_id }}" id="prev-button-{{ ai_gen_id }}" style="display: none;">
+        Previous
+      </button>
+      <button type="button" class="ai-custom-order-form__button-{{ ai_gen_id }}" id="next-button-{{ ai_gen_id }}">
+        Next
+      </button>
+    </div>
+
+    <div class="ai-custom-order-form__success-{{ ai_gen_id }}" id="success-message-{{ ai_gen_id }}">
+      <div class="ai-custom-order-form__success-icon-{{ ai_gen_id }}">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" stroke-width="4"/>
+          <path d="M20 32l8 8 16-16" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="ai-custom-order-form__success-title-{{ ai_gen_id }}">Order Submitted!</h3>
+      <p class="ai-custom-order-form__success-message-{{ ai_gen_id }}">Thank you for your custom order. We'll be in touch soon!</p>
+    </div>
+  </div>
+</custom-order-form-{{ ai_gen_id }}>
+
+<script>
+(function() {
+  class CustomOrderForm{{ ai_gen_id }} extends HTMLElement {
+    constructor() {
+      super();
+      this.currentStep = 1;
+      this.formData = {
+        garment: '',
+        color: '',
+        size: '',
+        quantity: 1,
+        printPlacement: '',
+        designIdea: '',
+        additionalNotes: ''
+      };
+    }
+
+    connectedCallback() {
+      this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+      const designIdea = this.querySelector('#design-idea-{{ ai_gen_id }}');
+      const charCount = this.querySelector('#char-count-{{ ai_gen_id }}');
+      
+      if (designIdea && charCount) {
+        designIdea.addEventListener('input', () => {
+          charCount.textContent = designIdea.value.length;
+          this.formData.designIdea = designIdea.value;
+        });
+      }
+
+      const garmentCards = this.querySelectorAll('.ai-custom-order-form__garment-card-{{ ai_gen_id }}');
+      garmentCards.forEach(card => {
+        card.addEventListener('click', () => {
+          garmentCards.forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          this.formData.garment = card.dataset.garment;
+          this.checkStep1AutoAdvance();
+        });
+      });
+
+      const colorSwatches = this.querySelectorAll('.ai-custom-order-form__color-swatch-{{ ai_gen_id }}');
+      colorSwatches.forEach(swatch => {
+        swatch.addEventListener('click', () => {
+          colorSwatches.forEach(s => s.classList.remove('selected'));
+          swatch.classList.add('selected');
+          this.formData.color = swatch.dataset.color;
+        });
+      });
+
+      const sizeButtons = this.querySelectorAll('.ai-custom-order-form__size-button-{{ ai_gen_id }}');
+      sizeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          sizeButtons.forEach(b => b.classList.remove('selected'));
+          button.classList.add('selected');
+          this.formData.size = button.dataset.size;
+          this.checkStep1AutoAdvance();
+        });
+      });
+
+      const fileUpload = this.querySelector('#file-upload-{{ ai_gen_id }}');
+      const fileInput = this.querySelector('#file-input-{{ ai_gen_id }}');
+      const filePreview = this.querySelector('#file-preview-{{ ai_gen_id }}');
+      const previewImage = this.querySelector('#preview-image-{{ ai_gen_id }}');
+
+      if (fileUpload && fileInput) {
+        fileUpload.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              if (previewImage && filePreview) {
+                previewImage.src = event.target.result;
+                filePreview.classList.add('active');
+              }
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+
+      const nextButton = this.querySelector('#next-button-{{ ai_gen_id }}');
+      const prevButton = this.querySelector('#prev-button-{{ ai_gen_id }}');
+      const prevStep4 = this.querySelector('#prev-step4-{{ ai_gen_id }}');
+
+      if (nextButton) {
+        nextButton.addEventListener('click', () => this.nextStep());
+      }
+
+      if (prevButton) {
+        prevButton.addEventListener('click', () => this.prevStep());
+      }
+
+      if (prevStep4) {
+        prevStep4.addEventListener('click', () => this.prevStep());
+      }
+
+      const quantity = this.querySelector('#quantity-{{ ai_gen_id }}');
+      if (quantity) {
+        quantity.addEventListener('change', () => {
+          this.formData.quantity = parseInt(quantity.value) || 1;
+        });
+      }
+
+      const printPlacement = this.querySelector('#print-placement-{{ ai_gen_id }}');
+      if (printPlacement) {
+        printPlacement.addEventListener('change', () => {
+          this.formData.printPlacement = printPlacement.value;
+        });
+      }
+
+      const additionalNotes = this.querySelector('#additional-notes-{{ ai_gen_id }}');
+      if (additionalNotes) {
+        additionalNotes.addEventListener('input', () => {
+          this.formData.additionalNotes = additionalNotes.value;
+        });
+      }
+
+      const form = this.querySelector('form');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          if (!this.validateStep4()) {
+            e.preventDefault();
+            return;
+          }
+          this.populateFormFields();
+        });
+      }
+    }
+
+    checkStep1AutoAdvance() {
+      if (this.formData.garment && this.formData.size) {
+        setTimeout(() => {
+          this.nextStep();
+        }, 300);
+      }
+    }
+
+    validateStep1() {
+      const error = this.querySelector('#step1-error-{{ ai_gen_id }}');
+      if (!this.formData.garment || !this.formData.size) {
+        if (error) error.classList.add('active');
+        return false;
+      }
+      if (error) error.classList.remove('active');
+      return true;
+    }
+
+    validateStep2() {
+      const error = this.querySelector('#step2-error-{{ ai_gen_id }}');
+      const quantity = this.querySelector('#quantity-{{ ai_gen_id }}');
+      if (!quantity || parseInt(quantity.value) < 1) {
+        if (error) error.classList.add('active');
+        return false;
+      }
+      if (error) error.classList.remove('active');
+      return true;
+    }
+
+    validateStep3() {
+      const error = this.querySelector('#step3-error-{{ ai_gen_id }}');
+      if (!this.formData.printPlacement) {
+        if (error) error.classList.add('active');
+        return false;
+      }
+      if (error) error.classList.remove('active');
+      return true;
+    }
+
+    validateStep4() {
+      const error = this.querySelector('#step4-error-{{ ai_gen_id }}');
+      const name = this.querySelector('#contact-name-{{ ai_gen_id }}');
+      const email = this.querySelector('#contact-email-{{ ai_gen_id }}');
+      
+      if (!name || !email || !name.value || !email.value) {
+        if (error) error.classList.add('active');
+        return false;
+      }
+      if (error) error.classList.remove('active');
+      return true;
+    }
+
+    nextStep() {
+      if (this.currentStep === 1 && !this.validateStep1()) return;
+      if (this.currentStep === 2 && !this.validateStep2()) return;
+      if (this.currentStep === 3 && !this.validateStep3()) return;
+
+      if (this.currentStep < 4) {
+        this.currentStep++;
+        this.updateStep();
+      }
+    }
+
+    prevStep() {
+      if (this.currentStep > 1) {
+        this.currentStep--;
+        this.updateStep();
+      }
+    }
+
+    updateStep() {
+      const steps = this.querySelectorAll('.ai-custom-order-form__step-{{ ai_gen_id }}');
+      const progressSteps = this.querySelectorAll('.ai-custom-order-form__progress-step-{{ ai_gen_id }}');
+      const prevButton = this.querySelector('#prev-button-{{ ai_gen_id }}');
+      const nextButton = this.querySelector('#next-button-{{ ai_gen_id }}');
+      const navButtons = this.querySelector('#nav-buttons-{{ ai_gen_id }}');
+
+      steps.forEach((step, index) => {
+        if (index + 1 === this.currentStep) {
+          step.classList.add('active');
+        } else {
+          step.classList.remove('active');
+        }
+      });
+
+      progressSteps.forEach((step, index) => {
+        if (index + 1 <= this.currentStep) {
+          step.classList.add('active');
+        } else {
+          step.classList.remove('active');
+        }
+      });
+
+      if (prevButton) {
+        prevButton.style.display = this.currentStep > 1 ? 'block' : 'none';
+      }
+
+      if (this.currentStep === 2) {
+        this.updateStep2Summary();
+      }
+
+      if (this.currentStep === 4) {
+        this.updateStep4Summary();
+        if (navButtons) navButtons.style.display = 'none';
+      } else {
+        if (navButtons) navButtons.style.display = 'flex';
+      }
+
+      if (nextButton) {
+        nextButton.style.display = this.currentStep < 4 ? 'block' : 'none';
+      }
+    }
+
+    updateStep2Summary() {
+      const summaryGarment = this.querySelector('#summary-garment-{{ ai_gen_id }}');
+      const summaryColor = this.querySelector('#summary-color-{{ ai_gen_id }}');
+      const summarySize = this.querySelector('#summary-size-{{ ai_gen_id }}');
+
+      if (summaryGarment) summaryGarment.textContent = this.formData.garment || '-';
+      if (summaryColor) summaryColor.textContent = this.formData.color || '-';
+      if (summarySize) summarySize.textContent = this.formData.size || '-';
+    }
+
+    updateStep4Summary() {
+      const finalGarment = this.querySelector('#final-garment-{{ ai_gen_id }}');
+      const finalColor = this.querySelector('#final-color-{{ ai_gen_id }}');
+      const finalSize = this.querySelector('#final-size-{{ ai_gen_id }}');
+      const finalQuantity = this.querySelector('#final-quantity-{{ ai_gen_id }}');
+      const finalPlacement = this.querySelector('#final-placement-{{ ai_gen_id }}');
+
+      if (finalGarment) finalGarment.textContent = this.formData.garment || '-';
+      if (finalColor) finalColor.textContent = this.formData.color || '-';
+      if (finalSize) finalSize.textContent = this.formData.size || '-';
+      if (finalQuantity) finalQuantity.textContent = this.formData.quantity || '-';
+      if (finalPlacement) finalPlacement.textContent = this.formData.printPlacement || '-';
+    }
+
+    populateFormFields() {
+      const formGarment = this.querySelector('#form-garment-{{ ai_gen_id }}');
+      const formColor = this.querySelector('#form-color-{{ ai_gen_id }}');
+      const formSize = this.querySelector('#form-size-{{ ai_gen_id }}');
+      const formQuantity = this.querySelector('#form-quantity-{{ ai_gen_id }}');
+      const formPlacement = this.querySelector('#form-placement-{{ ai_gen_id }}');
+      const formDesign = this.querySelector('#form-design-{{ ai_gen_id }}');
+      const formNotes = this.querySelector('#form-notes-{{ ai_gen_id }}');
+
+      if (formGarment) formGarment.value = this.formData.garment;
+      if (formColor) formColor.value = this.formData.color;
+      if (formSize) formSize.value = this.formData.size;
+      if (formQuantity) formQuantity.value = this.formData.quantity;
+      if (formPlacement) formPlacement.value = this.formData.printPlacement;
+      if (formDesign) formDesign.value = this.formData.designIdea;
+      if (formNotes) formNotes.value = this.formData.additionalNotes;
+    }
+  }
+
+  customElements.define('custom-order-form-{{ ai_gen_id }}', CustomOrderForm{{ ai_gen_id }});
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Custom apparel order form",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Form content"
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Form title",
+      "default": "Custom Apparel Order"
+    },
+    {
+      "type": "text",
+      "id": "form_subtitle",
+      "label": "Form subtitle",
+      "default": "Design your perfect streetwear piece"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#ffde59"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom apparel order form"
+    }
+  ]
+}
+{% endschema %}

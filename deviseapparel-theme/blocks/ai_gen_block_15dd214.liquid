@@ -1,0 +1,360 @@
+{% doc %}
+  @prompt
+    Update the announcement bar with these changes:
+    
+    Typography:
+    All caps
+    
+    Increase font size to 16px desktop
+    Increase font size to 14px mobile
+    Font weight 700
+    Letter spacing 0.3px
+    Make the text much more prominent and readable
+    
+    Animation:
+    
+    Increase marquee speed significantly
+    Complete one loop in approximately 8 seconds
+    Motion should feel smooth and premium, not slow
+    Keep pause-on-hover
+    
+    Spacing:
+    
+    Increase horizontal spacing between announcement items to 100-140px
+    Add more breathing room around each item
+    
+    Visual style:
+    
+    Background: #0A0A0A
+    Text: #FFFFFF
+    Accent: #FFDE59
+    Height: 44px desktop
+    Height: 40px mobile
+    
+    Content:
+    ⭐ 100+ NÖJDA KUNDER
+    GRATIS FRAKT ÖVER 500 SEK
+    SVAR INOM 24H
+    FÖLJ VÅR TIKTOK →
+    
+    Make the announcement bar feel more like a premium fashion brand and immediately noticeable when landing on the site.
+    
+    Use CSS variables so scroll speed can be adjusted from Shopify Theme Editor.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-announcement-bar-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    height: {{ block.settings.height_desktop }}px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-announcement-bar-{{ ai_gen_id }} {
+      height: {{ block.settings.height_mobile }}px;
+    }
+  }
+
+  .ai-announcement-bar-track-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    animation: ai-announcement-scroll-{{ ai_gen_id }} calc({{ block.settings.scroll_speed }}s) linear infinite;
+    will-change: transform;
+  }
+
+  .ai-announcement-bar-{{ ai_gen_id }}:hover .ai-announcement-bar-track-{{ ai_gen_id }} {
+    animation-play-state: paused;
+  }
+
+  @keyframes ai-announcement-scroll-{{ ai_gen_id }} {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .ai-announcement-bar-item-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 0 {{ block.settings.item_spacing_desktop }}px;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.font_size_desktop }}px;
+    font-weight: {{ block.settings.font_weight }};
+    letter-spacing: {{ block.settings.letter_spacing }}px;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-announcement-bar-item-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size_mobile }}px;
+      padding: 0 {{ block.settings.item_spacing_mobile }}px;
+    }
+  }
+
+  .ai-announcement-bar-item-{{ ai_gen_id }} em {
+    color: {{ block.settings.accent_color }};
+    font-style: normal;
+  }
+{% endstyle %}
+
+<announcement-bar-{{ ai_gen_id }} class="ai-announcement-bar-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-announcement-bar-track-{{ ai_gen_id }}">
+    {% liquid
+      assign items = ''
+      if block.settings.item_1 != blank
+        assign items = items | append: block.settings.item_1 | append: '||'
+      endif
+      if block.settings.item_2 != blank
+        assign items = items | append: block.settings.item_2 | append: '||'
+      endif
+      if block.settings.item_3 != blank
+        assign items = items | append: block.settings.item_3 | append: '||'
+      endif
+      if block.settings.item_4 != blank
+        assign items = items | append: block.settings.item_4 | append: '||'
+      endif
+      
+      assign items_array = items | split: '||'
+      assign items_count = items_array.size
+    %}
+
+    {% if items_count > 0 %}
+      {% for i in (1..2) %}
+        {% for item in items_array %}
+          {% if item != blank %}
+            <div class="ai-announcement-bar-item-{{ ai_gen_id }}">
+              {{ item }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    {% else %}
+      {% for i in (1..2) %}
+        <div class="ai-announcement-bar-item-{{ ai_gen_id }}">
+          <em>⭐</em> 100+ NÖJDA KUNDER
+        </div>
+        <div class="ai-announcement-bar-item-{{ ai_gen_id }}">
+          GRATIS FRAKT ÖVER 500 SEK
+        </div>
+        <div class="ai-announcement-bar-item-{{ ai_gen_id }}">
+          SVAR INOM 24H
+        </div>
+        <div class="ai-announcement-bar-item-{{ ai_gen_id }}">
+          FÖLJ VÅR TIKTOK <em>→</em>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</announcement-bar-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class AnnouncementBar{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.track = this.querySelector('.ai-announcement-bar-track-{{ ai_gen_id }}');
+        this.ensureContinuousScroll();
+      }
+
+      ensureContinuousScroll() {
+        if (!this.track) return;
+        
+        const trackWidth = this.track.scrollWidth / 2;
+        const containerWidth = this.offsetWidth;
+        
+        if (trackWidth < containerWidth * 2) {
+          const itemsNeeded = Math.ceil((containerWidth * 4) / trackWidth);
+          const originalContent = this.track.innerHTML;
+          
+          for (let i = 0; i < itemsNeeded; i++) {
+            this.track.innerHTML += originalContent;
+          }
+        }
+      }
+    }
+
+    customElements.define('announcement-bar-{{ ai_gen_id }}', AnnouncementBar{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Premium announcement bar",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "item_1",
+      "label": "Item 1",
+      "default": "⭐ 100+ NÖJDA KUNDER"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "item_2",
+      "label": "Item 2",
+      "default": "GRATIS FRAKT ÖVER 500 SEK"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "item_3",
+      "label": "Item 3",
+      "default": "SVAR INOM 24H"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "item_4",
+      "label": "Item 4",
+      "default": "FÖLJ VÅR TIKTOK →"
+    },
+    {
+      "type": "paragraph",
+      "content": "Use italic formatting to highlight words with the accent color"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size_desktop",
+      "label": "Desktop font size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Mobile font size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "font_weight",
+      "label": "Font weight",
+      "min": 400,
+      "max": 900,
+      "step": 100,
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "unit": "px",
+      "default": 0.3
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "label": "Scroll speed",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "unit": "s",
+      "default": 8,
+      "info": "Time to complete one loop (lower = faster)"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "item_spacing_desktop",
+      "label": "Desktop item spacing",
+      "min": 40,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "item_spacing_mobile",
+      "label": "Mobile item spacing",
+      "min": 30,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Visual style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#FFDE59"
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "label": "Desktop height",
+      "min": 30,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "label": "Mobile height",
+      "min": 30,
+      "max": 70,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium announcement bar"
+    }
+  ]
+}
+{% endschema %}

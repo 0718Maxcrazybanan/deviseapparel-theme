@@ -1,0 +1,175 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Header",
+  "sections": {
+    "17819962737f0ae80d": {
+      "type": "_blocks",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "{{ settings.color_palette.background }}",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "custom_liquid_NJMLgM": {
+      "type": "custom-liquid",
+      "name": "t:names.custom_liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"devise-announcement-bar\">\n  <div class=\"devise-announcement-marquee\">\n    <div class=\"devise-announcement-track\">\n      \n      <div class=\"devise-announcement-group\">\n        <span><b>⭐</b> 100+ nöjda kunder</span>\n        <span>Gratis frakt över 500 SEK</span>\n        <span>Svar inom 24h</span>\n        <a href=\"https://www.tiktok.com/@deviseapparels\" aria-label=\"Följ vår TikTok\">Följ våran TikTok →</a>\n      </div>\n\n      <div class=\"devise-announcement-group\" aria-hidden=\"true\">\n        <span><b>⭐</b> 100+ nöjda kunder</span>\n        <span>Gratis frakt över 500 SEK</span>\n        <span>Svar inom 24h</span>\n        <a href=\"https://www.tiktok.com/@deviseapparels\" tabindex=\"-1\">Följ våran TikTok →</a>\n      </div>\n\n      <div class=\"devise-announcement-group\" aria-hidden=\"true\">\n        <span><b>⭐</b> 100+ nöjda kunder</span>\n        <span>Gratis frakt över 500 SEK</span>\n        <span>Svar inom 24h</span>\n        <a href=\"https://www.tiktok.com/@deviseapparels\" tabindex=\"-1\">Följ våran TikTok →</a>\n      </div>\n\n      <div class=\"devise-announcement-group\" aria-hidden=\"true\">\n        <span><b>⭐</b> 100+ nöjda kunder</span>\n        <span>Gratis frakt över 500 SEK</span>\n        <span>Svar inom 24h</span>\n        <a href=\"https://www.tiktok.com/@deviseapparels\" tabindex=\"-1\">Följ våran TikTok →</a>\n      </div>\n\n    </div>\n  </div>\n</div>\n\n<style>\n  .devise-announcement-bar {\n    width: 100%;\n    height: 38px;\n    background: #0A0A0A;\n    color: #FFFFFF;\n    overflow: hidden;\n    display: flex;\n    align-items: center;\n    font-family: Inter, Arial, sans-serif;\n    border-bottom: 1px solid rgba(255, 255, 255, 0.06);\n    position: relative;\n    z-index: 50;\n  }\n\n  .devise-announcement-marquee {\n    width: 100%;\n    overflow: hidden;\n    white-space: nowrap;\n  }\n\n  .devise-announcement-track {\n    display: flex;\n    width: max-content;\n    animation: devise-announcement-scroll 9s linear infinite;\n    will-change: transform;\n  }\n\n  .devise-announcement-bar:hover .devise-announcement-track {\n    animation-play-state: paused;\n  }\n\n  .devise-announcement-group {\n    display: flex;\n    align-items: center;\n    gap: 130px;\n    padding-right: 130px;\n    flex-shrink: 0;\n  }\n\n  .devise-announcement-group span,\n  .devise-announcement-group a {\n    color: #FFFFFF;\n    font-size: 13px;\n    font-weight: 500;\n    line-height: 1;\n    text-decoration: none;\n    letter-spacing: 0.01em;\n  }\n\n  .devise-announcement-group b {\n    color: #FFDE59;\n    font-weight: 700;\n  }\n\n  .devise-announcement-group a {\n    color: #FFFFFF;\n    transition: color 0.2s ease;\n  }\n\n  .devise-announcement-group a:hover {\n    color: #FFDE59;\n  }\n\n  @keyframes devise-announcement-scroll {\n    from {\n      transform: translateX(0);\n    }\n    to {\n      transform: translateX(-25%);\n    }\n  }\n\n  @media (max-width: 1000px) {\n    .devise-announcement-bar {\n      height: 36px;\n    }\n\n    .devise-announcement-track {\n      animation-duration: 7s;\n    }\n\n    .devise-announcement-group {\n      gap: 32px;\n      padding-right: 32px;\n    }\n\n    .devise-announcement-group span,\n    .devise-announcement-group a {\n      font-size: 12px;\n    }\n  }\n</style>",
+        "background_color": "{{ settings.color_palette.background }}",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "header_section": {
+      "type": "header",
+      "blocks": {
+        "header-logo": {
+          "type": "_header-logo",
+          "static": true,
+          "settings": {
+            "hide_logo_on_home_page": false,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        },
+        "header-menu": {
+          "type": "_header-menu",
+          "static": true,
+          "settings": {
+            "menu": "main-menu",
+            "type_font_primary_size": "0.875rem",
+            "menu_font_style": "inverse",
+            "type_font_primary_link": "body",
+            "type_case_primary_link": "none",
+            "menu_style": "featured_products",
+            "featured_products_aspect_ratio": "4 / 5",
+            "featured_collections_aspect_ratio": "16 / 9",
+            "image_border_radius": 0,
+            "navigation_bar": false,
+            "drawer_accordion": false,
+            "drawer_accordion_expand_first": false,
+            "drawer_dividers": false
+          },
+          "blocks": {}
+        }
+      },
+      "custom_css": [],
+      "settings": {
+        "logo_position": "left",
+        "menu_position": "left",
+        "menu_row": "top",
+        "customer_account_menu": "customer-account-main-menu",
+        "show_search": true,
+        "search_position": "right",
+        "search_row": "top",
+        "show_country": true,
+        "country_selector_style": true,
+        "show_language": true,
+        "localization_font": "heading",
+        "localization_font_size": "0.625rem",
+        "localization_position": "right",
+        "localization_row": "top",
+        "section_width": "page-width",
+        "section_height": "compact",
+        "enable_sticky_header": "scroll-up",
+        "divider_width": 0,
+        "divider_size": "page-width",
+        "border_width": 2,
+        "actions_display_style": "icon",
+        "actions_font_size": "0.875rem",
+        "actions_font": "body",
+        "actions_text_case": "none",
+        "background_color_top": "{{ settings.color_palette.background }}",
+        "enable_transparent_header_home": false,
+        "enable_transparent_header_product": false,
+        "enable_transparent_header_collection": false
+      }
+    },
+    "custom_liquid_B66N9k": {
+      "type": "custom-liquid",
+      "name": "t:names.custom_liquid",
+      "settings": {
+        "custom_liquid": "{% if request.page_type == 'index' %}\n<section class=\"devise-hero-card\">\n  <div class=\"devise-hero-card__inner\">\n\n    <div class=\"devise-hero-card__left\">\n      <div class=\"devise-hero-card__eyebrow\">\n        <span></span>\n        Custom hoodies · Designhjälp ingår\n      </div>\n\n      <h1 class=\"devise-hero-title\">\n        <span>Din idé.</span>\n        <span>Vår design.</span>\n        <span class=\"yellow\">Din perfekta tröja.</span>\n      </h1>\n\n      <p>\n        Skicka din idé så hjälper vi dig skapa en custom hoodie med premium känsla,\n        clean design och tryck som håller.\n      </p>\n\n      <div class=\"devise-hero-card__buttons\">\n        <a href=\"/pages/contact\" class=\"devise-square-btn devise-square-btn--main\">\n          Få gratis designförslag inom 24h\n          <span>→</span>\n        </a>\n\n        <a href=\"/collections/frontpage\" class=\"devise-square-btn devise-square-btn--ghost\">\n          Se katalogen\n          <span>→</span>\n        </a>\n      </div>\n    </div>\n\n    <div class=\"devise-live-card\">\n      <div class=\"devise-live-card__top\">\n        <span>LIVE NU</span>\n        <span><i></i> 3 IDÉER I KÖ</span>\n      </div>\n\n      <h2 id=\"deviseRotatingIdea\">\n        \"JAG VILL HA MIN MORMORS RECEPT PÅ BULLAR TRYCKT PÅ RYGG.\"\n      </h2>\n\n      <p>— Inkommande förfrågan, för 4 min sen</p>\n\n      <div class=\"devise-live-card__line\"></div>\n\n      <div class=\"devise-live-card__stats\">\n        <div>\n          <strong>24H</strong>\n          <span>Svar</span>\n        </div>\n\n        <div>\n          <strong>100+</strong>\n          <span>Kunder</span>\n        </div>\n\n        <div>\n          <strong>4.8</strong>\n          <span>Snittbetyg</span>\n        </div>\n      </div>\n    </div>\n\n  </div>\n\n  <div class=\"devise-hero-bottom\">\n    <div class=\"devise-bottom-item\">\n      <div class=\"devise-bottom-icon\">✓</div>\n      <div class=\"devise-bottom-text\">\n        <span></span>\n        <div>\n          <strong>ENKELT</strong>\n          <p>Skicka din idé</p>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"devise-bottom-item\">\n      <div class=\"devise-bottom-icon\">⚡</div>\n      <div class=\"devise-bottom-text\">\n        <span></span>\n        <div>\n          <strong>SNABBT</strong>\n          <p>Svar inom 24h</p>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"devise-bottom-item\">\n      <div class=\"devise-bottom-icon\">★</div>\n      <div class=\"devise-bottom-text\">\n        <span></span>\n        <div>\n          <strong>PREMIUM</strong>\n          <p>Tryck som håller</p>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>\n\n<style>\n  .devise-hero-card {\n    position: relative;\n    isolation: isolate;\n    background: #0A0A0A;\n    color: #FFFFFF;\n    font-family: Inter, Arial, sans-serif;\n    padding: 88px 20px 38px;\n    overflow: hidden;\n  }\n\n  .devise-hero-card::before {\n    content: \"\";\n    position: absolute;\n    inset: 0;\n    background-image:\n      linear-gradient(rgba(10, 10, 10, 0.82), rgba(10, 10, 10, 0.9)),\n      url(\"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1800&q=85\");\n    background-size: cover;\n    background-position: center;\n    background-repeat: no-repeat;\n    filter: grayscale(100%) contrast(1.15) brightness(0.55);\n    transform: scale(1.04);\n    z-index: 2;\n    pointer-events: none;\n  }\n\n  .devise-hero-card::after {\n    content: \"\";\n    position: absolute;\n    inset: 0;\n    background:\n      radial-gradient(circle at 18% 18%, rgba(255, 222, 89, 0.16), transparent 28%),\n      radial-gradient(circle at 82% 42%, rgba(255, 222, 89, 0.07), transparent 30%),\n      linear-gradient(\n        90deg,\n        rgba(10, 10, 10, 0.96) 0%,\n        rgba(10, 10, 10, 0.86) 48%,\n        rgba(10, 10, 10, 0.78) 100%\n      ),\n      linear-gradient(\n        180deg,\n        rgba(10, 10, 10, 0.22) 0%,\n        rgba(5, 5, 5, 0.96) 100%\n      );\n    z-index: 1;\n    pointer-events: none;\n  }\n\n  .devise-hero-card * {\n    box-sizing: border-box;\n  }\n\n  .devise-hero-card__inner {\n    position: relative;\n    z-index: 2;\n    max-width: 1120px;\n    margin: 0 auto;\n    display: grid;\n    grid-template-columns: 1.25fr 0.75fr;\n    align-items: center;\n    gap: 44px;\n  }\n\n  .devise-hero-card__eyebrow {\n    display: inline-flex;\n    align-items: center;\n    gap: 9px;\n    color: #FFDE59;\n    background: rgba(255, 222, 89, 0.08);\n    border: 1px solid rgba(255, 222, 89, 0.2);\n    border-radius: 999px;\n    padding: 8px 13px;\n    font-size: 12px;\n    font-weight: 800;\n    letter-spacing: 0.03em;\n    margin-bottom: 22px;\n    backdrop-filter: blur(12px);\n  }\n\n  .devise-hero-card__eyebrow span {\n    width: 7px;\n    height: 7px;\n    border-radius: 50%;\n    background: #FFDE59;\n    box-shadow: 0 0 14px rgba(255, 222, 89, 0.9);\n  }\n\n  .devise-hero-title {\n    margin: 0;\n    font-size: clamp(46px, 7vw, 86px);\n    line-height: 0.92;\n    letter-spacing: -0.075em;\n    font-weight: 950;\n  }\n\n  .devise-hero-title span {\n    display: block;\n    color: #FFFFFF;\n    white-space: nowrap;\n  }\n\n  .devise-hero-title .yellow {\n    color: #FFDE59;\n  }\n\n  .devise-hero-card__left > p {\n    max-width: 560px;\n    margin: 26px 0 0;\n    color: #D0D0D0;\n    font-size: 18px;\n    line-height: 1.65;\n    font-weight: 500;\n  }\n\n  .devise-hero-card__buttons {\n    display: flex;\n    flex-wrap: wrap;\n    gap: 14px;\n    margin-top: 34px;\n  }\n\n  .devise-square-btn {\n    min-height: 58px;\n    padding: 0 22px;\n    border-radius: 10px;\n    display: inline-flex;\n    align-items: center;\n    justify-content: center;\n    gap: 12px;\n    text-decoration: none;\n    font-size: 14px;\n    font-weight: 900;\n    text-transform: uppercase;\n    letter-spacing: 0.03em;\n    transition: 0.22s ease;\n  }\n\n  .devise-square-btn span {\n    font-size: 18px;\n    line-height: 1;\n  }\n\n  .devise-square-btn--main {\n    background: #FFDE59;\n    color: #0A0A0A;\n    box-shadow:\n      0 0 0 1px rgba(255, 222, 89, 0.45),\n      0 0 34px rgba(255, 222, 89, 0.34);\n  }\n\n  .devise-square-btn--main:hover {\n    transform: translateY(-2px);\n    box-shadow:\n      0 0 0 1px rgba(255, 222, 89, 0.75),\n      0 0 52px rgba(255, 222, 89, 0.48);\n  }\n\n  .devise-square-btn--ghost {\n    background: rgba(17, 17, 17, 0.72);\n    color: #FFFFFF;\n    border: 1px solid rgba(255, 255, 255, 0.14);\n    backdrop-filter: blur(12px);\n  }\n\n  .devise-square-btn--ghost:hover {\n    border-color: #FFDE59;\n    color: #FFDE59;\n    transform: translateY(-2px);\n  }\n\n  .devise-live-card {\n    position: relative;\n    z-index: 2;\n    width: 100%;\n    max-width: 410px;\n    margin-left: auto;\n    background: rgba(10, 10, 10, 0.72);\n    border: 1px solid rgba(255, 255, 255, 0.14);\n    padding: 28px;\n    min-height: 320px;\n    backdrop-filter: blur(18px);\n    box-shadow:\n      0 30px 80px rgba(0, 0, 0, 0.5),\n      0 0 50px rgba(255, 222, 89, 0.08);\n  }\n\n  .devise-live-card__top {\n    display: flex;\n    justify-content: space-between;\n    gap: 18px;\n    margin-bottom: 22px;\n  }\n\n  .devise-live-card__top span {\n    color: #A0A0A0;\n    font-size: 12px;\n    font-weight: 900;\n    letter-spacing: 0.12em;\n    white-space: nowrap;\n  }\n\n  .devise-live-card__top i {\n    display: inline-block;\n    width: 7px;\n    height: 7px;\n    background: #FFDE59;\n    border-radius: 50%;\n    margin-right: 7px;\n    box-shadow: 0 0 12px rgba(255, 222, 89, 0.9);\n  }\n\n  .devise-live-card h2 {\n    margin: 0;\n    font-size: clamp(22px, 2.3vw, 31px);\n    line-height: 1.05;\n    letter-spacing: -0.06em;\n    font-weight: 950;\n    color: #FFFFFF;\n  }\n\n  .devise-live-card > p {\n    color: #A0A0A0;\n    font-size: 14px;\n    font-weight: 750;\n    margin: 16px 0 0;\n  }\n\n  .devise-live-card__line {\n    height: 1px;\n    background: rgba(255, 255, 255, 0.14);\n    margin: 24px 0 20px;\n  }\n\n  .devise-live-card__stats {\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    gap: 14px;\n    text-align: center;\n  }\n\n  .devise-live-card__stats strong {\n    display: block;\n    font-size: 24px;\n    font-weight: 950;\n    color: #FFFFFF;\n    letter-spacing: -0.05em;\n  }\n\n  .devise-live-card__stats div:first-child strong {\n    color: #FFDE59;\n  }\n\n  .devise-live-card__stats span {\n    display: block;\n    color: #A0A0A0;\n    font-size: 12px;\n    font-weight: 750;\n    margin-top: 5px;\n  }\n\n  .devise-hero-bottom {\n    position: relative;\n    z-index: 2;\n    max-width: 1120px;\n    margin: 42px auto 0;\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    gap: 14px;\n  }\n\n  .devise-bottom-item {\n    background: rgba(17, 17, 17, 0.74);\n    border: 1px solid rgba(255, 255, 255, 0.1);\n    border-radius: 12px;\n    padding: 16px;\n    display: flex;\n    align-items: center;\n    gap: 14px;\n    backdrop-filter: blur(14px);\n  }\n\n  .devise-bottom-icon {\n    width: 42px;\n    height: 42px;\n    border-radius: 10px;\n    background: #FFDE59;\n    color: #0A0A0A;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    font-weight: 950;\n    flex-shrink: 0;\n  }\n\n  .devise-bottom-text {\n    display: flex;\n    align-items: center;\n    gap: 12px;\n  }\n\n  .devise-bottom-text > span {\n    width: 3px;\n    height: 34px;\n    border-radius: 999px;\n    background: #FFDE59;\n    flex-shrink: 0;\n  }\n\n  .devise-bottom-text strong {\n    display: block;\n    font-size: 13px;\n    color: #FFFFFF;\n    font-weight: 900;\n    letter-spacing: 0.05em;\n  }\n\n  .devise-bottom-text p {\n    margin: 4px 0 0;\n    color: #A0A0A0;\n    font-size: 13px;\n    font-weight: 650;\n  }\n\n  @media (max-width: 900px) {\n    .devise-hero-card {\n      padding: 58px 16px 30px;\n    }\n\n    .devise-hero-card__inner {\n      grid-template-columns: 1fr;\n      gap: 28px;\n      text-align: center;\n      max-width: 620px;\n    }\n\n    .devise-hero-card__eyebrow {\n      font-size: 11px;\n      padding: 7px 11px;\n      margin-bottom: 18px;\n    }\n\n    .devise-hero-title {\n      font-size: clamp(38px, 9vw, 58px);\n      line-height: 0.94;\n      letter-spacing: -0.065em;\n    }\n\n    .devise-hero-card__left > p {\n      max-width: 480px;\n      margin: 20px auto 0;\n      font-size: 15px;\n      line-height: 1.55;\n    }\n\n    .devise-hero-card__buttons {\n      justify-content: center;\n      margin-top: 26px;\n    }\n\n    .devise-square-btn {\n      min-height: 54px;\n      padding: 0 20px;\n      font-size: 12px;\n    }\n\n    .devise-live-card {\n      max-width: 460px;\n      margin: 0 auto;\n      padding: 22px;\n      min-height: auto;\n      text-align: left;\n    }\n\n    .devise-live-card h2 {\n      font-size: clamp(22px, 5vw, 28px);\n    }\n\n    .devise-hero-bottom {\n      max-width: 460px;\n      grid-template-columns: 1fr;\n      gap: 10px;\n      margin-top: 24px;\n    }\n\n    .devise-bottom-item {\n      padding: 13px;\n    }\n  }\n\n  @media (max-width: 560px) {\n    .devise-hero-card {\n      padding: 44px 14px 24px;\n    }\n\n    .devise-hero-card::before {\n      background-position: center top;\n      transform: scale(1.08);\n    }\n\n    .devise-hero-card__inner {\n      gap: 24px;\n    }\n\n    .devise-hero-card__eyebrow {\n      font-size: 10px;\n      padding: 6px 10px;\n      margin-bottom: 16px;\n    }\n\n    .devise-hero-title {\n      font-size: clamp(32px, 10.2vw, 45px);\n      line-height: 0.98;\n      letter-spacing: -0.055em;\n    }\n\n    .devise-hero-title span {\n      white-space: nowrap;\n    }\n\n    .devise-hero-card__left > p {\n      font-size: 14px;\n      line-height: 1.5;\n      margin-top: 18px;\n    }\n\n    .devise-hero-card__buttons {\n      flex-direction: column;\n      gap: 10px;\n      margin-top: 24px;\n    }\n\n    .devise-square-btn {\n      width: 100%;\n      min-height: 52px;\n      border-radius: 10px;\n      font-size: 12px;\n      padding: 0 16px;\n    }\n\n    .devise-live-card {\n      padding: 18px;\n      border-radius: 14px;\n    }\n\n    .devise-live-card__top {\n      flex-direction: row;\n      align-items: center;\n      gap: 10px;\n      margin-bottom: 16px;\n    }\n\n    .devise-live-card__top span {\n      font-size: 10px;\n      letter-spacing: 0.08em;\n    }\n\n    .devise-live-card h2 {\n      font-size: 22px;\n      line-height: 1.08;\n    }\n\n    .devise-live-card > p {\n      font-size: 12px;\n      margin-top: 12px;\n    }\n\n    .devise-live-card__line {\n      margin: 18px 0 16px;\n    }\n\n    .devise-live-card__stats {\n      gap: 8px;\n    }\n\n    .devise-live-card__stats strong {\n      font-size: 19px;\n    }\n\n    .devise-live-card__stats span {\n      font-size: 10px;\n    }\n\n    .devise-hero-bottom {\n      display: flex;\n      gap: 10px;\n      overflow-x: auto;\n      scroll-snap-type: x mandatory;\n      margin-top: 20px;\n      padding-bottom: 4px;\n      -webkit-overflow-scrolling: touch;\n    }\n\n    .devise-hero-bottom::-webkit-scrollbar {\n      display: none;\n    }\n\n    .devise-bottom-item {\n      min-width: 78%;\n      scroll-snap-align: start;\n      padding: 13px;\n      border-radius: 12px;\n    }\n\n    .devise-bottom-icon {\n      width: 38px;\n      height: 38px;\n    }\n\n    .devise-bottom-text > span {\n      height: 30px;\n    }\n\n    .devise-bottom-text strong {\n      font-size: 12px;\n    }\n\n    .devise-bottom-text p {\n      font-size: 12px;\n    }\n  }\n\n  @media (max-width: 380px) {\n    .devise-hero-title {\n      font-size: clamp(29px, 9.7vw, 38px);\n    }\n\n    .devise-live-card__top {\n      flex-direction: column;\n      align-items: flex-start;\n    }\n\n    .devise-bottom-item {\n      min-width: 86%;\n    }\n  }\n</style>\n\n<script>\n  document.addEventListener(\"DOMContentLoaded\", function () {\n    const ideaElement = document.getElementById(\"deviseRotatingIdea\");\n    if (!ideaElement) return;\n\n    const ideas = [\n      \"JAG VILL HA MIN MORMORS RECEPT PÅ BULLAR TRYCKT PÅ RYGG.\",\n      \"JAG VILL GÖRA EN HOODIE MED MITT EGET BRANDNAMN.\",\n      \"JAG VILL HA EN CLEAN TEXT PÅ BRÖSTET OCH STORT TRYCK PÅ RYGGEN.\",\n      \"JAG VILL TRYCKA MIN HUNDS ANSIKTE PÅ EN SVART HOODIE.\",\n      \"JAG VILL HA EN MATCHANDE HOODIE TILL MITT FOTBOLLSLAG.\",\n      \"JAG VILL GÖRA EN HOODIE TILL MIN BÄSTA VÄN.\",\n      \"JAG VILL HA MIN LOGGA TRYCKT PÅ EN PREMIUM HOODIE.\",\n      \"JAG VILL SKAPA MERCH TILL MIN TIKTOK.\",\n      \"JAG VILL HA EN VINTAGE DESIGN MED MIN EGEN TEXT.\",\n      \"JAG VILL GÖRA EN HOODIE TILL VÅR KLASS.\",\n      \"JAG VILL HA EN MINIMAL DESIGN MED GUL TEXT.\",\n      \"JAG VILL TRYCKA ETT DATUM SOM BETYDER MYCKET FÖR MIG.\",\n      \"JAG VILL GÖRA EN HOODIE MED MIN MUSIKGRUPP.\",\n      \"JAG VILL HA EN OVERSIZED HOODIE MED CLEAN RYGGTRYCK.\",\n      \"JAG VILL SKAPA EN TRÖJA TILL MIN FÖRENING.\",\n      \"JAG VILL HA EN DESIGN SOM SER UT SOM STREETWEAR.\",\n      \"JAG VILL TRYCKA MIN EGEN ILLUSTRATION PÅ RYGGEN.\",\n      \"JAG VILL HA EN HOODIE MED MITT GAMINGNAMN.\",\n      \"JAG VILL GÖRA MERCH TILL MITT UF-FÖRETAG.\",\n      \"JAG VILL HA EN SVART HOODIE MED EN LITEN LOGGA FRAM.\",\n      \"JAG VILL SKAPA EN TRÖJA TILL EN FÖDELSEDAG.\",\n      \"JAG VILL HA EN HOODIE MED EN INTERN JOKE PÅ RYGGEN.\",\n      \"JAG VILL GÖRA EN MATCHANDE DESIGN TILL MINA VÄNNER.\",\n      \"JAG VILL HA EN CLEAN HOODIE MED MITT NAMN.\",\n      \"JAG VILL TRYCKA EN BILD FRÅN EN RESA PÅ EN HOODIE.\",\n      \"JAG VILL HA MIN FÖRETAGSGRAFIK PÅ EN HOODIE.\",\n      \"JAG VILL GÖRA EN HOODIE TILL MITT GYM.\",\n      \"JAG VILL HA EN DESIGN MED STORT TRYCK OCH LITEN TEXT.\",\n      \"JAG VILL SKAPA EN HOODIE TILL MITT EVENT.\",\n      \"JAG VILL HA EN HOODIE SOM INTE SER UT SOM VANLIG MERCH.\",\n      \"JAG VILL TRYCKA ETT CITAT SOM BETYDER NÅGOT FÖR MIG.\",\n      \"JAG VILL HA EN PREMIUM HOODIE TILL MITT CREW.\",\n      \"JAG VILL GÖRA EN HOODIE MED MIN EGEN LOGOTYP.\",\n      \"JAG VILL HA EN DESIGN SOM MATCHAR MITT INSTAGRAM.\",\n      \"JAG VILL SKAPA EN LIMITED EDITION HOODIE.\",\n      \"JAG VILL HA EN HOODIE MED ENKEL TEXT OCH LYXIG KÄNSLA.\",\n      \"JAG VILL TRYCKA MIN PAPPAS GAMLA CITAT PÅ RYGGEN.\",\n      \"JAG VILL HA EN DESIGN MED MIN STADS NAMN.\",\n      \"JAG VILL GÖRA EN HOODIE FÖR MITT LAG.\",\n      \"JAG VILL HA EN CUSTOM HOODIE TILL JULKLAPP.\",\n      \"JAG VILL SKAPA EN HOODIE SOM KÄNNS SOM ETT RIKTIGT BRAND.\",\n      \"JAG VILL HA MIN EGEN DESIGN PÅ EN GRÅ HOODIE.\",\n      \"JAG VILL GÖRA EN HOODIE MED ETT FOTO OCH TEXT.\",\n      \"JAG VILL HA EN SIMPLE DESIGN SOM ÄNDÅ STICKER UT.\",\n      \"JAG VILL TRYCKA MIN RESTAURANGS LOGGA PÅ HOODIES.\",\n      \"JAG VILL GÖRA EN HOODIE TILL MIN PODD.\",\n      \"JAG VILL HA EN DESIGN SOM SER CLEAN OCH DYRT UT.\",\n      \"JAG VILL SKAPA MIN FÖRSTA EGNA MERCHDROP.\"\n    ];\n\n    function updateIdea() {\n      const now = new Date();\n      const minutesSinceMidnight = now.getHours() * 60 + now.getMinutes();\n      const halfHourSlot = Math.floor(minutesSinceMidnight / 30);\n      const idea = ideas[halfHourSlot % ideas.length];\n\n      ideaElement.textContent = '\"' + idea + '\"';\n    }\n\n    updateIdea();\n    setInterval(updateIdea, 60000);\n  });\n</script>\n{% endif %}",
+        "background_color": "{{ settings.color_palette.background }}",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "custom_liquid_ctTUhd": {
+      "type": "custom-liquid",
+      "name": "Sticky order",
+      "settings": {
+        "custom_liquid": "<a href=\"/pages/contact\" class=\"devise-sticky-btn\" id=\"deviseStickyBtn\">\n  Beställ custom tröja\n  <span>→</span>\n</a>\n\n<style>\n  .devise-sticky-btn {\n    position: fixed;\n    left: 14px;\n    right: 14px;\n    bottom: 14px;\n    z-index: 9999;\n\n    height: 58px;\n    border-radius: 14px;\n    background: #FFDE59;\n    color: #0A0A0A;\n\n    display: none;\n    align-items: center;\n    justify-content: center;\n    gap: 10px;\n\n    font-family: Inter, Arial, sans-serif;\n    font-size: 14px;\n    font-weight: 950;\n    text-transform: uppercase;\n    letter-spacing: 0.04em;\n    text-decoration: none;\n\n    box-shadow:\n      0 0 0 1px rgba(255, 222, 89, 0.5),\n      0 12px 40px rgba(0, 0, 0, 0.45),\n      0 0 34px rgba(255, 222, 89, 0.35);\n\n    opacity: 0;\n    visibility: hidden;\n    transform: translateY(18px);\n    pointer-events: none;\n\n    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;\n  }\n\n  .devise-sticky-btn.is-visible {\n    opacity: 1;\n    visibility: visible;\n    transform: translateY(0);\n    pointer-events: auto;\n  }\n\n  .devise-sticky-btn span {\n    font-size: 18px;\n    line-height: 1;\n  }\n\n  .devise-sticky-btn:hover {\n    transform: translateY(-2px);\n    box-shadow:\n      0 0 0 1px rgba(255, 222, 89, 0.75),\n      0 14px 48px rgba(0, 0, 0, 0.55),\n      0 0 46px rgba(255, 222, 89, 0.5);\n  }\n\n  @media (max-width: 768px) {\n    .devise-sticky-btn {\n      display: flex;\n    }\n\n    body {\n      padding-bottom: 86px;\n    }\n  }\n</style>\n\n<script>\n  document.addEventListener(\"DOMContentLoaded\", function () {\n    const stickyBtn = document.getElementById(\"deviseStickyBtn\");\n\n    if (!stickyBtn) return;\n\n    let formIsVisible = false;\n\n    const formTarget = document.querySelector(\n      \"#ContactForm, #contact_form, #devise-custom-order-form, .devise-order-section, .contact-form, form[action*='/contact']\"\n    );\n\n    function updateStickyButton() {\n      const isMobile = window.innerWidth <= 768;\n      const hasScrolledEnough = window.scrollY > 280;\n\n      if (isMobile && hasScrolledEnough && !formIsVisible) {\n        stickyBtn.classList.add(\"is-visible\");\n      } else {\n        stickyBtn.classList.remove(\"is-visible\");\n      }\n    }\n\n    if (formTarget) {\n      const observer = new IntersectionObserver(\n        function (entries) {\n          entries.forEach(function (entry) {\n            formIsVisible = entry.isIntersecting;\n            updateStickyButton();\n          });\n        },\n        {\n          threshold: 0.12,\n          rootMargin: \"0px 0px -20% 0px\"\n        }\n      );\n\n      observer.observe(formTarget);\n    }\n\n    window.addEventListener(\"scroll\", updateStickyButton);\n    window.addEventListener(\"resize\", updateStickyButton);\n\n    updateStickyButton();\n  });\n</script>",
+        "background_color": "{{ settings.color_palette.background }}",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "custom_liquid_njhg67": {
+      "type": "custom-liquid",
+      "name": "t:names.custom_liquid",
+      "settings": {
+        "custom_liquid": "",
+        "background_color": "{{ settings.color_palette.background }}",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "custom_liquid_j9wr39": {
+      "type": "custom-liquid",
+      "name": "t:names.custom_liquid",
+      "settings": {
+        "custom_liquid": "<a href=\"/pages/faq\" class=\"devise-process-sticky\">\n  <span>?</span>\n  Så fungerar det\n</a>\n\n<style>\n  .devise-process-sticky {\n    position: fixed;\n    left: 14px;\n    bottom: 86px;\n    z-index: 9998;\n\n    display: none;\n    align-items: center;\n    gap: 9px;\n\n    min-height: 44px;\n    padding: 0 15px 0 10px;\n    border-radius: 999px;\n\n    background: rgba(17, 17, 17, 0.94);\n    color: #FFFFFF;\n    border: 1px solid rgba(255, 222, 89, 0.28);\n\n    font-family: Inter, Arial, sans-serif;\n    font-size: 12px;\n    font-weight: 900;\n    letter-spacing: 0.03em;\n    text-transform: uppercase;\n    text-decoration: none;\n\n    box-shadow: 0 14px 42px rgba(0, 0, 0, 0.45);\n    backdrop-filter: blur(14px);\n    -webkit-backdrop-filter: blur(14px);\n  }\n\n  .devise-process-sticky span {\n    width: 26px;\n    height: 26px;\n    border-radius: 999px;\n\n    background: #FFDE59;\n    color: #0A0A0A;\n\n    display: flex;\n    align-items: center;\n    justify-content: center;\n\n    font-size: 14px;\n    font-weight: 950;\n  }\n\n  .devise-process-sticky:active {\n    transform: scale(0.97);\n  }\n\n  @media (max-width: 768px) {\n    .devise-process-sticky {\n      display: inline-flex;\n    }\n  }\n</style>",
+        "background_color": "{{ settings.color_palette.background }}",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "17819962737f0ae80d",
+    "custom_liquid_NJMLgM",
+    "header_section",
+    "custom_liquid_B66N9k",
+    "custom_liquid_ctTUhd",
+    "custom_liquid_njhg67",
+    "custom_liquid_j9wr39"
+  ]
+}

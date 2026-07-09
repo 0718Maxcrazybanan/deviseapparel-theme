@@ -1,0 +1,237 @@
+{% doc %}
+  @prompt
+    Create a two-column layout section with one image block on the left and one image block on the right. Each column should allow the merchant to upload and display a picture with optional alt text. The layout should be responsive — stacking vertically on mobile.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-two-column-images-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  .ai-two-column-images__container-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: {{ block.settings.column_gap }}px;
+    width: 100%;
+  }
+
+  .ai-two-column-images__column-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+  }
+
+  .ai-two-column-images__image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-two-column-images__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .ai-two-column-images__placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: {{ block.settings.aspect_ratio }};
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.border_radius }}px;
+    position: relative;
+  }
+
+  .ai-two-column-images__placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .ai-two-column-images__empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-two-column-images__container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: {{ block.settings.mobile_gap }}px;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="ai-two-column-images-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-two-column-images__container-{{ ai_gen_id }}">
+    <div class="ai-two-column-images__column-{{ ai_gen_id }}">
+      {% if block.settings.image_left %}
+        <div class="ai-two-column-images__image-wrapper-{{ ai_gen_id }}">
+          <img
+            src="{{ block.settings.image_left | image_url: width: 1200 }}"
+            alt="{{ block.settings.alt_text_left | escape }}"
+            loading="lazy"
+            width="{{ block.settings.image_left.width }}"
+            height="{{ block.settings.image_left.height }}"
+            class="ai-two-column-images__image-{{ ai_gen_id }}"
+          >
+        </div>
+      {% else %}
+        <div class="ai-two-column-images__placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+          <div class="ai-two-column-images__empty-state-{{ ai_gen_id }}">
+            Add left image
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="ai-two-column-images__column-{{ ai_gen_id }}">
+      {% if block.settings.image_right %}
+        <div class="ai-two-column-images__image-wrapper-{{ ai_gen_id }}">
+          <img
+            src="{{ block.settings.image_right | image_url: width: 1200 }}"
+            alt="{{ block.settings.alt_text_right | escape }}"
+            loading="lazy"
+            width="{{ block.settings.image_right.width }}"
+            height="{{ block.settings.image_right.height }}"
+            class="ai-two-column-images__image-{{ ai_gen_id }}"
+          >
+        </div>
+      {% else %}
+        <div class="ai-two-column-images__placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+          <div class="ai-two-column-images__empty-state-{{ ai_gen_id }}">
+            Add right image
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Two column images",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Left column"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_left",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "alt_text_left",
+      "label": "Alt text"
+    },
+    {
+      "type": "header",
+      "content": "Right column"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_right",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "alt_text_right",
+      "label": "Alt text"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Desktop gap",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "label": "Mobile gap",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Aspect ratio",
+      "options": [
+        {
+          "value": "1/1",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "4/3",
+          "label": "Landscape (4:3)"
+        },
+        {
+          "value": "16/9",
+          "label": "Widescreen (16:9)"
+        },
+        {
+          "value": "3/4",
+          "label": "Portrait (3:4)"
+        }
+      ],
+      "default": "4/3"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two column images"
+    }
+  ]
+}
+{% endschema %}

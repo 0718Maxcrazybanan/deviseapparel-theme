@@ -1,0 +1,323 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "media_presentation": "carousel",
+            "media_columns": "one",
+            "image_gap": 4,
+            "large_first_image": false,
+            "icons_style": "none",
+            "slideshow_controls_style": "counter",
+            "slideshow_mobile_controls_style": "dots",
+            "thumbnail_position": "right",
+            "thumbnail_width": 44,
+            "thumbnail_radius": 0,
+            "aspect_ratio": "adapt",
+            "constrain_to_viewport": true,
+            "media_fit": "contain",
+            "media_radius": 0,
+            "extend_media": true,
+            "zoom": true,
+            "video_loop": false,
+            "hide_variants": true,
+            "padding-block-start": 43,
+            "padding-block-end": 44,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "details_position": "flex-start",
+            "gap": 28,
+            "sticky_details_desktop": true,
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 24,
+            "padding-block-end": 24,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "group_icgrde": {
+              "type": "group",
+              "name": "Header",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "custom_liquid_6y8DCi": {
+                  "type": "custom-liquid",
+                  "name": "t:names.custom_liquid",
+                  "settings": {
+                    "custom_liquid": "{% if product != blank %}\n<div id=\"da-size-qty-mount-{{ product.id }}\"></div>\n\n<style>\n  .product-form__input label,\n  .variant-option label,\n  fieldset label {\n    min-height: 54px !important;\n    height: 54px !important;\n    display: flex !important;\n    align-items: center !important;\n    justify-content: center !important;\n    text-align: center !important;\n    box-sizing: border-box !important;\n  }\n\n  .da-hide-original-size {\n    display: none !important;\n  }\n\n  .da-size-qty-panel {\n    margin-top: 12px;\n    border: 1px solid rgba(255,255,255,.18);\n    border-radius: 10px;\n    overflow: hidden;\n    background: #0A0A0A;\n    color: #fff;\n    font-family: inherit;\n  }\n\n  .da-size-row {\n    min-height: 58px;\n    display: grid;\n    grid-template-columns: 1fr auto;\n    align-items: center;\n    gap: 14px;\n    padding: 10px 12px;\n    border-bottom: 1px solid rgba(255,255,255,.12);\n  }\n\n  .da-size-row.is-selected {\n    background: rgba(255,222,89,.08);\n  }\n\n  .da-size-name {\n    font-size: 15px;\n    font-weight: 850;\n  }\n\n  .da-size-note {\n    display: block;\n    margin-top: 3px;\n    font-size: 12px;\n    color: rgba(255,255,255,.5);\n  }\n\n  .da-stepper {\n    display: grid;\n    grid-template-columns: 34px 46px 34px;\n    height: 36px;\n    border: 1px solid rgba(255,255,255,.22);\n    border-radius: 6px;\n    overflow: hidden;\n    background: #111;\n  }\n\n  .da-stepper button {\n    border: 0;\n    background: #151515;\n    color: #fff;\n    font-size: 20px;\n    cursor: pointer;\n  }\n\n  .da-stepper button:hover {\n    background: #FFDE59;\n    color: #050505;\n  }\n\n  .da-stepper span {\n    display: grid;\n    place-items: center;\n    border-left: 1px solid rgba(255,255,255,.14);\n    border-right: 1px solid rgba(255,255,255,.14);\n    font-size: 14px;\n    font-weight: 850;\n  }\n\n  .da-size-summary {\n    width: 100%;\n    min-height: 48px;\n    display: grid;\n    grid-template-columns: 1fr auto;\n    align-items: center;\n    padding: 12px;\n    border: 0;\n    border-top: 1px solid rgba(255,222,89,.45);\n    background: #050505;\n    color: #fff;\n    text-align: left;\n    cursor: pointer;\n  }\n\n  .da-size-summary strong {\n    display: block;\n    color: #FFDE59;\n    font-size: 12px;\n    font-weight: 950;\n    text-transform: uppercase;\n    letter-spacing: .08em;\n  }\n\n  .da-size-summary small {\n    display: block;\n    margin-top: 3px;\n    color: rgba(255,255,255,.62);\n    font-size: 12px;\n  }\n\n  .da-size-qty-panel.is-closed .da-size-list {\n    display: none;\n  }\n\n  .da-status {\n    margin-top: 8px;\n    color: #FFDE59;\n    font-size: 12px;\n    font-weight: 750;\n  }\n</style>\n\n<script>\n(function () {\n  var loadedKey = \"daSizeQtyLoaded{{ product.id }}\";\n  if (window[loadedKey]) return;\n  window[loadedKey] = true;\n\n  var variants = {{ product.variants | json }};\n  var sizeOptionIndex = 0;\n\n  {% for option in product.options_with_values %}\n    {% assign option_name = option.name | downcase %}\n    {% if option_name contains 'size' or option_name contains 'storlek' %}\n      sizeOptionIndex = {{ option.position | minus: 1 }};\n    {% endif %}\n  {% endfor %}\n\n  function norm(value) {\n    return String(value || \"\").trim().toLowerCase();\n  }\n\n  function isSizeValue(value) {\n    return /^(xxs|xs|s|m|l|xl|xxl|2xl|3xl|4xl|5xl|6xl)$/i.test(String(value || \"\").trim());\n  }\n\n  function getCurrentVariant() {\n    var input = document.querySelector('form[action*=\"/cart/add\"] input[name=\"id\"]');\n\n    if (input) {\n      for (var i = 0; i < variants.length; i++) {\n        if (String(variants[i].id) === String(input.value)) return variants[i];\n      }\n    }\n\n    return variants[0];\n  }\n\n  function findVariantWithSize(size) {\n    var current = getCurrentVariant();\n    if (!current || !current.options) return null;\n\n    var wanted = current.options.slice();\n    wanted[sizeOptionIndex] = size;\n\n    for (var i = 0; i < variants.length; i++) {\n      var match = true;\n\n      for (var x = 0; x < wanted.length; x++) {\n        if (norm(variants[i].options[x]) !== norm(wanted[x])) match = false;\n      }\n\n      if (match) return variants[i];\n    }\n\n    return null;\n  }\n\n  function clickRadio(radio) {\n    if (!radio) return;\n    radio.click();\n    radio.dispatchEvent(new Event(\"input\", { bubbles: true }));\n    radio.dispatchEvent(new Event(\"change\", { bubbles: true }));\n  }\n\n  function getBestSizeGroup() {\n    var radios = Array.prototype.slice.call(document.querySelectorAll('form[action*=\"/cart/add\"] input[type=\"radio\"]'));\n    var groups = {};\n\n    radios.forEach(function (radio) {\n      var key = radio.name || \"unknown\";\n      if (!groups[key]) groups[key] = [];\n      groups[key].push(radio);\n    });\n\n    var best = null;\n    var bestScore = 0;\n\n    Object.keys(groups).forEach(function (key) {\n      var group = groups[key];\n      var score = 0;\n\n      if (/size|storlek/i.test(key)) score += 10;\n\n      group.forEach(function (radio) {\n        if (isSizeValue(radio.value)) score += 2;\n      });\n\n      if (group.length >= 2 && score > bestScore) {\n        best = group;\n        bestScore = score;\n      }\n    });\n\n    return best;\n  }\n\n  function hideThemeQuantity() {\n    document.querySelectorAll('form[action*=\"/cart/add\"] input[name=\"quantity\"]').forEach(function (input) {\n      if (input.type === \"hidden\") return;\n\n      var wrap = input.closest(\"quantity-input, .quantity, .product-form__quantity, .quantity-selector\");\n      if (wrap) wrap.style.display = \"none\";\n    });\n  }\n\n  function ensureQuantityInput(form) {\n    var input = form.querySelector('input[name=\"quantity\"]');\n\n    if (!input) {\n      input = document.createElement(\"input\");\n      input.type = \"hidden\";\n      input.name = \"quantity\";\n      form.appendChild(input);\n    }\n\n    return input;\n  }\n\n  function buildPanel() {\n    var mount = document.getElementById(\"da-size-qty-mount-{{ product.id }}\");\n    if (!mount || mount.dataset.ready === \"true\") return;\n\n    var sizeRadios = getBestSizeGroup();\n    if (!sizeRadios || sizeRadios.length < 2) return;\n\n    mount.dataset.ready = \"true\";\n\n    sizeRadios.forEach(function (radio) {\n      if (!radio.id) return;\n      var label = document.querySelector('label[for=\"' + radio.id + '\"]');\n      if (label) label.classList.add(\"da-hide-original-size\");\n    });\n\n    var panel = document.createElement(\"div\");\n    panel.className = \"da-size-qty-panel\";\n\n    var list = document.createElement(\"div\");\n    list.className = \"da-size-list\";\n\n    var rows = [];\n\n    sizeRadios.forEach(function (radio) {\n      var size = radio.value;\n\n      var row = document.createElement(\"div\");\n      row.className = \"da-size-row\";\n      row.dataset.qty = \"0\";\n\n      var info = document.createElement(\"div\");\n      info.innerHTML = '<div class=\"da-size-name\">' + size + '</div><span class=\"da-size-note\">Tillgänglig</span>';\n\n      var stepper = document.createElement(\"div\");\n      stepper.className = \"da-stepper\";\n\n      var minus = document.createElement(\"button\");\n      minus.type = \"button\";\n      minus.textContent = \"−\";\n\n      var count = document.createElement(\"span\");\n      count.textContent = \"0\";\n\n      var plus = document.createElement(\"button\");\n      plus.type = \"button\";\n      plus.textContent = \"+\";\n\n      stepper.appendChild(minus);\n      stepper.appendChild(count);\n      stepper.appendChild(plus);\n\n      row.appendChild(info);\n      row.appendChild(stepper);\n      list.appendChild(row);\n\n      function setQty(qty) {\n        qty = Math.max(0, Number(qty) || 0);\n\n        row.dataset.qty = qty;\n        count.textContent = qty;\n        row.classList.toggle(\"is-selected\", qty > 0);\n\n        if (qty > 0) clickRadio(radio);\n\n        updateSummary();\n      }\n\n      minus.addEventListener(\"click\", function () {\n        setQty(Number(row.dataset.qty) - 1);\n      });\n\n      plus.addEventListener(\"click\", function () {\n        setQty(Number(row.dataset.qty) + 1);\n      });\n\n      rows.push({\n        size: size,\n        radio: radio,\n        row: row,\n        getQty: function () {\n          return Number(row.dataset.qty || 0);\n        }\n      });\n    });\n\n    var summary = document.createElement(\"button\");\n    summary.type = \"button\";\n    summary.className = \"da-size-summary\";\n    summary.innerHTML = '<span><strong>Välj storlek</strong><small>Välj antal per storlek</small></span><span>⌃</span>';\n\n    var status = document.createElement(\"div\");\n    status.className = \"da-status\";\n\n    panel.appendChild(list);\n    panel.appendChild(summary);\n    mount.appendChild(panel);\n    mount.appendChild(status);\n\n    summary.addEventListener(\"click\", function () {\n      panel.classList.toggle(\"is-closed\");\n    });\n\n    function selectedRows() {\n      var selected = [];\n\n      rows.forEach(function (item) {\n        var qty = item.getQty();\n        var variant = findVariantWithSize(item.size);\n\n        if (qty > 0 && variant && variant.available) {\n          selected.push({\n            size: item.size,\n            qty: qty,\n            variant: variant,\n            radio: item.radio\n          });\n        }\n      });\n\n      return selected;\n    }\n\n    function updateSummary() {\n      var selected = selectedRows();\n      var total = 0;\n\n      selected.forEach(function (item) {\n        total += item.qty;\n      });\n\n      if (!total) {\n        summary.innerHTML = '<span><strong>Välj storlek</strong><small>Välj antal per storlek</small></span><span>⌃</span>';\n        return;\n      }\n\n      var text = selected.map(function (item) {\n        return item.size + \" × \" + item.qty;\n      }).join(\", \");\n\n      summary.innerHTML = '<span><strong>' + total + ' plagg valda</strong><small>' + text + '</small></span><span>⌃</span>';\n    }\n\n    document.addEventListener(\"submit\", function (event) {\n      var form = event.target.closest('form[action*=\"/cart/add\"]');\n      if (!form || form.dataset.daAdding === \"true\") return;\n\n      var selected = selectedRows();\n\n      if (!selected.length) {\n        event.preventDefault();\n        event.stopImmediatePropagation();\n        panel.classList.remove(\"is-closed\");\n        status.textContent = \"Välj minst en storlek.\";\n        return;\n      }\n\n      if (selected.length === 1) {\n        var idInput = form.querySelector('input[name=\"id\"]');\n        var qtyInput = ensureQuantityInput(form);\n\n        clickRadio(selected[0].radio);\n\n        if (idInput) idInput.value = selected[0].variant.id;\n        qtyInput.value = selected[0].qty;\n        return;\n      }\n\n      event.preventDefault();\n      event.stopImmediatePropagation();\n\n      var button = form.querySelector('button[type=\"submit\"], button[name=\"add\"]');\n      var oldText = button ? button.textContent : \"\";\n\n      if (button) {\n        button.disabled = true;\n        button.textContent = \"Lägger till...\";\n      }\n\n      form.dataset.daAdding = \"true\";\n\n      fetch(window.Shopify.routes.root + \"cart/add.js\", {\n        method: \"POST\",\n        headers: {\n          \"Content-Type\": \"application/json\",\n          \"Accept\": \"application/json\"\n        },\n        body: JSON.stringify({\n          items: selected.map(function (item) {\n            return {\n              id: item.variant.id,\n              quantity: item.qty\n            };\n          })\n        })\n      })\n      .then(function (response) {\n        if (!response.ok) throw new Error(\"Cart error\");\n        return response.json();\n      })\n      .then(function () {\n        status.textContent = \"Tillagt i varukorgen.\";\n        document.dispatchEvent(new CustomEvent(\"cart:refresh\", { bubbles: true }));\n        document.dispatchEvent(new CustomEvent(\"cart:updated\", { bubbles: true }));\n      })\n      .catch(function () {\n        status.textContent = \"Något gick fel. Försök igen.\";\n      })\n      .finally(function () {\n        form.dataset.daAdding = \"false\";\n\n        if (button) {\n          button.disabled = false;\n          button.textContent = oldText || \"Lägg till i varukorgen\";\n        }\n      });\n    }, true);\n  }\n\n  function start() {\n    hideThemeQuantity();\n    buildPanel();\n  }\n\n  document.addEventListener(\"DOMContentLoaded\", start);\n  setTimeout(start, 300);\n  setTimeout(start, 1000);\n  setTimeout(start, 2000);\n\n  var observer = new MutationObserver(function () {\n    clearTimeout(window.daSizeQtyObserverTimer);\n    window.daSizeQtyObserverTimer = setTimeout(start, 150);\n  });\n\n  observer.observe(document.body, {\n    childList: true,\n    subtree: true\n  });\n})();\n</script>\n{% endif %}"
+                  },
+                  "blocks": {}
+                },
+                "text_xrnftG": {
+                  "type": "text",
+                  "name": "Product title",
+                  "settings": {
+                    "text": "<h1>{{ closest.product.title }}</h1>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h3",
+                    "font": "var(--font-primary--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "price_tVjtKg": {
+                  "type": "price",
+                  "settings": {
+                    "show_sale_price_first": true,
+                    "show_installments": false,
+                    "show_tax_info": false,
+                    "type_preset": "paragraph",
+                    "width": "100%",
+                    "alignment": "left",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "padding-block-start": 4,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "popup_link_8faQP8": {
+                  "type": "popup-link",
+                  "name": "t:names.popup_link",
+                  "settings": {
+                    "behavior": "default",
+                    "heading": "Produktinformation",
+                    "type_preset": "paragraph",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "text_VciPin": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>{{ product.description }}</p>",
+                        "width": "fit-content",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 16,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    },
+                    "text_NcwQ3n": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Vårt mål är att varje kund ska vara helt nöjd med sitt köp. Om så inte är fallet, meddela oss så gör vi vårt bästa för att lösa det tillsammans med dig.</p>",
+                        "width": "fit-content",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_VciPin",
+                    "text_NcwQ3n"
+                  ]
+                }
+              },
+              "block_order": [
+                "custom_liquid_6y8DCi",
+                "text_xrnftG",
+                "price_tVjtKg",
+                "popup_link_8faQP8"
+              ]
+            },
+            "divider_VJhene": {
+              "type": "_divider",
+              "name": "t:names.divider",
+              "settings": {
+                "thickness": 1,
+                "corner_radius": "square",
+                "width_percent": 100,
+                "padding-block-start": 0,
+                "padding-block-end": 0
+              },
+              "blocks": {}
+            },
+            "variant_picker_mgW8zq": {
+              "type": "variant-picker",
+              "name": "t:names.product_variant_picker",
+              "settings": {
+                "variant_style": "buttons",
+                "show_swatches": true,
+                "alignment": "left",
+                "padding-block-start": 0,
+                "padding-block-end": 8,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "buy_buttons_TWnB4G": {
+              "type": "buy-buttons",
+              "name": "t:names.product_buy_buttons",
+              "settings": {
+                "stacking": false,
+                "show_pickup_availability": true,
+                "gift_card_form": true,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button"
+                  },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                }
+              },
+              "block_order": []
+            }
+          },
+          "block_order": [
+            "group_icgrde",
+            "divider_VJhene",
+            "variant_picker_mgW8zq",
+            "buy_buttons_TWnB4G"
+          ]
+        }
+      },
+      "settings": {
+        "content_width": "content-center-aligned",
+        "desktop_media_position": "left",
+        "equal_columns": false,
+        "limit_details_width": false,
+        "gap": 48,
+        "enable_sticky_add_to_cart": true,
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

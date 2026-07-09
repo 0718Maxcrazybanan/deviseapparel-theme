@@ -1,0 +1,56 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "text_XdiUTi": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<h2>Köpvillkor</h2><p>Genom att använda vår webbplats och genomföra ett köp accepterar du följande villkor.</p><h3>Allmänt</h3><p>Devise Clothing säljer produkter online via vår webbshop. Vi förbehåller oss rätten att uppdatera priser, information och villkor utan föregående meddelande.</p><h3>Beställning</h3><p>När du genomför en beställning skickas en orderbekräftelse till din e-postadress. Ett köp är bindande först när ordern har bekräftats.</p><h3>Priser & Betalning</h3><p>Alla priser anges i SEK inklusive moms där tillämpligt. Betalning sker via de betalningsmetoder som erbjuds i kassan.</p><h3>Produktion & Leverans</h3><p>Våra produkter tillverkas efter beställning. Leveranstider är uppskattade och kan variera beroende på produktion, transport och hög belastning.</p><h3>Returer & Reklamationer</h3><p>Vid skadad, felaktig eller defekt vara ber vi dig kontakta oss så snart som möjligt på:</p><p><a>devise.apparels@gmail.com</a></p><h3>Produktinformation</h3><p>Vi gör vårt bästa för att all information, bilder och färger ska visas korrekt, men mindre avvikelser kan förekomma beroende på skärm och produktion.</p><h3>Ansvarsbegränsning</h3><p>Vi ansvarar inte för indirekta skador, förseningar utanför vår kontroll eller force majeure.</p><h3>Personuppgifter</h3><p>Dina personuppgifter hanteras enligt vår integritetspolicy.</p><h3>Kontakt</h3><p>Vid frågor, kontakta oss på:</p><p><a>devise.apparels@gmail.com</a></p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_XdiUTi"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "gap": 0,
+        "background_color": "{{ settings.color_palette.color10 }}",
+        "padding-block-start": 6,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

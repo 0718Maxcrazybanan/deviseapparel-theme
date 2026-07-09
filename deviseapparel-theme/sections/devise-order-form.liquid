@@ -1,0 +1,583 @@
+{{ 'devise-order-form.css' | asset_url | stylesheet_tag }}
+
+<script>
+  window.DEVISE_PRICING = {
+    baseProducts: {
+      "Hoodie": 399,
+      "T-shirt": 249,
+      "Zip Hoodie": 399,
+      "Sweatshirt": 399
+    },
+    placementFees: {
+      "Fram": 100,
+      "Bak": 100,
+      "Fram och bak": 150
+    },
+    sizeFees: {
+      "XS": 0,
+      "S": 0,
+      "M": 0,
+      "L": 0,
+      "XL": 0,
+      "XXL": 0,
+      "3XL": 0
+    },
+    colorFees: {
+      "Svart": 0,
+      "Vit": 0,
+      "Grå": 0,
+      "Mörkgrå": 0,
+      "Beige": 0,
+      "Navy": 0,
+      "Blå": 0,
+      "Röd": 0,
+      "Grön": 0,
+      "Brun": 0,
+      "Rosa": 0,
+      "Lila": 0,
+      "Annan färg": 0
+    },
+    uploadFee: 0
+  };
+
+  window.DEVISE_MOCKUPS = {
+    "Hoodie": {
+      "front": "{{ 'devise-hoodie-front.png' | asset_url }}",
+      "back": "{{ 'devise-hoodie-back.png' | asset_url }}"
+    },
+    "T-shirt": {
+      "front": "{{ 'devise-tshirt-front.png' | asset_url }}",
+      "back": "{{ 'devise-tshirt-back.png' | asset_url }}"
+    },
+    "Zip Hoodie": {
+      "front": "{{ 'devise-zip-hoodie-front.png' | asset_url }}",
+      "back": "{{ 'devise-zip-hoodie-back.png' | asset_url }}"
+    },
+    "Sweatshirt": {
+      "front": "{{ 'devise-sweatshirt-front.png' | asset_url }}",
+      "back": "{{ 'devise-sweatshirt-back.png' | asset_url }}"
+    }
+  };
+</script>
+
+<script src="{{ 'devise-order-form.js' | asset_url }}" defer></script>
+
+<section class="devise-order-section" data-devise-order-section>
+  <div class="devise-form-card">
+    {% form 'contact', id: 'devise-custom-order-form', class: 'devise-order-form' %}
+
+      {% if form.posted_successfully? %}
+        <div class="devise-success">
+          Tack! Din förfrågan har skickats. Vi återkommer så snabbt som möjligt.
+        </div>
+      {% endif %}
+
+      {{ form.errors | default_errors }}
+
+      <textarea id="deviseOrderBody" name="contact[body]" hidden></textarea>
+      <input type="hidden" id="deviseUploadedFileName" name="contact[Uppladdad fil]" value="Ingen fil uppladdad">
+      <input type="hidden" id="devisePriceEstimateField" name="contact[Prisestimat]" value="0 kr">
+      <input type="hidden" id="deviseOtherColorHidden" name="contact[Annan färg]" value="">
+
+      <div class="devise-progress-head">
+        <div class="devise-progress">
+          <div class="devise-progress-item active" data-progress="1">
+            <span>1</span>
+            <small>Din idé</small>
+          </div>
+
+          <div class="devise-line"></div>
+
+          <div class="devise-progress-item" data-progress="2">
+            <span>2</span>
+            <small>Produkt</small>
+          </div>
+
+          <div class="devise-line"></div>
+
+          <div class="devise-progress-item" data-progress="3">
+            <span>3</span>
+            <small>Tryck</small>
+          </div>
+
+          <div class="devise-line"></div>
+
+          <div class="devise-progress-item" data-progress="4">
+            <span>4</span>
+            <small>Kontakt</small>
+          </div>
+        </div>
+
+        <div class="devise-step-count">
+          Steg <span id="deviseCurrentStep">1</span> / 4
+        </div>
+      </div>
+
+      <div class="devise-layout">
+        <div class="devise-form-left">
+
+          <div class="devise-step active" data-step="1">
+            <h3>Berätta om din idé</h3>
+
+            <label class="devise-label" for="deviseIdea">
+              Beskriv din idé <b>*</b>
+            </label>
+
+            <div class="devise-textarea-wrap">
+              <textarea
+                id="deviseIdea"
+                name="contact[Idébeskrivning]"
+                maxlength="500"
+                placeholder="T.ex. motiv, text, stil, placering, färg, känsla..."
+              ></textarea>
+              <small><span id="deviseCharCount">0</span>/500</small>
+            </div>
+
+            <p class="devise-error" data-error="idea"></p>
+
+            <label class="devise-label" for="deviseDesignLink">
+              Länk till design / Canva / Drive / inspiration
+            </label>
+
+            <input
+              id="deviseDesignLink"
+              class="devise-input"
+              type="url"
+              name="contact[Designlänk]"
+              placeholder="https://..."
+            >
+
+            <div class="devise-upload-box" id="deviseUploadBox">
+              <input id="deviseFileInput" type="file" accept="image/png,image/jpeg,image/jpg,image/svg+xml,application/pdf">
+
+              <div class="devise-upload-content">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3l4.5 4.5h-3V14h-3V7.5h-3L12 3Zm-7 13h3v3h8v-3h3v6H5v-6Z"/>
+                </svg>
+
+                <strong>Ladda upp bild för preview</strong>
+                <span>PNG, JPG, SVG eller PDF</span>
+                <small>Filnamn skickas med i mailet</small>
+              </div>
+            </div>
+
+            <p class="devise-file-name" id="deviseFileName">Ingen fil vald</p>
+          </div>
+
+          <div class="devise-step" data-step="2">
+            <h3>Välj produkt</h3>
+
+            <label class="devise-label">
+              Vad vill kunden skapa? <b>*</b>
+            </label>
+
+            <div class="devise-option-grid">
+              <label class="devise-product-option">
+                <input type="radio" name="contact[Produkt]" value="Hoodie">
+                <span class="devise-option-box">
+                  <svg viewBox="0 0 64 64">
+                    <path d="M21 19c2.4-7 7-11 11-11s8.6 4 11 11"/>
+                    <path d="M21 19l-7 10v25h36V29l-7-10"/>
+                    <path d="M26 20c0 4.5 2.5 7.5 6 7.5s6-3 6-7.5"/>
+                    <path d="M27 40h10"/>
+                    <path d="M25 40c1.2 7 4.5 11 7 11s5.8-4 7-11"/>
+                    <path d="M29 23v7"/>
+                    <path d="M35 23v7"/>
+                  </svg>
+                  <em>Hoodie</em>
+                </span>
+              </label>
+
+              <label class="devise-product-option">
+                <input type="radio" name="contact[Produkt]" value="T-shirt">
+                <span class="devise-option-box">
+                  <svg viewBox="0 0 64 64">
+                    <path d="M22 14l10 5 10-5 11 7-7 12-5-3v23H23V30l-5 3-7-12 11-7Z"/>
+                    <path d="M27 18h10"/>
+                    <path d="M26 52h12"/>
+                  </svg>
+                  <em>T-shirt</em>
+                </span>
+              </label>
+
+              <label class="devise-product-option">
+                <input type="radio" name="contact[Produkt]" value="Zip Hoodie">
+                <span class="devise-option-box">
+                  <svg viewBox="0 0 64 64">
+                    <path d="M21 19c2.4-7 7-11 11-11s8.6 4 11 11"/>
+                    <path d="M21 19l-7 10v25h36V29l-7-10"/>
+                    <path d="M26 20c0 4.5 2.5 7.5 6 7.5s6-3 6-7.5"/>
+                    <path d="M32 19v35"/>
+                    <path d="M29.5 30h5"/>
+                    <path d="M29.5 36h5"/>
+                    <path d="M29.5 42h5"/>
+                    <path d="M21 41h9"/>
+                    <path d="M34 41h9"/>
+                    <path d="M29 23v7"/>
+                    <path d="M35 23v7"/>
+                  </svg>
+                  <em>Zip Hoodie</em>
+                </span>
+              </label>
+
+              <label class="devise-product-option">
+                <input type="radio" name="contact[Produkt]" value="Sweatshirt">
+                <span class="devise-option-box">
+                  <svg viewBox="0 0 64 64">
+                    <path d="M22 15h20l10 11-8 9-4-6v24H24V29l-4 6-8-9 10-11Z"/>
+                    <path d="M27 17h10"/>
+                    <path d="M24 52h16"/>
+                    <path d="M18 34l-4 17"/>
+                    <path d="M46 34l4 17"/>
+                  </svg>
+                  <em>Sweatshirt</em>
+                </span>
+              </label>
+            </div>
+
+            <p class="devise-error" data-error="product"></p>
+
+            <label class="devise-label">
+              Färg <b>*</b>
+            </label>
+
+            <div class="devise-swatches">
+              <label title="Svart">
+                <input type="radio" name="contact[Färg]" value="Svart" data-color="#050505">
+                <span style="background:#050505"></span>
+              </label>
+
+              <label title="Vit">
+                <input type="radio" name="contact[Färg]" value="Vit" data-color="#f5f5f5">
+                <span style="background:#f5f5f5"></span>
+              </label>
+
+              <label title="Grå">
+                <input type="radio" name="contact[Färg]" value="Grå" data-color="#9ca3af">
+                <span style="background:#9ca3af"></span>
+              </label>
+
+              <label title="Mörkgrå">
+                <input type="radio" name="contact[Färg]" value="Mörkgrå" data-color="#4b5563">
+                <span style="background:#4b5563"></span>
+              </label>
+
+              <label title="Beige">
+                <input type="radio" name="contact[Färg]" value="Beige" data-color="#e7d8c7">
+                <span style="background:#e7d8c7"></span>
+              </label>
+
+              <label title="Navy">
+                <input type="radio" name="contact[Färg]" value="Navy" data-color="#1f2a44">
+                <span style="background:#1f2a44"></span>
+              </label>
+
+              <label title="Blå">
+                <input type="radio" name="contact[Färg]" value="Blå" data-color="#2563eb">
+                <span style="background:#2563eb"></span>
+              </label>
+
+              <label title="Röd">
+                <input type="radio" name="contact[Färg]" value="Röd" data-color="#dc2626">
+                <span style="background:#dc2626"></span>
+              </label>
+
+              <label title="Grön">
+                <input type="radio" name="contact[Färg]" value="Grön" data-color="#15803d">
+                <span style="background:#15803d"></span>
+              </label>
+
+              <label title="Brun">
+                <input type="radio" name="contact[Färg]" value="Brun" data-color="#7c4a2d">
+                <span style="background:#7c4a2d"></span>
+              </label>
+
+              <label title="Rosa">
+                <input type="radio" name="contact[Färg]" value="Rosa" data-color="#ec4899">
+                <span style="background:#ec4899"></span>
+              </label>
+
+              <label title="Lila">
+                <input type="radio" name="contact[Färg]" value="Lila" data-color="#7c3aed">
+                <span style="background:#7c3aed"></span>
+              </label>
+
+              <label class="devise-other-swatch" title="Annan färg">
+                <input type="radio" name="contact[Färg]" value="Annan färg" data-color="#d1d5db">
+                <span>+</span>
+              </label>
+            </div>
+
+            <p class="devise-error" data-error="color"></p>
+
+            <div class="devise-other-color-wrap" id="deviseOtherColorWrap">
+              <label class="devise-label" for="deviseOtherColor">
+                Skriv annan färg <b>*</b>
+              </label>
+
+              <input
+                id="deviseOtherColor"
+                class="devise-input"
+                type="text"
+                placeholder="T.ex. vinröd, babyblå, ljuslila..."
+              >
+
+              <p class="devise-error" data-error="othercolor"></p>
+            </div>
+
+            <label class="devise-label">
+              Storlek <b>*</b>
+            </label>
+
+            <div class="devise-size-grid">
+              <label><input type="radio" name="contact[Storlek]" value="XS"><span>XS</span></label>
+              <label><input type="radio" name="contact[Storlek]" value="S"><span>S</span></label>
+              <label><input type="radio" name="contact[Storlek]" value="M"><span>M</span></label>
+              <label><input type="radio" name="contact[Storlek]" value="L"><span>L</span></label>
+              <label><input type="radio" name="contact[Storlek]" value="XL"><span>XL</span></label>
+              <label><input type="radio" name="contact[Storlek]" value="XXL"><span>XXL</span></label>
+              <label><input type="radio" name="contact[Storlek]" value="3XL"><span>3XL</span></label>
+            </div>
+
+            <p class="devise-error" data-error="size"></p>
+
+            <label class="devise-label" for="deviseQuantity">
+              Antal <b>*</b>
+            </label>
+
+            <input id="deviseQuantity" class="devise-input" type="number" min="1" value="1" name="contact[Antal]">
+
+            <p class="devise-error" data-error="quantity"></p>
+          </div>
+
+          <div class="devise-step" data-step="3">
+            <h3>Tryckdetaljer</h3>
+
+            <label class="devise-label">
+              Placering av tryck <b>*</b>
+            </label>
+
+            <div class="devise-placement-grid">
+              <label>
+                <input type="radio" name="contact[Tryckplacering]" value="Fram">
+                <span>
+                  <b>Fram</b>
+                  <small>Bröst eller stort framtryck</small>
+                </span>
+              </label>
+
+              <label>
+                <input type="radio" name="contact[Tryckplacering]" value="Bak">
+                <span>
+                  <b>Bak</b>
+                  <small>Ryggtryck / stort motiv</small>
+                </span>
+              </label>
+
+              <label>
+                <input type="radio" name="contact[Tryckplacering]" value="Fram och bak">
+                <span>
+                  <b>Fram & bak</b>
+                  <small>Logo fram + design bak</small>
+                </span>
+              </label>
+            </div>
+
+            <p class="devise-error" data-error="placement"></p>
+
+            <label class="devise-label" for="devisePrintText">
+              Text som ska stå på plagget
+            </label>
+
+            <input
+              id="devisePrintText"
+              class="devise-input"
+              type="text"
+              name="contact[Text på plagget]"
+              placeholder="Valfritt"
+            >
+
+            <label class="devise-label" for="deviseNotes">
+              Extra information
+            </label>
+
+            <textarea
+              id="deviseNotes"
+              class="devise-notes"
+              name="contact[Extra information]"
+              maxlength="1000"
+              placeholder="Tryckstorlek, passform, material, textfärg, referenser, särskilda önskemål..."
+            ></textarea>
+          </div>
+
+          <div class="devise-step" data-step="4">
+            <h3>Kontakt & sammanfattning</h3>
+
+            <div class="devise-summary" id="deviseSummary"></div>
+
+            <div class="devise-two">
+              <div>
+                <label class="devise-label" for="deviseName">Namn <b>*</b></label>
+                <input id="deviseName" class="devise-input" type="text" name="contact[name]" placeholder="Ditt namn">
+                <p class="devise-error" data-error="name"></p>
+              </div>
+
+              <div>
+                <label class="devise-label" for="deviseEmail">Email <b>*</b></label>
+                <input id="deviseEmail" class="devise-input" type="email" name="contact[email]" placeholder="din@email.se">
+                <p class="devise-error" data-error="email"></p>
+              </div>
+            </div>
+
+            <div class="devise-two">
+              <div>
+                <label class="devise-label" for="devisePhone">Telefon <b>*</b></label>
+                <input id="devisePhone" class="devise-input" type="tel" name="contact[phone]" placeholder="070 000 00 00">
+                <p class="devise-error" data-error="phone"></p>
+              </div>
+
+              <div>
+                <label class="devise-label" for="deviseCompany">Företag / förening</label>
+                <input id="deviseCompany" class="devise-input" type="text" name="contact[Företag]" placeholder="Valfritt">
+              </div>
+            </div>
+          </div>
+
+          <div class="devise-actions">
+            <button type="button" class="devise-btn devise-btn-prev is-hidden" id="devisePrev">
+              ← Föregående
+            </button>
+
+            <button type="button" class="devise-btn devise-btn-next" id="deviseNext">
+              Nästa steg →
+            </button>
+
+            <button type="submit" class="devise-btn devise-btn-submit" id="deviseSubmit">
+              Skicka beställning →
+            </button>
+          </div>
+        </div>
+
+        <div class="devise-form-right">
+          <div class="devise-preview-card">
+            <div class="devise-preview-head">
+              <strong>Live preview</strong>
+              <span>Premium mockup</span>
+            </div>
+
+            <div class="devise-price-card">
+              <div class="devise-price-card__top">
+                <strong>Prisestimat</strong>
+                <span id="deviseEstimateTotal">0 kr</span>
+              </div>
+
+              <div class="devise-price-breakdown" id="devisePriceBreakdown"></div>
+
+              <p class="devise-price-note">
+                Uppskattat pris. Exakt pris bekräftas innan produktion.
+              </p>
+            </div>
+
+            <div class="devise-preview-toolbar">
+              <div class="devise-preview-toggle">
+                <button type="button" class="is-active" data-preview-side="front">Fram</button>
+                <button type="button" data-preview-side="back">Bak</button>
+              </div>
+
+              <div class="devise-preview-badge" id="devisePreviewBadge">
+                Hoodie · Fram
+              </div>
+            </div>
+
+            <div class="devise-real-preview">
+              <div class="devise-real-stage" id="devisePreviewStage">
+                <img id="deviseMockupImage" class="devise-mockup-image" alt="Produktpreview">
+                <div class="devise-mockup-tint" id="deviseMockupTint"></div>
+
+                <div class="devise-fallback-garment is-hoodie">
+                  <div class="devise-fallback-hood"></div>
+                  <div class="devise-fallback-body"></div>
+                  <div class="devise-fallback-sleeve devise-fallback-sleeve-left"></div>
+                  <div class="devise-fallback-sleeve devise-fallback-sleeve-right"></div>
+                  <div class="devise-fallback-pocket"></div>
+                  <div class="devise-fallback-zip"></div>
+                  <div class="devise-fallback-neck"></div>
+                </div>
+
+                <div class="devise-print-layer" id="devisePrintLayer">
+                  <span id="devisePrintPlaceholder">YOUR DESIGN HERE</span>
+                  <img id="devisePreviewImage" alt="">
+                  <small id="devisePreviewText"></small>
+                </div>
+
+                <div class="devise-side-note" id="deviseSideNote">
+                  Tryck visas på denna sida
+                </div>
+              </div>
+            </div>
+
+            <div class="devise-preview-miniinfo">
+              <div>
+                <span>Produkt</span>
+                <strong id="devisePreviewProduct">Ej valt</strong>
+              </div>
+
+              <div>
+                <span>Färg</span>
+                <strong id="devisePreviewColor">Ej valt</strong>
+              </div>
+
+              <div>
+                <span>Placering</span>
+                <strong id="devisePreviewPlacement">Ej valt</strong>
+              </div>
+            </div>
+
+            <p class="devise-preview-note">
+              Previewn är ungefärlig. Slutlig placering och tryckstorlek finjusteras innan produktion.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    {% endform %}
+  </div>
+
+  <div class="devise-trust-row">
+    <div>
+      <span>✓</span>
+      <strong>ENKELT</strong>
+      <p>Steg-för-steg formulär</p>
+    </div>
+
+    <div>
+      <span>⚡</span>
+      <strong>SNABBT</strong>
+      <p>Svar inom 24h</p>
+    </div>
+
+    <div>
+      <span>🔒</span>
+      <strong>SÄKERT</strong>
+      <p>Din information är trygg</p>
+    </div>
+
+    <div>
+      <span>★</span>
+      <strong>INGEN BETALNING</strong>
+      <p>Du betalar först när du är nöjd</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Devise order form",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Devise order form"
+    }
+  ]
+}
+{% endschema %}
