@@ -96,7 +96,6 @@
             "product_list_button_xyKnmc": {
               "type": "_product-list-button",
               "name": "t:names.product_list_button",
-              "disabled": true,
               "settings": {
                 "label": "Visa alla",
                 "open_in_new_tab": false,
