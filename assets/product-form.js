@@ -73,6 +73,11 @@ export class AddToCartComponent extends Component {
 
     // Check if adding would exceed max before animating
     const productForm = /** @type {ProductFormComponent | null} */ (this.closest('product-form-component'));
+    const sizeQuantityDropdown = productForm?.getSizeQuantityDropdown?.();
+    if (sizeQuantityDropdown?.validate && !sizeQuantityDropdown.validate()) {
+      return;
+    }
+
     const quantitySelector = productForm?.refs.quantitySelector;
     if (quantitySelector?.canAddToCart) {
       const validation = quantitySelector.canAddToCart();
@@ -299,6 +304,28 @@ class ProductFormComponent extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    const sizeQuantityDropdown = this.getSizeQuantityDropdown();
+    if (sizeQuantityDropdown) {
+      if (!sizeQuantityDropdown.validate()) return;
+
+      const selectedItems = sizeQuantityDropdown.getSelectedItems();
+      if (!selectedItems.length) return;
+
+      if (this.#variantChangeInProgress) {
+        this.#addToCartQueue.push(...selectedItems);
+        this.refs.addToCartButtonContainer?.animateAddToCart?.();
+        return;
+      }
+
+      if (selectedItems.length === 1) {
+        this.#processAddToCart(selectedItems[0].variantId, selectedItems[0].quantity, event);
+      } else {
+        this.#processBatchAddToCart(selectedItems, event);
+      }
+
+      return;
+    }
+
     if (this.#variantChangeInProgress) {
       const intendedVariantId = this.#getIntendedVariantId();
       const quantity = this.#getQuantity();
@@ -312,6 +339,13 @@ class ProductFormComponent extends Component {
     }
 
     this.#processAddToCart(undefined, undefined, event);
+  }
+
+  getSizeQuantityDropdown() {
+    const form = this.querySelector('form');
+    if (!form?.id) return null;
+
+    return /** @type {any} */ (document.querySelector(`size-quantity-dropdown[data-form-id="${form.id}"]`));
   }
 
   /** @returns {string | undefined} */
@@ -555,8 +589,11 @@ class ProductFormComponent extends Component {
       });
   }
 
-  /** @param {Array<{variantId: string, quantity: number}>} items */
-  #processBatchAddToCart(items) {
+  /**
+   * @param {Array<{variantId: string, quantity: number}>} items
+   * @param {Event} [event]
+   */
+  #processBatchAddToCart(items, event) {
     if (items.length === 0) return;
 
     const { addToCartTextError } = this.refs;
@@ -691,6 +728,11 @@ class ProductFormComponent extends Component {
             code: 'SERVICE_UNAVAILABLE',
           })
         );
+      })
+      .finally(() => {
+        if (event) {
+          cartPerformance.measureFromEvent('add:user-action', event);
+        }
       });
   }
 

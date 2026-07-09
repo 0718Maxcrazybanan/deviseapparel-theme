@@ -1,0 +1,336 @@
+const PRODUCT_SELECT_EVENT = 'shopify:product:select';
+
+class SizeQuantityDropdown extends HTMLElement {
+  connectedCallback() {
+    if (this.dataset.initialized === 'true') return;
+    this.dataset.initialized = 'true';
+
+    this.sizeOptionIndex = Number(this.dataset.sizeOptionIndex || 0);
+    this.optionNames = this.#readJson('[data-size-quantity-options]', []);
+    this.variants = this.#readJson('[data-size-quantity-variants]', []);
+
+    this.toggle = this.querySelector('[data-size-quantity-toggle]');
+    this.menu = this.querySelector('[data-size-quantity-menu]');
+    this.label = this.querySelector('[data-size-quantity-label]');
+    this.summary = this.querySelector('[data-size-quantity-summary]');
+    this.status = this.querySelector('[data-size-quantity-status]');
+    this.rows = Array.from(this.querySelectorAll('[data-size-quantity-row]')).map((row) => ({
+      row,
+      size: row.dataset.sizeValue || '',
+      state: row.querySelector('[data-size-quantity-state]'),
+      input: row.querySelector('[data-size-quantity-input]'),
+      minus: row.querySelector('[data-size-quantity-minus]'),
+      plus: row.querySelector('[data-size-quantity-plus]'),
+      variant: null,
+    }));
+
+    this.#bindEvents();
+    this.#hideThemeControls();
+    this.#refreshVariants();
+    this.#updateLabel();
+
+    window.setTimeout(() => this.#hideThemeControls(), 300);
+    window.setTimeout(() => this.#hideThemeControls(), 1000);
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('click', this.handleOutsideClick);
+    document.removeEventListener('keydown', this.handleKeydown);
+    document.removeEventListener(PRODUCT_SELECT_EVENT, this.handleProductSelect);
+  }
+
+  getSelectedItems() {
+    return this.rows
+      .map((item) => ({
+        variantId: item.variant?.id?.toString() || '',
+        quantity: this.#getQuantity(item),
+      }))
+      .filter((item) => item.variantId && item.quantity > 0);
+  }
+
+  validate() {
+    const selectedItems = this.getSelectedItems();
+
+    if (selectedItems.length > 0) {
+      this.#setStatus('');
+      return true;
+    }
+
+    this.open();
+    this.#setStatus(this.dataset.errorEmpty || 'Choose at least one size.');
+    this.toggle?.focus();
+    return false;
+  }
+
+  open() {
+    if (!this.menu || !this.toggle) return;
+
+    this.menu.hidden = false;
+    this.toggle.setAttribute('aria-expanded', 'true');
+  }
+
+  close() {
+    if (!this.menu || !this.toggle) return;
+
+    this.menu.hidden = true;
+    this.toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  #bindEvents() {
+    this.toggle?.addEventListener('click', () => {
+      if (this.menu?.hidden) this.open();
+      else this.close();
+    });
+
+    for (const item of this.rows) {
+      item.minus?.addEventListener('click', () => this.#setQuantity(item, this.#getQuantity(item) - 1, true));
+      item.plus?.addEventListener('click', () => this.#setQuantity(item, this.#getQuantity(item) + 1, true));
+      item.input?.addEventListener('input', () => this.#setQuantity(item, this.#getQuantity(item), true));
+    }
+
+    this.handleOutsideClick = (event) => {
+      if (!this.contains(event.target)) this.close();
+    };
+
+    this.handleKeydown = (event) => {
+      if (event.key === 'Escape') this.close();
+    };
+
+    this.handleProductSelect = (event) => {
+      const target = event.target;
+      if (target instanceof Element && !this.#isRelatedProductElement(target)) return;
+
+      this.#refreshVariants();
+      event.promise?.finally(() => {
+        this.#hideThemeControls();
+        this.#refreshVariants();
+      });
+    };
+
+    document.addEventListener('click', this.handleOutsideClick);
+    document.addEventListener('keydown', this.handleKeydown);
+    document.addEventListener(PRODUCT_SELECT_EVENT, this.handleProductSelect);
+  }
+
+  #readJson(selector, fallback) {
+    const script = this.querySelector(selector);
+    if (!script?.textContent) return fallback;
+
+    try {
+      return JSON.parse(script.textContent);
+    } catch {
+      return fallback;
+    }
+  }
+
+  #getForm() {
+    if (!this.dataset.formId) return null;
+    return document.getElementById(this.dataset.formId);
+  }
+
+  #getProductForm() {
+    const form = this.#getForm();
+    return form?.closest('product-form-component') || null;
+  }
+
+  #getVariantPicker() {
+    return document.querySelector(`variant-picker[data-product-id="${this.dataset.productId}"]`);
+  }
+
+  #isRelatedProductElement(element) {
+    const productForm = this.#getProductForm();
+    const variantPicker = this.#getVariantPicker();
+
+    return Boolean(productForm?.contains(element) || variantPicker?.contains(element));
+  }
+
+  #hideThemeControls() {
+    const variantPicker = this.#getVariantPicker();
+    const sizeOptionName = this.optionNames[this.sizeOptionIndex];
+
+    if (variantPicker && sizeOptionName) {
+      for (const control of variantPicker.querySelectorAll('[data-option-name]')) {
+        if (this.#normalize(control.dataset.optionName) !== this.#normalize(sizeOptionName)) continue;
+
+        const option = control.closest('.variant-option');
+        option?.classList.add('size-quantity-dropdown-hidden');
+        option?.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    const productForm = this.#getProductForm();
+    const quantityInput = productForm?.querySelector('input[name="quantity"]');
+    quantityInput?.closest('.quantity-selector-wrapper')?.classList.add('size-quantity-dropdown-hidden');
+    productForm?.querySelector('.quantity-label')?.classList.add('size-quantity-dropdown-hidden');
+    productForm?.querySelector('.quantity-rules')?.classList.add('size-quantity-dropdown-hidden');
+  }
+
+  #refreshVariants() {
+    const baseOptions = this.#getBaseOptions();
+
+    for (const item of this.rows) {
+      item.variant = this.#findVariantForSize(item.size, baseOptions);
+      const unavailable = !item.variant || item.variant.available === false;
+
+      item.row.classList.toggle('is-unavailable', unavailable);
+      if (item.state) item.state.textContent = unavailable ? 'Unavailable' : 'Available';
+      if (item.input) item.input.disabled = unavailable;
+      if (item.minus) item.minus.disabled = unavailable;
+      if (item.plus) item.plus.disabled = unavailable;
+
+      if (unavailable) this.#setQuantity(item, 0, false);
+    }
+
+    this.#syncFormToFirstSelection();
+    this.#updateLabel();
+  }
+
+  #getBaseOptions() {
+    const currentVariant = this.#getCurrentVariant();
+    const baseOptions = currentVariant?.options ? [...currentVariant.options] : new Array(this.optionNames.length);
+    const selectedOptions = this.#getSelectedOptionsFromPicker();
+
+    selectedOptions.forEach((value, index) => {
+      if (value) baseOptions[index] = value;
+    });
+
+    return baseOptions;
+  }
+
+  #getSelectedOptionsFromPicker() {
+    const selectedOptions = new Array(this.optionNames.length);
+    const variantPicker = this.#getVariantPicker();
+    if (!variantPicker) return selectedOptions;
+
+    for (const input of variantPicker.querySelectorAll('fieldset input:checked')) {
+      const index = this.#optionIndexForName(input.dataset.optionName);
+      if (index > -1) selectedOptions[index] = input.value;
+    }
+
+    for (const select of variantPicker.querySelectorAll('select')) {
+      const option = select.selectedOptions[0];
+      const index = this.#optionIndexForName(option?.dataset.optionName);
+      if (index > -1) selectedOptions[index] = option.value;
+    }
+
+    return selectedOptions;
+  }
+
+  #getCurrentVariant() {
+    const formVariantId = this.#getForm()?.querySelector('input[name="id"]')?.value;
+    const urlVariantId = new URL(window.location.href).searchParams.get('variant');
+    const variantId = formVariantId || urlVariantId;
+
+    return (
+      this.variants.find((variant) => variant.id?.toString() === variantId?.toString()) ||
+      this.variants.find((variant) => variant.available) ||
+      this.variants[0]
+    );
+  }
+
+  #findVariantForSize(size, baseOptions) {
+    const wantedOptions = [...baseOptions];
+    wantedOptions[this.sizeOptionIndex] = size;
+
+    return this.variants.find((variant) =>
+      variant.options.every((option, index) => this.#normalize(option) === this.#normalize(wantedOptions[index]))
+    );
+  }
+
+  #optionIndexForName(optionName) {
+    return this.optionNames.findIndex((name) => this.#normalize(name) === this.#normalize(optionName));
+  }
+
+  #getQuantity(item) {
+    return Math.max(0, Number.parseInt(item.input?.value || '0', 10) || 0);
+  }
+
+  #setQuantity(item, quantity, syncTheme) {
+    const nextQuantity = Math.max(0, Number.parseInt(quantity, 10) || 0);
+
+    if (item.input) item.input.value = nextQuantity.toString();
+    item.row.classList.toggle('is-selected', nextQuantity > 0);
+
+    if (syncTheme) {
+      this.#setStatus('');
+      this.#syncSelectedSizeToTheme();
+    }
+
+    this.#syncFormToFirstSelection();
+    this.#updateLabel();
+  }
+
+  #syncSelectedSizeToTheme() {
+    const selectedRow = this.rows.find((item) => this.#getQuantity(item) > 0 && item.variant);
+    if (!selectedRow) return;
+
+    const variantPicker = this.#getVariantPicker();
+    const sizeOptionName = this.optionNames[this.sizeOptionIndex];
+    if (!variantPicker || !sizeOptionName) return;
+
+    const controls = Array.from(variantPicker.querySelectorAll('[data-option-name]'));
+    const control = controls.find(
+      (candidate) =>
+        this.#normalize(candidate.dataset.optionName) === this.#normalize(sizeOptionName) &&
+        this.#normalize(candidate.value) === this.#normalize(selectedRow.size)
+    );
+
+    if (control instanceof HTMLInputElement && !control.checked) {
+      control.click();
+    } else if (control instanceof HTMLOptionElement && !control.selected) {
+      const select = control.closest('select');
+      if (select) {
+        select.value = control.value;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
+  }
+
+  #syncFormToFirstSelection() {
+    const selectedItem = this.getSelectedItems()[0];
+    const form = this.#getForm();
+    if (!selectedItem || !form) return;
+
+    const variantInput = form.querySelector('input[name="id"]');
+    const quantityInput = form.querySelector('input[name="quantity"]');
+
+    if (variantInput) variantInput.value = selectedItem.variantId;
+    if (quantityInput) quantityInput.value = selectedItem.quantity.toString();
+  }
+
+  #updateLabel() {
+    const selectedRows = this.rows
+      .map((item) => ({
+        size: item.size,
+        quantity: this.#getQuantity(item),
+        variant: item.variant,
+      }))
+      .filter((item) => item.quantity > 0 && item.variant);
+
+    const total = selectedRows.reduce((sum, item) => sum + item.quantity, 0);
+
+    if (!total) {
+      if (this.label) this.label.textContent = this.dataset.emptyLabel || 'Choose sizes';
+      if (this.summary) this.summary.textContent = this.dataset.emptySummary || 'Add quantity per size';
+      return;
+    }
+
+    const label = `${total} ${this.dataset.selectedLabel || 'selected'}`;
+    const summary = selectedRows.map((item) => `${item.size} x ${item.quantity}`).join(', ');
+
+    if (this.label) this.label.textContent = label;
+    if (this.summary) this.summary.textContent = summary;
+  }
+
+  #setStatus(message) {
+    if (this.status) this.status.textContent = message;
+  }
+
+  #normalize(value) {
+    return String(value || '').trim().toLowerCase();
+  }
+}
+
+if (!customElements.get('size-quantity-dropdown')) {
+  customElements.define('size-quantity-dropdown', SizeQuantityDropdown);
+}
