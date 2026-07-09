@@ -124,7 +124,7 @@
       },
       "11634302023677443840": {
         "type": "shopify://apps/print-app-web2print-customizer/blocks/print_app_core/019c7e22-29e0-7c21-8d97-96deaeec484c",
-        "disabled": true,
+        "disabled": false,
         "settings": {}
       }
     },
