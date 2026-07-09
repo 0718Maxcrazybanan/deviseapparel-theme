@@ -94,6 +94,7 @@
     "variant_swatch_width": 34,
     "variant_swatch_height": 34,
     "variant_swatch_radius": 32,
+    "variant_swatch_border_style": "solid",
     "palette_variant_background": "#ffffff",
     "palette_variant_text": "#101010",
     "palette_variant_border": "#00000021",
