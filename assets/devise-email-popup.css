@@ -1,0 +1,714 @@
+/*
+  Devise email popup controls:
+  - Main colors come from section settings and land in --dep-accent, --dep-ocean, --dep-card.
+  - Motion timing lives near the bottom in the animation-delay declarations.
+*/
+.devise-email-popup {
+  --dep-ink: #102027;
+  --dep-muted: #52636B;
+  --dep-cream-deep: #F4E4CE;
+  --dep-glass: rgba(255, 255, 255, 0.52);
+  --dep-line: rgba(255, 255, 255, 0.64);
+  --dep-shadow: rgba(8, 41, 52, 0.36);
+
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  font-family: Inter, Arial, sans-serif;
+  transition: opacity 180ms ease, visibility 180ms ease;
+}
+
+.devise-email-popup.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.devise-email-popup *,
+.devise-email-popup *::before,
+.devise-email-popup *::after {
+  box-sizing: border-box;
+}
+
+.devise-email-popup__overlay {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 222, 89, 0.22), transparent 26%),
+    radial-gradient(circle at 76% 18%, rgba(54, 214, 218, 0.34), transparent 32%),
+    linear-gradient(135deg, rgba(5, 39, 53, 0.82), rgba(5, 94, 116, 0.72));
+  backdrop-filter: blur(16px) saturate(1.16);
+  -webkit-backdrop-filter: blur(16px) saturate(1.16);
+}
+
+.devise-email-popup__motion {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.devise-email-popup__sun {
+  position: absolute;
+  top: clamp(44px, 11vh, 110px);
+  right: clamp(26px, 10vw, 150px);
+  width: clamp(72px, 11vw, 128px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.76), transparent 18%),
+    linear-gradient(135deg, #FFF3A7, var(--dep-accent));
+  box-shadow: 0 0 70px rgba(255, 222, 89, 0.34);
+  opacity: 0.68;
+}
+
+.devise-email-popup__palm {
+  position: absolute;
+  bottom: -22px;
+  width: clamp(118px, 17vw, 190px);
+  height: auto;
+  opacity: 0.28;
+  transform-origin: 50% 100%;
+  filter: blur(0.1px);
+}
+
+.devise-email-popup__palm--left {
+  left: max(18px, 6vw);
+  animation: devise-email-popup-palm-left 5.4s ease-in-out infinite alternate;
+}
+
+.devise-email-popup__palm--right {
+  right: max(10px, 5vw);
+  animation: devise-email-popup-palm-right 5.8s ease-in-out infinite alternate;
+}
+
+.devise-email-popup__palm-trunk,
+.devise-email-popup__palm-leaf {
+  fill: none;
+  stroke: rgba(255, 246, 219, 0.9);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.devise-email-popup__palm-leaf {
+  stroke-width: 9;
+}
+
+.devise-email-popup__surfer {
+  position: absolute;
+  left: -240px;
+  top: calc(50% - 126px);
+  width: min(34vw, 220px);
+  min-width: 150px;
+  opacity: 0;
+  transform: translate3d(-20vw, 24px, 0) rotate(-5deg);
+}
+
+.devise-email-popup.is-visible .devise-email-popup__surfer {
+  animation: devise-email-popup-surfer 1040ms cubic-bezier(0.18, 0.78, 0.24, 1) 110ms forwards;
+}
+
+.devise-email-popup__surfer-trail,
+.devise-email-popup__surfer-board-line,
+.devise-email-popup__surfer-leg,
+.devise-email-popup__surfer-arm,
+.devise-email-popup__surfer-water {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.devise-email-popup__surfer-trail {
+  stroke: rgba(255, 255, 255, 0.62);
+  stroke-width: 5;
+}
+
+.devise-email-popup__surfer-board {
+  filter: drop-shadow(0 10px 18px rgba(5, 55, 68, 0.28));
+}
+
+.devise-email-popup__surfer-board-line {
+  stroke: rgba(16, 32, 39, 0.34);
+  stroke-width: 3;
+}
+
+.devise-email-popup__surfer-leg,
+.devise-email-popup__surfer-arm {
+  stroke: #7F4F35;
+  stroke-width: 9;
+}
+
+.devise-email-popup__surfer-short {
+  fill: #0E5B68;
+}
+
+.devise-email-popup__surfer-body {
+  fill: #FFF5DB;
+  stroke: #102027;
+  stroke-width: 3;
+}
+
+.devise-email-popup__surfer-head {
+  fill: #9C6644;
+}
+
+.devise-email-popup__surfer-hair {
+  fill: #102027;
+}
+
+.devise-email-popup__surfer-water {
+  stroke-width: 8;
+  opacity: 0.88;
+}
+
+.devise-email-popup__splash {
+  position: absolute;
+  inset: auto auto 0 0;
+  width: 100%;
+  height: 55%;
+  opacity: 0;
+  transform: translate3d(-70%, 0, 0) skewX(-11deg);
+  transform-origin: 20% 100%;
+}
+
+.devise-email-popup.is-visible .devise-email-popup__splash {
+  animation: devise-email-popup-splash 940ms cubic-bezier(0.2, 0.78, 0.22, 1) 460ms forwards;
+}
+
+.devise-email-popup__splash span {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  border-radius: 46% 54% 0 0;
+  background:
+    radial-gradient(circle at 18% 38%, rgba(255, 255, 255, 0.82), transparent 0 5%, transparent 14%),
+    linear-gradient(90deg, rgba(137, 245, 255, 0), rgba(137, 245, 255, 0.9) 18%, rgba(255, 255, 255, 0.72) 54%, rgba(54, 214, 218, 0));
+  filter: blur(0.2px);
+}
+
+.devise-email-popup__splash span:nth-child(1) {
+  bottom: 0;
+  height: 78%;
+  opacity: 0.88;
+}
+
+.devise-email-popup__splash span:nth-child(2) {
+  bottom: 13%;
+  height: 44%;
+  opacity: 0.58;
+  transform: translateX(-5%) scaleX(0.92);
+}
+
+.devise-email-popup__splash span:nth-child(3) {
+  bottom: 38%;
+  height: 20%;
+  opacity: 0.46;
+  transform: translateX(9%) scaleX(0.76);
+}
+
+.devise-email-popup__droplets {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.devise-email-popup.is-visible .devise-email-popup__droplets {
+  animation: devise-email-popup-droplets-wrap 1180ms ease 680ms forwards;
+}
+
+.devise-email-popup__droplets span {
+  position: absolute;
+  top: -34px;
+  width: 10px;
+  height: 28px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(111, 232, 244, 0.56));
+  box-shadow: 0 10px 30px rgba(88, 230, 241, 0.24);
+  animation: devise-email-popup-droplet 1040ms cubic-bezier(0.28, 0.78, 0.34, 1) forwards;
+}
+
+.devise-email-popup__droplets span:nth-child(1) {
+  left: 18%;
+  animation-delay: 730ms;
+}
+
+.devise-email-popup__droplets span:nth-child(2) {
+  left: 33%;
+  height: 20px;
+  animation-delay: 790ms;
+}
+
+.devise-email-popup__droplets span:nth-child(3) {
+  left: 56%;
+  width: 8px;
+  height: 24px;
+  animation-delay: 850ms;
+}
+
+.devise-email-popup__droplets span:nth-child(4) {
+  left: 71%;
+  height: 18px;
+  animation-delay: 905ms;
+}
+
+.devise-email-popup__droplets span:nth-child(5) {
+  left: 84%;
+  width: 7px;
+  height: 22px;
+  animation-delay: 965ms;
+}
+
+.devise-email-popup__card {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 455px);
+  overflow: hidden;
+  border: 1px solid var(--dep-line);
+  border-radius: 30px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.38)),
+    radial-gradient(circle at 18% 0%, rgba(255, 222, 89, 0.24), transparent 32%),
+    radial-gradient(circle at 100% 22%, rgba(54, 214, 218, 0.22), transparent 34%),
+    linear-gradient(180deg, var(--dep-card), var(--dep-cream-deep));
+  color: var(--dep-ink);
+  box-shadow:
+    0 34px 110px var(--dep-shadow),
+    0 0 0 1px rgba(255, 255, 255, 0.34) inset,
+    0 20px 80px rgba(54, 214, 218, 0.16);
+  opacity: 0;
+  transform: translate3d(0, 20px, 0) scale(0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.devise-email-popup.is-visible .devise-email-popup__card {
+  animation: devise-email-popup-card-in 480ms cubic-bezier(0.2, 0.8, 0.22, 1) 1220ms forwards;
+}
+
+.devise-email-popup.is-immediate .devise-email-popup__motion {
+  display: none;
+}
+
+.devise-email-popup.is-immediate .devise-email-popup__card {
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+.devise-email-popup__card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.46), transparent 34%),
+    radial-gradient(circle at 82% 92%, rgba(54, 214, 218, 0.12), transparent 28%);
+  pointer-events: none;
+}
+
+.devise-email-popup__card-palms {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.devise-email-popup__card-palms span {
+  position: absolute;
+  bottom: -48px;
+  width: 86px;
+  height: 176px;
+  opacity: 0.13;
+  transform-origin: 50% 100%;
+}
+
+.devise-email-popup__card-palms span::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 42px;
+  width: 9px;
+  height: 122px;
+  border-radius: 999px;
+  background: #214A3C;
+  transform: rotate(8deg);
+}
+
+.devise-email-popup__card-palms span::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 3px;
+  width: 82px;
+  height: 82px;
+  background: #1B6D5E;
+  clip-path: polygon(50% 48%, 2% 26%, 48% 36%, 30% 0, 57% 34%, 91% 4%, 67% 42%, 100% 34%, 64% 53%, 83% 81%, 54% 60%, 26% 89%, 42% 57%, 6% 68%);
+}
+
+.devise-email-popup__card-palms span:first-child {
+  left: 2px;
+  animation: devise-email-popup-card-palm-a 4.8s ease-in-out infinite alternate;
+}
+
+.devise-email-popup__card-palms span:last-child {
+  right: -16px;
+  bottom: -58px;
+  transform: scaleX(-1);
+  animation: devise-email-popup-card-palm-b 5.2s ease-in-out infinite alternate;
+}
+
+.devise-email-popup__content {
+  position: relative;
+  z-index: 1;
+  padding: clamp(26px, 5vw, 38px);
+}
+
+.devise-email-popup__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(16, 32, 39, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.52);
+  color: var(--dep-ink);
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+}
+
+.devise-email-popup__close:hover,
+.devise-email-popup__close:focus-visible {
+  background: var(--dep-accent);
+  border-color: rgba(16, 32, 39, 0.2);
+  transform: translateY(-1px);
+}
+
+.devise-email-popup__badge {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  margin-bottom: 16px;
+  padding: 7px 13px;
+  border: 1px solid rgba(16, 32, 39, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 222, 89, 0.78);
+  color: #112027;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 12px 30px rgba(255, 222, 89, 0.22);
+}
+
+.devise-email-popup h2 {
+  margin: 0;
+  color: var(--dep-ink);
+  font-size: clamp(42px, 8vw, 64px);
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+  font-weight: 950;
+}
+
+.devise-email-popup p {
+  max-width: 350px;
+  margin: 16px 0 24px;
+  color: var(--dep-muted);
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 600;
+}
+
+.devise-email-popup__form {
+  margin: 0;
+}
+
+.devise-email-popup__field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  padding: 7px;
+  border: 1px solid rgba(16, 32, 39, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: 0 16px 34px rgba(16, 32, 39, 0.08) inset;
+}
+
+.devise-email-popup__field:focus-within {
+  border-color: rgba(54, 214, 218, 0.65);
+  box-shadow:
+    0 0 0 3px rgba(54, 214, 218, 0.12),
+    0 16px 34px rgba(16, 32, 39, 0.07) inset;
+}
+
+.devise-email-popup__field input {
+  min-width: 0;
+  height: 48px;
+  border: 0;
+  outline: 0;
+  padding: 0 12px;
+  background: transparent;
+  color: var(--dep-ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.devise-email-popup__field input::placeholder {
+  color: rgba(82, 99, 107, 0.72);
+}
+
+.devise-email-popup__field button {
+  height: 48px;
+  border: 0;
+  border-radius: 13px;
+  padding: 0 18px;
+  background: var(--dep-accent);
+  color: #101010;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 950;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow:
+    0 12px 26px rgba(255, 222, 89, 0.3),
+    inset 0 -1px 0 rgba(16, 16, 16, 0.14);
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.devise-email-popup__field button:hover,
+.devise-email-popup__field button:focus-visible {
+  background: #FFE777;
+  transform: translateY(-1px);
+  box-shadow:
+    0 16px 30px rgba(255, 222, 89, 0.36),
+    inset 0 -1px 0 rgba(16, 16, 16, 0.14);
+}
+
+.devise-email-popup small {
+  display: block;
+  margin-top: 13px;
+  color: rgba(82, 99, 107, 0.86);
+  font-size: 11.5px;
+  line-height: 1.45;
+  font-weight: 650;
+  text-align: center;
+}
+
+.devise-email-popup__success,
+.devise-email-popup__error {
+  margin: 0;
+  padding: 15px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.devise-email-popup__success {
+  border: 1px solid rgba(54, 156, 110, 0.18);
+  background: rgba(209, 255, 229, 0.72);
+  color: #15593D;
+}
+
+.devise-email-popup__error {
+  margin-bottom: 14px;
+  border: 1px solid rgba(204, 54, 54, 0.18);
+  background: rgba(255, 232, 225, 0.76);
+  color: #8E2B1E;
+}
+
+body.devise-email-popup-is-open {
+  overflow: hidden;
+}
+
+@keyframes devise-email-popup-surfer {
+  0% {
+    opacity: 0;
+    transform: translate3d(-20vw, 24px, 0) rotate(-5deg);
+  }
+  12% {
+    opacity: 1;
+  }
+  66% {
+    opacity: 1;
+    transform: translate3d(calc(50vw + 24px), -8px, 0) rotate(2deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(100vw + 270px), 8px, 0) rotate(5deg);
+  }
+}
+
+@keyframes devise-email-popup-splash {
+  0% {
+    opacity: 0;
+    transform: translate3d(-70%, 0, 0) skewX(-11deg);
+  }
+  16% {
+    opacity: 1;
+  }
+  62% {
+    opacity: 0.88;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(18%, 0, 0) skewX(-7deg);
+  }
+}
+
+@keyframes devise-email-popup-droplets-wrap {
+  0%,
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes devise-email-popup-droplet {
+  0% {
+    transform: translate3d(0, 0, 0) scaleY(0.7);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.76;
+  }
+  100% {
+    transform: translate3d(0, 76vh, 0) scaleY(1.18);
+    opacity: 0;
+  }
+}
+
+@keyframes devise-email-popup-card-in {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes devise-email-popup-palm-left {
+  from {
+    transform: rotate(-5deg) translateY(4px);
+  }
+  to {
+    transform: rotate(3deg) translateY(-3px);
+  }
+}
+
+@keyframes devise-email-popup-palm-right {
+  from {
+    transform: rotate(5deg) translateY(2px);
+  }
+  to {
+    transform: rotate(-4deg) translateY(-4px);
+  }
+}
+
+@keyframes devise-email-popup-card-palm-a {
+  from {
+    transform: rotate(-5deg);
+  }
+  to {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes devise-email-popup-card-palm-b {
+  from {
+    transform: scaleX(-1) rotate(4deg);
+  }
+  to {
+    transform: scaleX(-1) rotate(-5deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .devise-email-popup {
+    padding: 14px;
+  }
+
+  .devise-email-popup__sun {
+    top: 46px;
+    right: 22px;
+    width: 76px;
+  }
+
+  .devise-email-popup__palm {
+    width: 112px;
+    opacity: 0.18;
+  }
+
+  .devise-email-popup__surfer {
+    top: calc(50% - 156px);
+    width: 158px;
+  }
+
+  .devise-email-popup__card {
+    border-radius: 24px;
+  }
+
+  .devise-email-popup__content {
+    padding: 28px 20px 22px;
+  }
+
+  .devise-email-popup__close {
+    top: 13px;
+    right: 13px;
+    width: 34px;
+    height: 34px;
+  }
+
+  .devise-email-popup h2 {
+    font-size: clamp(39px, 13vw, 54px);
+  }
+
+  .devise-email-popup p {
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+  .devise-email-popup__field {
+    grid-template-columns: 1fr;
+  }
+
+  .devise-email-popup__field button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .devise-email-popup,
+  .devise-email-popup * {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+
+  .devise-email-popup__motion {
+    display: none;
+  }
+
+  .devise-email-popup.is-visible .devise-email-popup__card {
+    opacity: 1;
+    transform: none;
+  }
+}

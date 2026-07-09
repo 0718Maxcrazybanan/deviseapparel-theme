@@ -1,0 +1,215 @@
+{{ 'devise-email-popup.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'devise-email-popup.js' | asset_url }}" defer></script>
+
+{%- liquid
+  assign popup_id = 'DeviseEmailPopup-' | append: section.id
+  assign popup_title_id = popup_id | append: '-title'
+  assign popup_form_id = popup_id | append: '-form'
+-%}
+
+{%- if section.settings.enabled -%}
+  <div
+    id="{{ popup_id }}"
+    class="devise-email-popup"
+    data-devise-email-popup
+    data-delay="{{ section.settings.delay_ms }}"
+    data-hide-days="{{ section.settings.hide_days }}"
+    aria-hidden="true"
+    style="
+      --dep-accent: {{ section.settings.accent_color }};
+      --dep-ocean: {{ section.settings.ocean_color }};
+      --dep-card: {{ section.settings.card_color }};
+    "
+    {{ section.shopify_attributes }}
+  >
+    <button
+      class="devise-email-popup__overlay"
+      type="button"
+      data-devise-email-popup-close
+      aria-label="Stäng popup"
+    ></button>
+
+    <div class="devise-email-popup__motion" aria-hidden="true">
+      <div class="devise-email-popup__sun"></div>
+
+      <svg class="devise-email-popup__palm devise-email-popup__palm--left" viewBox="0 0 150 190" focusable="false" aria-hidden="true">
+        <path class="devise-email-popup__palm-trunk" d="M75 64C68 94 66 132 72 181" />
+        <path class="devise-email-popup__palm-leaf" d="M73 66C43 48 24 48 7 59C33 62 53 71 68 86" />
+        <path class="devise-email-popup__palm-leaf" d="M76 64C54 36 38 27 17 29C41 43 57 57 70 82" />
+        <path class="devise-email-popup__palm-leaf" d="M78 62C69 26 77 9 96 1C92 28 88 48 83 78" />
+        <path class="devise-email-popup__palm-leaf" d="M81 63C112 36 132 33 149 43C123 51 103 63 86 84" />
+        <path class="devise-email-popup__palm-leaf" d="M79 66C104 63 124 71 139 88C112 84 94 88 80 96" />
+      </svg>
+
+      <svg class="devise-email-popup__palm devise-email-popup__palm--right" viewBox="0 0 150 190" focusable="false" aria-hidden="true">
+        <path class="devise-email-popup__palm-trunk" d="M74 66C84 98 88 134 79 181" />
+        <path class="devise-email-popup__palm-leaf" d="M76 67C45 59 28 65 14 81C41 78 58 83 75 96" />
+        <path class="devise-email-popup__palm-leaf" d="M76 64C52 39 34 34 15 40C40 51 57 65 72 84" />
+        <path class="devise-email-popup__palm-leaf" d="M79 63C72 31 81 12 101 3C96 30 91 51 84 79" />
+        <path class="devise-email-popup__palm-leaf" d="M82 64C112 42 132 41 147 54C120 59 101 69 86 86" />
+        <path class="devise-email-popup__palm-leaf" d="M82 68C107 67 126 78 137 97C112 90 95 92 81 101" />
+      </svg>
+
+      <svg class="devise-email-popup__surfer" viewBox="0 0 220 140" focusable="false" aria-hidden="true">
+        <defs>
+          <linearGradient id="{{ popup_id }}-board" x1="36" x2="190" y1="110" y2="98" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FFDE59" />
+            <stop offset="1" stop-color="#36D6DA" />
+          </linearGradient>
+          <linearGradient id="{{ popup_id }}-water" x1="20" x2="205" y1="112" y2="112" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#8EF4FF" />
+            <stop offset="1" stop-color="#FFFFFF" />
+          </linearGradient>
+        </defs>
+        <path class="devise-email-popup__surfer-trail" d="M18 111C55 98 93 102 127 108C158 113 183 108 205 95" />
+        <path class="devise-email-popup__surfer-board" d="M34 109C75 91 142 88 190 100C177 117 81 122 34 109Z" fill="url(#{{ popup_id }}-board)" />
+        <path class="devise-email-popup__surfer-board-line" d="M57 109C89 102 135 100 171 103" />
+        <path class="devise-email-popup__surfer-leg" d="M110 82C101 91 96 99 93 111" />
+        <path class="devise-email-popup__surfer-leg" d="M127 83C132 93 139 99 151 105" />
+        <path class="devise-email-popup__surfer-short" d="M103 76C114 70 128 72 136 81C130 89 114 91 103 82Z" />
+        <path class="devise-email-popup__surfer-body" d="M121 39C111 49 106 62 108 78C119 83 130 82 139 75C136 60 132 47 121 39Z" />
+        <path class="devise-email-popup__surfer-arm" d="M113 51C101 57 91 66 82 78" />
+        <path class="devise-email-popup__surfer-arm" d="M133 54C146 55 158 61 169 72" />
+        <circle class="devise-email-popup__surfer-head" cx="122" cy="29" r="11" />
+        <path class="devise-email-popup__surfer-hair" d="M112 28C115 16 129 15 137 24C130 22 122 26 119 34C116 32 114 30 112 28Z" />
+        <path class="devise-email-popup__surfer-water" d="M23 117C56 104 94 106 131 112C164 118 190 111 207 101" fill="none" stroke="url(#{{ popup_id }}-water)" />
+      </svg>
+
+      <div class="devise-email-popup__splash">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="devise-email-popup__droplets">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div
+      class="devise-email-popup__card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="{{ popup_title_id }}"
+      tabindex="-1"
+      data-devise-email-popup-dialog
+    >
+      <button
+        class="devise-email-popup__close"
+        type="button"
+        data-devise-email-popup-close
+        aria-label="Stäng popup"
+      >
+        &times;
+      </button>
+
+      <div class="devise-email-popup__card-palms" aria-hidden="true">
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="devise-email-popup__content">
+        <div class="devise-email-popup__badge">Sommarerbjudande</div>
+
+        <h2 id="{{ popup_title_id }}">10% rabatt</h2>
+
+        <p>Få din rabattkod och skapa något eget till sommaren.</p>
+
+        {% form 'customer', id: popup_form_id, class: 'devise-email-popup__form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter,popup_10_discount">
+
+          {% if form.posted_successfully? %}
+            <div class="devise-email-popup__success" data-devise-email-popup-success>
+              Tack! Kolla din inkorg för din rabattkod.
+            </div>
+          {% else %}
+            {% if form.errors %}
+              <div class="devise-email-popup__error" data-devise-email-popup-error>
+                {{ form.errors | default_errors }}
+              </div>
+            {% endif %}
+
+            <div class="devise-email-popup__field">
+              <label class="visually-hidden" for="{{ popup_id }}-email">Email</label>
+              <input
+                id="{{ popup_id }}-email"
+                type="email"
+                name="contact[email]"
+                placeholder="din@email.se"
+                autocomplete="email"
+                required
+              >
+
+              <button type="submit">Få rabattkod →</button>
+            </div>
+
+            <small>Ingen spam. Bara erbjudanden, drops och viktig info från DeviseApparel.</small>
+          {% endif %}
+        {% endform %}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Devise email popup",
+  "enabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Enable popup",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "delay_ms",
+      "label": "Delay before popup opens",
+      "min": 0,
+      "max": 5000,
+      "step": 100,
+      "unit": "ms",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "hide_days",
+      "label": "Days to hide after closing",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "default": 7
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Yellow accent",
+      "default": "#FFDE59"
+    },
+    {
+      "type": "color",
+      "id": "ocean_color",
+      "label": "Ocean accent",
+      "default": "#36D6DA"
+    },
+    {
+      "type": "color",
+      "id": "card_color",
+      "label": "Card cream",
+      "default": "#FFF4E4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Devise email popup"
+    }
+  ]
+}
+{% endschema %}
