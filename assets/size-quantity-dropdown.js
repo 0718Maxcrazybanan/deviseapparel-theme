@@ -349,17 +349,33 @@ class SizeQuantityDropdown extends HTMLElement {
     const total = selectedRows.reduce((sum, item) => sum + item.quantity, 0);
     this.classList.toggle('has-selection', total > 0);
 
+    if (this.label) this.label.textContent = this.dataset.labelPrefix || 'Storlekar:';
+
     if (!total) {
-      if (this.label) this.label.textContent = this.dataset.emptyLabel || 'Välj storlekar';
-      if (this.summary) this.summary.textContent = this.dataset.emptySummary || 'Ange antal per storlek';
+      this.#setSummaryText(this.dataset.emptySummary || 'Välj storlek och antal');
       return;
     }
 
-    const label = `${total} ${this.dataset.selectedLabel || 'plagg valda'}`;
-    const summary = selectedRows.map((item) => `${item.size} x ${item.quantity}`).join(', ');
+    this.#setSummaryChips(selectedRows);
+  }
 
-    if (this.label) this.label.textContent = label;
-    if (this.summary) this.summary.textContent = summary;
+  #setSummaryText(text) {
+    if (!this.summary) return;
+
+    this.summary.textContent = text;
+  }
+
+  #setSummaryChips(selectedRows) {
+    if (!this.summary) return;
+
+    this.summary.textContent = '';
+
+    for (const item of selectedRows) {
+      const chip = document.createElement('span');
+      chip.className = 'size-quantity-dropdown__chip';
+      chip.textContent = `${item.size} x${item.quantity}`;
+      this.summary.appendChild(chip);
+    }
   }
 
   #setStatus(message) {
