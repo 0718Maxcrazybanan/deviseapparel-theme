@@ -88,6 +88,7 @@
     "currency_code_enabled_cart_items": false,
     "quick_add_background": "#ffffff",
     "quick_add_text": "#101010",
+    "show_second_image_on_hover": false,
     "product_corner_radius": 4,
     "card_corner_radius": 8,
     "show_variant_image": true,
