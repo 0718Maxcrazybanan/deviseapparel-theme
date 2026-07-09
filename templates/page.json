@@ -103,7 +103,7 @@
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
                 "custom_button_text": "{{ settings.color_palette.background }}",
                 "custom_button_border": "{{ settings.color_palette.background }}",
-                "link_text_color": "",
+                "link_text_color": "#000000",
                 "width": "fit-content",
                 "custom_width": 100,
                 "width_mobile": "fit-content",
