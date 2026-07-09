@@ -90,7 +90,7 @@
     "quick_add_text": "#101010",
     "product_corner_radius": 4,
     "card_corner_radius": 8,
-    "show_variant_image": false,
+    "show_variant_image": true,
     "variant_swatch_width": 34,
     "variant_swatch_height": 34,
     "variant_swatch_radius": 32,
