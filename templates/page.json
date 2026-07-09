@@ -123,7 +123,7 @@
           "static": true,
           "settings": {
             "product_card_gap": 4,
-            "background_color": "",
+            "background_color": "{{ settings.color_palette.color3 }}",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
@@ -215,7 +215,7 @@
         "carousel_on_mobile": false,
         "max_products": 6,
         "columns": 4,
-        "mobile_columns": "2",
+        "mobile_columns": "1",
         "mobile_card_size": "60cqw",
         "columns_gap": 8,
         "rows_gap": 24,
