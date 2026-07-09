@@ -1,6 +1,8 @@
 const PRODUCT_SELECT_EVENT = 'shopify:product:select';
 
 class SizeQuantityDropdown extends HTMLElement {
+  #relocating = false;
+
   connectedCallback() {
     if (this.dataset.initialized === 'true') return;
     this.dataset.initialized = 'true';
@@ -24,28 +26,41 @@ class SizeQuantityDropdown extends HTMLElement {
       variant: null,
     }));
 
+    this.#placeAfterVariantPicker();
     this.#bindEvents();
     this.#hideThemeControls();
     this.#refreshVariants();
     this.#updateLabel();
 
+    window.setTimeout(() => this.#placeAfterVariantPicker(), 300);
+    window.setTimeout(() => this.#placeAfterVariantPicker(), 1000);
     window.setTimeout(() => this.#hideThemeControls(), 300);
     window.setTimeout(() => this.#hideThemeControls(), 1000);
   }
 
   disconnectedCallback() {
+    if (this.#relocating) return;
+
     document.removeEventListener('click', this.handleOutsideClick);
     document.removeEventListener('keydown', this.handleKeydown);
     document.removeEventListener(PRODUCT_SELECT_EVENT, this.handleProductSelect);
   }
 
   getSelectedItems() {
-    return this.rows
-      .map((item) => ({
-        variantId: item.variant?.id?.toString() || '',
-        quantity: this.#getQuantity(item),
-      }))
-      .filter((item) => item.variantId && item.quantity > 0);
+    const baseOptions = this.#getBaseOptions();
+    const itemsByVariant = new Map();
+
+    for (const item of this.rows) {
+      const quantity = this.#getQuantity(item);
+      const variant = this.#findVariantForSize(item.size, baseOptions);
+      const variantId = variant?.id?.toString() || '';
+
+      if (!variantId || quantity <= 0 || variant?.available === false) continue;
+
+      itemsByVariant.set(variantId, (itemsByVariant.get(variantId) || 0) + quantity);
+    }
+
+    return Array.from(itemsByVariant, ([variantId, quantity]) => ({ variantId, quantity }));
   }
 
   validate() {
@@ -57,7 +72,7 @@ class SizeQuantityDropdown extends HTMLElement {
     }
 
     this.open();
-    this.#setStatus(this.dataset.errorEmpty || 'Choose at least one size.');
+    this.#setStatus(this.dataset.errorEmpty || 'Välj minst en storlek.');
     this.toggle?.focus();
     return false;
   }
@@ -102,6 +117,7 @@ class SizeQuantityDropdown extends HTMLElement {
 
       this.#refreshVariants();
       event.promise?.finally(() => {
+        this.#placeAfterVariantPicker();
         this.#hideThemeControls();
         this.#refreshVariants();
       });
@@ -110,6 +126,23 @@ class SizeQuantityDropdown extends HTMLElement {
     document.addEventListener('click', this.handleOutsideClick);
     document.addEventListener('keydown', this.handleKeydown);
     document.addEventListener(PRODUCT_SELECT_EVENT, this.handleProductSelect);
+  }
+
+  #placeAfterVariantPicker() {
+    const variantPicker = this.#getVariantPicker();
+    if (!variantPicker || variantPicker.nextElementSibling === this) return;
+
+    this.#relocating = true;
+    variantPicker.insertAdjacentElement('afterend', this);
+    const clearRelocating = () => {
+      this.#relocating = false;
+    };
+
+    if (window.queueMicrotask) {
+      window.queueMicrotask(clearRelocating);
+    } else {
+      window.setTimeout(clearRelocating, 0);
+    }
   }
 
   #readJson(selector, fallback) {
@@ -173,7 +206,11 @@ class SizeQuantityDropdown extends HTMLElement {
       const unavailable = !item.variant || item.variant.available === false;
 
       item.row.classList.toggle('is-unavailable', unavailable);
-      if (item.state) item.state.textContent = unavailable ? 'Unavailable' : 'Available';
+      if (item.state) {
+        item.state.textContent = unavailable
+          ? this.dataset.unavailableLabel || 'Ej tillgänglig'
+          : this.dataset.availableLabel || 'Tillgänglig';
+      }
       if (item.input) item.input.disabled = unavailable;
       if (item.minus) item.minus.disabled = unavailable;
       if (item.plus) item.plus.disabled = unavailable;
@@ -253,37 +290,10 @@ class SizeQuantityDropdown extends HTMLElement {
 
     if (syncTheme) {
       this.#setStatus('');
-      this.#syncSelectedSizeToTheme();
     }
 
     this.#syncFormToFirstSelection();
     this.#updateLabel();
-  }
-
-  #syncSelectedSizeToTheme() {
-    const selectedRow = this.rows.find((item) => this.#getQuantity(item) > 0 && item.variant);
-    if (!selectedRow) return;
-
-    const variantPicker = this.#getVariantPicker();
-    const sizeOptionName = this.optionNames[this.sizeOptionIndex];
-    if (!variantPicker || !sizeOptionName) return;
-
-    const controls = Array.from(variantPicker.querySelectorAll('[data-option-name]'));
-    const control = controls.find(
-      (candidate) =>
-        this.#normalize(candidate.dataset.optionName) === this.#normalize(sizeOptionName) &&
-        this.#normalize(candidate.value) === this.#normalize(selectedRow.size)
-    );
-
-    if (control instanceof HTMLInputElement && !control.checked) {
-      control.click();
-    } else if (control instanceof HTMLOptionElement && !control.selected) {
-      const select = control.closest('select');
-      if (select) {
-        select.value = control.value;
-        select.dispatchEvent(new Event('change', { bubbles: true }));
-      }
-    }
   }
 
   #syncFormToFirstSelection() {
@@ -308,14 +318,15 @@ class SizeQuantityDropdown extends HTMLElement {
       .filter((item) => item.quantity > 0 && item.variant);
 
     const total = selectedRows.reduce((sum, item) => sum + item.quantity, 0);
+    this.classList.toggle('has-selection', total > 0);
 
     if (!total) {
-      if (this.label) this.label.textContent = this.dataset.emptyLabel || 'Choose sizes';
-      if (this.summary) this.summary.textContent = this.dataset.emptySummary || 'Add quantity per size';
+      if (this.label) this.label.textContent = this.dataset.emptyLabel || 'Välj storlekar';
+      if (this.summary) this.summary.textContent = this.dataset.emptySummary || 'Ange antal per storlek';
       return;
     }
 
-    const label = `${total} ${this.dataset.selectedLabel || 'selected'}`;
+    const label = `${total} ${this.dataset.selectedLabel || 'plagg valda'}`;
     const summary = selectedRows.map((item) => `${item.size} x ${item.quantity}`).join(', ');
 
     if (this.label) this.label.textContent = label;
