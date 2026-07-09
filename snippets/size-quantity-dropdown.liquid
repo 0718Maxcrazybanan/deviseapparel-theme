@@ -41,10 +41,12 @@
     data-product-id="{{ product_resource.id }}"
     data-form-id="{{ product_form_id }}"
     data-size-option-index="{{ size_option_index }}"
-    data-empty-label="Choose sizes"
-    data-empty-summary="Add quantity per size"
-    data-selected-label="selected"
-    data-error-empty="Choose at least one size."
+    data-empty-label="Välj storlekar"
+    data-empty-summary="Ange antal per storlek"
+    data-selected-label="plagg valda"
+    data-error-empty="Välj minst en storlek."
+    data-available-label="Tillgänglig"
+    data-unavailable-label="Ej tillgänglig"
   >
     <button
       type="button"
@@ -54,8 +56,8 @@
       data-size-quantity-toggle
     >
       <span>
-        <strong data-size-quantity-label>Choose sizes</strong>
-        <small data-size-quantity-summary>Add quantity per size</small>
+        <strong data-size-quantity-label>Välj storlekar</strong>
+        <small data-size-quantity-summary>Ange antal per storlek</small>
       </span>
       <span class="size-quantity-dropdown__chevron" aria-hidden="true"></span>
     </button>
@@ -74,13 +76,13 @@
         >
           <div class="size-quantity-dropdown__size">
             <span>{{ option_value | escape }}</span>
-            <small data-size-quantity-state>Available</small>
+            <small data-size-quantity-state>Tillgänglig</small>
           </div>
 
           <div class="size-quantity-dropdown__stepper">
             <button
               type="button"
-              aria-label="Decrease {{ option_value | escape }}"
+              aria-label="Minska {{ option_value | escape }}"
               data-size-quantity-minus
             >
               -
@@ -90,12 +92,12 @@
               min="0"
               value="0"
               inputmode="numeric"
-              aria-label="Quantity for {{ option_value | escape }}"
+              aria-label="Antal för {{ option_value | escape }}"
               data-size-quantity-input
             >
             <button
               type="button"
-              aria-label="Increase {{ option_value | escape }}"
+              aria-label="Öka {{ option_value | escape }}"
               data-size-quantity-plus
             >
               +
