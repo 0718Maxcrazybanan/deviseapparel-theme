@@ -140,7 +140,7 @@
               "name": "t:names.product_card_media",
               "settings": {
                 "image_ratio": "adapt",
-                "border": "none",
+                "border": "solid",
                 "border_width": 1,
                 "border_opacity": 100,
                 "border_color": "",
