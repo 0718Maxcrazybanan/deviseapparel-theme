@@ -186,7 +186,7 @@
       "name": "Devise email popup",
       "settings": {
         "enabled": true,
-        "delay_ms": 1200,
+        "delay_ms": 5000,
         "hide_days": 7,
         "accent_color": "#FFDE59",
         "ocean_color": "#36D6DA",

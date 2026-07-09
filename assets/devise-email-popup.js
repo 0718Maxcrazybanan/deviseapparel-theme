@@ -9,7 +9,7 @@
   const BODY_LOCK_CLASS = 'devise-email-popup-is-open';
 
   // Timing controls: Shopify section settings write these values to data attributes.
-  const DEFAULT_DELAY_MS = 1200;
+  const DEFAULT_DELAY_MS = 5000;
   const DEFAULT_HIDE_DAYS = 7;
 
   // Storage controls: change these keys only if you intentionally want to reset popup history.
@@ -87,7 +87,7 @@
     const target = email || dialog;
     if (!target) return;
 
-    const focusDelay = immediate || prefersReducedMotion() ? 40 : 1360;
+    const focusDelay = immediate || prefersReducedMotion() ? 40 : 1760;
 
     window.setTimeout(() => {
       if (!root.classList.contains(OPEN_CLASS)) return;
