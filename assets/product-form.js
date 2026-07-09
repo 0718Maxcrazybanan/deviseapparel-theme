@@ -12,6 +12,7 @@ const ERROR_BUTTON_REENABLE_DELAY = 1000;
 
 // Success message display duration for screen readers
 const SUCCESS_MESSAGE_DISPLAY_DURATION = 5000;
+const SIZE_QUANTITY_ADD_EVENT = 'size-quantity:add-to-cart';
 
 /**
  * @typedef {HTMLElement & {
@@ -218,6 +219,7 @@ class ProductFormComponent extends Component {
 
     // Listen for cart updates to sync data-cart-quantity
     document.addEventListener(StandardEvents.cartLinesUpdate, this.#onCartUpdate, { signal });
+    this.addEventListener(SIZE_QUANTITY_ADD_EVENT, this.#onSizeQuantityAddToCart, { signal });
   }
 
   disconnectedCallback() {
@@ -298,6 +300,27 @@ class ProductFormComponent extends Component {
       .catch((error) => {
         if (error?.name !== 'AbortError') console.warn('[product-form] Event promise rejected:', error);
       });
+  };
+
+  /** @param {CustomEvent<{items?: Array<{variantId: string, quantity: number}>, sourceEvent?: Event}>} event */
+  #onSizeQuantityAddToCart = (event) => {
+    const selectedItems = Array.isArray(event.detail?.items) ? event.detail.items : [];
+    const items = selectedItems
+      .map((item) => ({
+        variantId: item.variantId?.toString() || '',
+        quantity: Number(item.quantity) || 0,
+      }))
+      .filter((item) => item.variantId && item.quantity > 0);
+
+    if (!items.length) return;
+
+    if (this.#variantChangeInProgress) {
+      this.#addToCartQueue.push(...items);
+      this.refs.addToCartButtonContainer?.animateAddToCart?.();
+      return;
+    }
+
+    this.#processBatchAddToCart(items, event.detail?.sourceEvent);
   };
 
   /** @param {Event} event */
