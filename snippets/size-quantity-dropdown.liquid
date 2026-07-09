@@ -1,0 +1,129 @@
+{%- doc -%}
+  Renders a size dropdown where each size can have its own quantity.
+
+  @param {object} product - The current product.
+  @param {object} section - The current section.
+{%- enddoc -%}
+
+{%- liquid
+  assign product_resource = product
+  assign size_option = blank
+  assign size_option_index = -1
+
+  if product_resource == blank
+    assign product_resource = closest.product
+  endif
+
+  for option in product_resource.options_with_values
+    assign option_name = option.name | downcase
+    if option_name contains 'size' or option_name contains 'storlek'
+      assign size_option = option
+      assign size_option_index = option.position | minus: 1
+      break
+    endif
+  endfor
+-%}
+
+{%- if product_resource != blank and size_option != blank and size_option.values.size > 1 -%}
+  {{ 'size-quantity-dropdown.css' | asset_url | stylesheet_tag }}
+  <script
+    src="{{ 'size-quantity-dropdown.js' | asset_url }}"
+    type="module"
+    defer
+  ></script>
+
+  {%- assign picker_id = 'SizeQuantityDropdown-' | append: section.id | append: '-' | append: product_resource.id -%}
+  {%- assign product_form_id = 'BuyButtons-ProductForm-' | append: section.id -%}
+
+  <size-quantity-dropdown
+    id="{{ picker_id }}"
+    class="size-quantity-dropdown"
+    data-product-id="{{ product_resource.id }}"
+    data-form-id="{{ product_form_id }}"
+    data-size-option-index="{{ size_option_index }}"
+    data-empty-label="Choose sizes"
+    data-empty-summary="Add quantity per size"
+    data-selected-label="selected"
+    data-error-empty="Choose at least one size."
+  >
+    <button
+      type="button"
+      class="size-quantity-dropdown__toggle"
+      aria-expanded="false"
+      aria-controls="{{ picker_id }}-menu"
+      data-size-quantity-toggle
+    >
+      <span>
+        <strong data-size-quantity-label>Choose sizes</strong>
+        <small data-size-quantity-summary>Add quantity per size</small>
+      </span>
+      <span class="size-quantity-dropdown__chevron" aria-hidden="true"></span>
+    </button>
+
+    <div
+      id="{{ picker_id }}-menu"
+      class="size-quantity-dropdown__menu"
+      data-size-quantity-menu
+      hidden
+    >
+      {%- for option_value in size_option.values -%}
+        <div
+          class="size-quantity-dropdown__row"
+          data-size-quantity-row
+          data-size-value="{{ option_value | escape }}"
+        >
+          <div class="size-quantity-dropdown__size">
+            <span>{{ option_value | escape }}</span>
+            <small data-size-quantity-state>Available</small>
+          </div>
+
+          <div class="size-quantity-dropdown__stepper">
+            <button
+              type="button"
+              aria-label="Decrease {{ option_value | escape }}"
+              data-size-quantity-minus
+            >
+              -
+            </button>
+            <input
+              type="number"
+              min="0"
+              value="0"
+              inputmode="numeric"
+              aria-label="Quantity for {{ option_value | escape }}"
+              data-size-quantity-input
+            >
+            <button
+              type="button"
+              aria-label="Increase {{ option_value | escape }}"
+              data-size-quantity-plus
+            >
+              +
+            </button>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <p
+      class="size-quantity-dropdown__status"
+      data-size-quantity-status
+      role="status"
+      aria-live="polite"
+    ></p>
+
+    <script
+      type="application/json"
+      data-size-quantity-options
+    >
+      {{ product_resource.options | json }}
+    </script>
+
+    <script
+      type="application/json"
+      data-size-quantity-variants
+    >
+      {{ product_resource.variants | json }}
+    </script>
+  </size-quantity-dropdown>
+{%- endif -%}
