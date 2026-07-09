@@ -211,7 +211,7 @@
       "name": "t:names.products_carousel",
       "settings": {
         "collection": "custom-page",
-        "layout_type": "grid",
+        "layout_type": "carousel",
         "carousel_on_mobile": false,
         "max_products": 6,
         "columns": 4,
