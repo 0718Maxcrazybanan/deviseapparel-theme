@@ -623,32 +623,34 @@ class ProductFormComponent extends Component {
       })
     );
 
-    const payload = {
-      items: items.map((item) => ({
-        id: Number(item.variantId),
-        quantity: item.quantity,
-      })),
-      sections: cartItemComponentsSectionIds.join(','),
-    };
+    const addItems = async () => {
+      let lastResponse = null;
 
-    fetch(Theme.routes.cart_add_url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response.status) {
+      for (const item of items) {
+        const formData = new FormData();
+        formData.set('id', item.variantId);
+        formData.set('quantity', item.quantity.toString());
+        formData.append('sections', cartItemComponentsSectionIds.join(','));
+        formData.append('sections_url', window.location.pathname);
+
+        const fetchCfg = fetchConfig('javascript', { body: formData });
+        const response = await fetch(Theme.routes.cart_add_url, {
+          ...fetchCfg,
+          headers: {
+            ...fetchCfg.headers,
+            Accept: 'application/json',
+          },
+        });
+        const parsedResponse = await response.json();
+
+        if (!response.ok || parsedResponse.status) {
           this.dispatchEvent(
             new CartErrorEvent({
-              error: response.message || 'Add to cart failed',
+              error: parsedResponse.message || 'Add to cart failed',
               code: 'INVALID',
               detail: {
-                description: response.description,
-                errors: response.errors,
+                description: parsedResponse.description,
+                errors: parsedResponse.errors,
               },
             })
           );
@@ -673,11 +675,11 @@ class ProductFormComponent extends Component {
           addToCartTextError.classList.remove('hidden');
           const textNode = addToCartTextError.childNodes[2];
           if (textNode) {
-            textNode.textContent = response.message;
+            textNode.textContent = parsedResponse.message;
           } else {
-            addToCartTextError.appendChild(document.createTextNode(response.message));
+            addToCartTextError.appendChild(document.createTextNode(parsedResponse.message));
           }
-          this.#setLiveRegionText(response.message);
+          this.#setLiveRegionText(parsedResponse.message);
 
           this.#timeout = setTimeout(() => {
             addToCartTextError.classList.add('hidden');
@@ -687,37 +689,42 @@ class ProductFormComponent extends Component {
           return;
         }
 
-        if (addToCartTextError) {
-          addToCartTextError.classList.add('hidden');
-          addToCartTextError.removeAttribute('aria-live');
-        }
+        lastResponse = parsedResponse;
+      }
 
-        const allAddToCartContainers = /** @type {NodeListOf<AddToCartComponent>} */ (
-          this.querySelectorAll('add-to-cart-component')
-        );
-        const anyAddToCartButton = allAddToCartContainers[0]?.refs.addToCartButton;
-        if (anyAddToCartButton) {
-          const addedTextElement = anyAddToCartButton.querySelector('.add-to-cart-text--added');
-          const addedText = addedTextElement?.textContent?.trim() || Theme.translations.added;
-          this.#setLiveRegionText(addedText);
-          setTimeout(() => this.#clearLiveRegionText(), SUCCESS_MESSAGE_DISPLAY_DURATION);
-        }
+      if (addToCartTextError) {
+        addToCartTextError.classList.add('hidden');
+        addToCartTextError.removeAttribute('aria-live');
+      }
 
-        const cart = await this.#refreshCart();
-        deferredEventPromise.resolve({
-          cart: CartLinesUpdateEvent.createCartFromAjaxResponse(cart),
-          detail: {
-            items: cart.items,
-            source: 'product-form-component',
-            sourceId: this.id.toString(),
-            itemCount: totalQuantity,
-            productId: this.dataset.productId,
-            sections: response.sections,
-            didError: false,
-          },
-        });
-        this.#updateCartQuantity(cart);
-      })
+      const allAddToCartContainers = /** @type {NodeListOf<AddToCartComponent>} */ (
+        this.querySelectorAll('add-to-cart-component')
+      );
+      const anyAddToCartButton = allAddToCartContainers[0]?.refs.addToCartButton;
+      if (anyAddToCartButton) {
+        const addedTextElement = anyAddToCartButton.querySelector('.add-to-cart-text--added');
+        const addedText = addedTextElement?.textContent?.trim() || Theme.translations.added;
+        this.#setLiveRegionText(addedText);
+        setTimeout(() => this.#clearLiveRegionText(), SUCCESS_MESSAGE_DISPLAY_DURATION);
+      }
+
+      const cart = await this.#refreshCart();
+      deferredEventPromise.resolve({
+        cart: CartLinesUpdateEvent.createCartFromAjaxResponse(cart),
+        detail: {
+          items: cart.items,
+          source: 'product-form-component',
+          sourceId: this.id.toString(),
+          itemCount: totalQuantity,
+          productId: this.dataset.productId,
+          sections: lastResponse?.sections,
+          didError: false,
+        },
+      });
+      this.#updateCartQuantity(cart);
+    };
+
+    addItems()
       .catch((error) => {
         console.error(error);
         deferredEventPromise.reject(error);
