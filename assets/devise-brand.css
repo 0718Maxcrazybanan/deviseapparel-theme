@@ -1,0 +1,139 @@
+:root {
+  --devise-yellow: #FFDE59;
+  --devise-ink: #101010;
+  --devise-charcoal: #121212;
+  --devise-paper: #F4F2EE;
+  --devise-soft: #FAF9F6;
+  --devise-line: rgba(16, 16, 16, 0.12);
+}
+
+body {
+  background: var(--devise-paper);
+  color: var(--devise-ink);
+}
+
+.content-for-layout {
+  background: var(--devise-paper);
+}
+
+#header-group,
+#header-component,
+#header-component .header__row,
+#header-component .header__navigation-bar-row {
+  background: var(--devise-charcoal) !important;
+  color: #FFFFFF;
+}
+
+#header-component {
+  --color-background-top-row: var(--devise-charcoal) !important;
+  --color-background-bottom-row: var(--devise-charcoal) !important;
+  --cart-bubble-background: var(--devise-yellow);
+  --cart-bubble-text: var(--devise-ink);
+}
+
+#header-component :is(a, summary, button, .button, .button-secondary, .header-actions__action) {
+  color: #FFFFFF;
+}
+
+#header-component :is(a, summary, button, .button, .button-secondary, .header-actions__action):hover {
+  color: var(--devise-yellow);
+}
+
+.announcement-bar {
+  background: #050505 !important;
+  color: #FFFFFF !important;
+  border-bottom: 1px solid rgba(255, 222, 89, 0.28);
+}
+
+.announcement-bar :is(a, .announcement-bar__text, .announcement-bar__link) {
+  color: #FFFFFF !important;
+}
+
+.announcement-bar :is(strong, em, b),
+.announcement-bar a:hover {
+  color: var(--devise-yellow) !important;
+}
+
+footer,
+footer .section,
+footer .section-background,
+.footer-utilities {
+  background: var(--devise-charcoal) !important;
+  color: #FFFFFF !important;
+}
+
+footer :is(a, p, h1, h2, h3, h4, h5, h6, span, li),
+.footer-utilities :is(a, p, span, li) {
+  color: #FFFFFF;
+}
+
+footer a:hover,
+.footer-utilities a:hover {
+  color: var(--devise-yellow);
+}
+
+:is(.product-card, .product-grid__card, .resource-card, .collection-card) {
+  background: #FFFFFF;
+  border-color: var(--devise-line);
+}
+
+:is(.product-grid__item, .resource-list__item) {
+  background: #FFFFFF;
+  border: 1px solid var(--devise-line);
+}
+
+.product-card {
+  border-radius: 8px;
+}
+
+.product-card__content {
+  padding-inline: max(10px, var(--padding-inline-start, 0px)) max(10px, var(--padding-inline-end, 0px));
+}
+
+.button:not(.button-secondary, .button-unstyled),
+button.shopify-payment-button__button--unbranded {
+  --button-color: var(--devise-ink);
+  --button-background-color: var(--devise-yellow);
+  --button-border-color: var(--devise-yellow);
+  --button-focus-outline-color: var(--devise-ink);
+  border-radius: 4px;
+  font-weight: 850;
+}
+
+.button:not(.button-secondary, .button-unstyled):hover,
+button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
+  --button-color: var(--devise-ink);
+  --button-background-color: #F2CF36;
+  --button-border-color: #F2CF36;
+}
+
+.button-secondary {
+  --button-color: #FFFFFF;
+  --button-background-color: var(--devise-ink);
+  --button-border-color: var(--devise-ink);
+  border-radius: 4px;
+  font-weight: 800;
+}
+
+.button-secondary:hover {
+  --button-color: var(--devise-yellow);
+  --button-background-color: #050505;
+  --button-border-color: #050505;
+}
+
+.product-information,
+.featured-product-section,
+.cart-summary,
+.cart-items__wrapper {
+  color: var(--devise-ink);
+}
+
+.product-information :is(.price, .product-title, h1, h2, h3, p, a),
+.featured-product-section :is(.price, .product-title, h1, h2, h3, p, a) {
+  color: var(--devise-ink);
+}
+
+.product-information a,
+.featured-product-section a {
+  text-underline-offset: 2px;
+}

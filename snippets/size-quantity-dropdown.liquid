@@ -41,70 +41,78 @@
     data-product-id="{{ product_resource.id }}"
     data-form-id="{{ product_form_id }}"
     data-size-option-index="{{ size_option_index }}"
-    data-empty-label="Välj storlekar"
-    data-empty-summary="Ange antal per storlek"
+    data-label-prefix="Storlekar:"
+    data-empty-label="Storlekar:"
+    data-empty-summary="Välj storlek och antal"
     data-selected-label="plagg valda"
     data-error-empty="Välj minst en storlek."
     data-available-label="Tillgänglig"
     data-unavailable-label="Ej tillgänglig"
   >
-    <button
-      type="button"
-      class="size-quantity-dropdown__toggle"
-      aria-expanded="false"
-      aria-controls="{{ picker_id }}-menu"
-      data-size-quantity-toggle
-    >
-      <span>
-        <strong data-size-quantity-label>Välj storlekar</strong>
-        <small data-size-quantity-summary>Ange antal per storlek</small>
-      </span>
-      <span class="size-quantity-dropdown__chevron" aria-hidden="true"></span>
-    </button>
+    <div class="size-quantity-dropdown__meta">
+      <span>Mängdrabatt vid 5+ plagg</span>
+      <a href="/pages/storleksguide">Storleksguide</a>
+    </div>
 
-    <div
-      id="{{ picker_id }}-menu"
-      class="size-quantity-dropdown__menu"
-      data-size-quantity-menu
-      hidden
-    >
-      {%- for option_value in size_option.values -%}
-        <div
-          class="size-quantity-dropdown__row"
-          data-size-quantity-row
-          data-size-value="{{ option_value | escape }}"
-        >
-          <div class="size-quantity-dropdown__size">
-            <span>{{ option_value | escape }}</span>
-            <small data-size-quantity-state>Tillgänglig</small>
-          </div>
+    <div class="size-quantity-dropdown__control">
+      <button
+        type="button"
+        class="size-quantity-dropdown__toggle"
+        aria-expanded="false"
+        aria-controls="{{ picker_id }}-menu"
+        data-size-quantity-toggle
+      >
+        <span>
+          <strong data-size-quantity-label>Storlekar:</strong>
+          <small data-size-quantity-summary>Välj storlek och antal</small>
+        </span>
+        <span class="size-quantity-dropdown__chevron" aria-hidden="true"></span>
+      </button>
 
-          <div class="size-quantity-dropdown__stepper">
-            <button
-              type="button"
-              aria-label="Minska {{ option_value | escape }}"
-              data-size-quantity-minus
-            >
-              -
-            </button>
-            <input
-              type="number"
-              min="0"
-              value="0"
-              inputmode="numeric"
-              aria-label="Antal för {{ option_value | escape }}"
-              data-size-quantity-input
-            >
-            <button
-              type="button"
-              aria-label="Öka {{ option_value | escape }}"
-              data-size-quantity-plus
-            >
-              +
-            </button>
+      <div
+        id="{{ picker_id }}-menu"
+        class="size-quantity-dropdown__menu"
+        data-size-quantity-menu
+        hidden
+      >
+        {%- for option_value in size_option.values -%}
+          <div
+            class="size-quantity-dropdown__row"
+            data-size-quantity-row
+            data-size-value="{{ option_value | escape }}"
+          >
+            <div class="size-quantity-dropdown__size">
+              <span>{{ option_value | escape }}</span>
+              <small data-size-quantity-state>Tillgänglig</small>
+            </div>
+
+            <div class="size-quantity-dropdown__stepper">
+              <button
+                type="button"
+                aria-label="Minska {{ option_value | escape }}"
+                data-size-quantity-minus
+              >
+                -
+              </button>
+              <input
+                type="number"
+                min="0"
+                value="0"
+                inputmode="numeric"
+                aria-label="Antal för {{ option_value | escape }}"
+                data-size-quantity-input
+              >
+              <button
+                type="button"
+                aria-label="Öka {{ option_value | escape }}"
+                data-size-quantity-plus
+              >
+                +
+              </button>
+            </div>
           </div>
-        </div>
-      {%- endfor -%}
+        {%- endfor -%}
+      </div>
     </div>
 
     <p
