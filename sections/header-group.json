@@ -131,7 +131,7 @@
         "text_color_transparent_home": "",
         "enable_transparent_header_product": false,
         "product_inverse_logo": true,
-        "text_color_transparent_product": "#FFFFFF",
+        "text_color_transparent_product": "#ffffff",
         "enable_transparent_header_collection": false,
         "collection_inverse_logo": false,
         "text_color_transparent_collection": ""
@@ -150,6 +150,7 @@
     },
     "custom_liquid_ctTUhd": {
       "type": "custom-liquid",
+      "disabled": true,
       "name": "Sticky order",
       "settings": {
         "custom_liquid": "<a href=\"/pages/contact\" class=\"devise-sticky-btn\" id=\"deviseStickyBtn\">\n  Beställ custom tröja\n  <span>→</span>\n</a>\n\n<style>\n  .devise-sticky-btn {\n    position: fixed;\n    left: 14px;\n    right: 14px;\n    bottom: 14px;\n    z-index: 9999;\n\n    height: 58px;\n    border-radius: 14px;\n    background: #FFDE59;\n    color: #0A0A0A;\n\n    display: none;\n    align-items: center;\n    justify-content: center;\n    gap: 10px;\n\n    font-family: Inter, Arial, sans-serif;\n    font-size: 14px;\n    font-weight: 950;\n    text-transform: uppercase;\n    letter-spacing: 0.04em;\n    text-decoration: none;\n\n    box-shadow:\n      0 0 0 1px rgba(255, 222, 89, 0.5),\n      0 12px 40px rgba(0, 0, 0, 0.45),\n      0 0 34px rgba(255, 222, 89, 0.35);\n\n    opacity: 0;\n    visibility: hidden;\n    transform: translateY(18px);\n    pointer-events: none;\n\n    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;\n  }\n\n  .devise-sticky-btn.is-visible {\n    opacity: 1;\n    visibility: visible;\n    transform: translateY(0);\n    pointer-events: auto;\n  }\n\n  .devise-sticky-btn span {\n    font-size: 18px;\n    line-height: 1;\n  }\n\n  .devise-sticky-btn:hover {\n    transform: translateY(-2px);\n    box-shadow:\n      0 0 0 1px rgba(255, 222, 89, 0.75),\n      0 14px 48px rgba(0, 0, 0, 0.55),\n      0 0 46px rgba(255, 222, 89, 0.5);\n  }\n\n  @media (max-width: 768px) {\n    .devise-sticky-btn {\n      display: flex;\n    }\n\n    body {\n      padding-bottom: 86px;\n    }\n  }\n</style>\n\n<script>\n  document.addEventListener(\"DOMContentLoaded\", function () {\n    const stickyBtn = document.getElementById(\"deviseStickyBtn\");\n\n    if (!stickyBtn) return;\n\n    let formIsVisible = false;\n\n    const formTarget = document.querySelector(\n      \"#ContactForm, #contact_form, #devise-custom-order-form, .devise-order-section, .contact-form, form[action*='/contact']\"\n    );\n\n    function updateStickyButton() {\n      const isMobile = window.innerWidth <= 768;\n      const hasScrolledEnough = window.scrollY > 280;\n\n      if (isMobile && hasScrolledEnough && !formIsVisible) {\n        stickyBtn.classList.add(\"is-visible\");\n      } else {\n        stickyBtn.classList.remove(\"is-visible\");\n      }\n    }\n\n    if (formTarget) {\n      const observer = new IntersectionObserver(\n        function (entries) {\n          entries.forEach(function (entry) {\n            formIsVisible = entry.isIntersecting;\n            updateStickyButton();\n          });\n        },\n        {\n          threshold: 0.12,\n          rootMargin: \"0px 0px -20% 0px\"\n        }\n      );\n\n      observer.observe(formTarget);\n    }\n\n    window.addEventListener(\"scroll\", updateStickyButton);\n    window.addEventListener(\"resize\", updateStickyButton);\n\n    updateStickyButton();\n  });\n</script>",
@@ -161,6 +162,7 @@
     },
     "custom_liquid_j9wr39": {
       "type": "custom-liquid",
+      "disabled": true,
       "name": "t:names.custom_liquid",
       "settings": {
         "custom_liquid": "<a href=\"/pages/faq\" class=\"devise-process-sticky\">\n  <span>?</span>\n  Så fungerar det\n</a>\n\n<style>\n  .devise-process-sticky {\n    position: fixed;\n    left: 14px;\n    bottom: 86px;\n    z-index: 9998;\n\n    display: none;\n    align-items: center;\n    gap: 9px;\n\n    min-height: 44px;\n    padding: 0 15px 0 10px;\n    border-radius: 999px;\n\n    background: rgba(17, 17, 17, 0.94);\n    color: #FFFFFF;\n    border: 1px solid rgba(255, 222, 89, 0.28);\n\n    font-family: Inter, Arial, sans-serif;\n    font-size: 12px;\n    font-weight: 900;\n    letter-spacing: 0.03em;\n    text-transform: uppercase;\n    text-decoration: none;\n\n    box-shadow: 0 14px 42px rgba(0, 0, 0, 0.45);\n    backdrop-filter: blur(14px);\n    -webkit-backdrop-filter: blur(14px);\n  }\n\n  .devise-process-sticky span {\n    width: 26px;\n    height: 26px;\n    border-radius: 999px;\n\n    background: #FFDE59;\n    color: #0A0A0A;\n\n    display: flex;\n    align-items: center;\n    justify-content: center;\n\n    font-size: 14px;\n    font-weight: 950;\n  }\n\n  .devise-process-sticky:active {\n    transform: scale(0.97);\n  }\n\n  @media (max-width: 768px) {\n    .devise-process-sticky {\n      display: inline-flex;\n    }\n  }\n</style>",
