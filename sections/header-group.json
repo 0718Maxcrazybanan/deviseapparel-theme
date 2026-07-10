@@ -159,17 +159,6 @@
         "padding-block-end": 0
       }
     },
-    "custom_liquid_njhg67": {
-      "type": "custom-liquid",
-      "name": "t:names.custom_liquid",
-      "settings": {
-        "custom_liquid": "",
-        "background_color": "{{ settings.color_palette.background }}",
-        "section_width": "page-width",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
     "custom_liquid_j9wr39": {
       "type": "custom-liquid",
       "name": "t:names.custom_liquid",
@@ -200,7 +189,6 @@
     "header_section",
     "custom_liquid_B66N9k",
     "custom_liquid_ctTUhd",
-    "custom_liquid_njhg67",
     "custom_liquid_j9wr39",
     "devise_email_popup_B8bmfQ"
   ]
