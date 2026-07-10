@@ -169,7 +169,7 @@
                   "name": "t:names.popup_link",
                   "settings": {
                     "behavior": "default",
-                    "heading": "Produktinformation",
+                    "heading": "Se produktuppgifter",
                     "type_preset": "paragraph",
                     "padding-block-start": 0,
                     "padding-block-end": 0,
