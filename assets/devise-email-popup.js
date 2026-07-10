@@ -124,7 +124,7 @@
     if (!root || root.dataset.deviseEmailPopupInitialized === 'true') return;
     root.dataset.deviseEmailPopupInitialized = 'true';
 
-    const delay = readNumber(root.dataset.delay, DEFAULT_DELAY_MS);
+    const delay = Math.max(readNumber(root.dataset.delay, DEFAULT_DELAY_MS), DEFAULT_DELAY_MS);
     const form = root.querySelector('form');
     const hasSuccess = Boolean(root.querySelector(SUCCESS_SELECTOR));
     const hasError = Boolean(root.querySelector(ERROR_SELECTOR));

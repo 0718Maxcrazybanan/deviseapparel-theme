@@ -128,6 +128,7 @@
 
 .devise-email-popup__surfer {
   position: absolute;
+  z-index: 3;
   left: -240px;
   top: calc(50% - 126px);
   width: min(34vw, 220px);
@@ -199,6 +200,7 @@
 
 .devise-email-popup__splash {
   position: absolute;
+  z-index: 1;
   top: 20%;
   left: 0;
   width: 116%;
@@ -275,9 +277,65 @@
   transform: translateX(7%) scaleX(0.78) rotate(-2deg);
 }
 
+.devise-email-popup__screen-splash {
+  position: absolute;
+  inset: -8%;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-18%, 0, 0);
+  filter: drop-shadow(0 24px 42px rgba(109, 232, 244, 0.22));
+}
+
+.devise-email-popup.is-visible .devise-email-popup__screen-splash {
+  animation: devise-email-popup-screen-splash 1350ms cubic-bezier(0.16, 0.82, 0.2, 1) 680ms forwards;
+}
+
+.devise-email-popup__screen-splash span {
+  position: absolute;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.94) 0 3%, transparent 4%),
+    radial-gradient(circle at 32% 68%, rgba(255, 255, 255, 0.8) 0 2.4%, transparent 3.4%),
+    radial-gradient(circle at 76% 32%, rgba(210, 255, 255, 0.86) 0 2.2%, transparent 3.2%),
+    linear-gradient(100deg, rgba(130, 248, 255, 0), rgba(130, 248, 255, 0.72) 20%, rgba(255, 255, 255, 0.74) 48%, rgba(76, 220, 232, 0.34) 72%, rgba(76, 220, 232, 0));
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.devise-email-popup__screen-splash span:nth-child(1) {
+  top: 18%;
+  left: -4%;
+  width: 112%;
+  height: 30%;
+  clip-path: polygon(0 62%, 8% 42%, 18% 56%, 27% 22%, 38% 52%, 50% 18%, 62% 46%, 73% 26%, 85% 52%, 100% 35%, 100% 100%, 0 100%);
+}
+
+.devise-email-popup__screen-splash span:nth-child(2) {
+  top: 42%;
+  left: 8%;
+  width: 94%;
+  height: 18%;
+  opacity: 0.62;
+  transform: rotate(-3deg);
+}
+
+.devise-email-popup__screen-splash span:nth-child(3) {
+  top: 4%;
+  left: 28%;
+  width: 54%;
+  height: 38%;
+  opacity: 0.46;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(255, 255, 255, 0.92) 0 5%, transparent 6%),
+    radial-gradient(circle at 38% 64%, rgba(137, 245, 255, 0.82) 0 4%, transparent 5%),
+    radial-gradient(circle at 74% 34%, rgba(255, 255, 255, 0.78) 0 3.4%, transparent 4.4%);
+}
+
 .devise-email-popup__droplets {
   position: absolute;
   inset: 0;
+  z-index: 4;
   opacity: 0;
   pointer-events: none;
 }
@@ -381,20 +439,21 @@
   z-index: 2;
   width: min(100%, 455px);
   overflow: hidden;
-  border: 1px solid var(--dep-line);
+  border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: 30px;
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(255, 246, 232, 0.46) 36%, rgba(210, 248, 245, 0.34) 100%),
-    radial-gradient(circle at 12% -12%, rgba(255, 158, 128, 0.42), transparent 32%),
-    radial-gradient(circle at 102% 8%, rgba(54, 214, 218, 0.36), transparent 34%),
-    radial-gradient(circle at 78% 105%, rgba(220, 209, 255, 0.4), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 246, 232, 0.58) 32%, rgba(202, 251, 246, 0.42) 100%),
+    radial-gradient(circle at 10% -14%, rgba(255, 158, 128, 0.58), transparent 34%),
+    radial-gradient(circle at 102% 6%, rgba(54, 214, 218, 0.48), transparent 36%),
+    radial-gradient(circle at 82% 110%, rgba(220, 209, 255, 0.52), transparent 36%),
+    radial-gradient(circle at 0% 95%, rgba(255, 222, 89, 0.28), transparent 32%),
     linear-gradient(180deg, var(--dep-card), var(--dep-cream-deep));
   color: var(--dep-ink);
   box-shadow:
-    0 34px 110px var(--dep-shadow),
-    0 0 0 1px rgba(255, 255, 255, 0.44) inset,
-    0 20px 80px rgba(54, 214, 218, 0.22),
-    0 -18px 64px rgba(255, 222, 89, 0.12);
+    0 38px 120px var(--dep-shadow),
+    0 0 0 1px rgba(255, 255, 255, 0.58) inset,
+    0 24px 90px rgba(54, 214, 218, 0.28),
+    0 -22px 70px rgba(255, 222, 89, 0.18);
   opacity: 0;
   transform: translate3d(0, 20px, 0) scale(0.96);
   backdrop-filter: blur(18px);
@@ -420,10 +479,26 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(124deg, rgba(255, 255, 255, 0.54), transparent 36%),
-    linear-gradient(330deg, rgba(255, 222, 89, 0.16), transparent 42%),
-    radial-gradient(circle at 82% 92%, rgba(54, 214, 218, 0.16), transparent 28%);
+    linear-gradient(124deg, rgba(255, 255, 255, 0.68), transparent 34%),
+    linear-gradient(330deg, rgba(255, 222, 89, 0.2), transparent 42%),
+    radial-gradient(circle at 82% 92%, rgba(54, 214, 218, 0.2), transparent 28%),
+    repeating-linear-gradient(150deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 12px);
   pointer-events: none;
+}
+
+.devise-email-popup__card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, rgba(255, 222, 89, 0.92), rgba(255, 158, 128, 0.72), rgba(54, 214, 218, 0.9), rgba(255, 255, 255, 0.76));
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 
 .devise-email-popup__card-palms {
@@ -698,6 +773,27 @@ body.devise-email-popup-is-open {
   100% {
     opacity: 0;
     transform: translate3d(30%, -3%, 0) rotate(0deg) skewX(-4deg) scaleX(1.06);
+  }
+}
+
+@keyframes devise-email-popup-screen-splash {
+  0% {
+    opacity: 0;
+    transform: translate3d(-24%, 8%, 0) rotate(-5deg) scale(0.78);
+  }
+  18% {
+    opacity: 0.96;
+  }
+  42% {
+    opacity: 0.9;
+    transform: translate3d(0, -2%, 0) rotate(-1deg) scale(1);
+  }
+  72% {
+    opacity: 0.42;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(18%, -7%, 0) rotate(2deg) scale(1.04);
   }
 }
 
