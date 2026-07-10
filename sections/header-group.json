@@ -130,8 +130,8 @@
         "home_inverse_logo": false,
         "text_color_transparent_home": "",
         "enable_transparent_header_product": false,
-        "product_inverse_logo": false,
-        "text_color_transparent_product": "",
+        "product_inverse_logo": true,
+        "text_color_transparent_product": "#FFFFFF",
         "enable_transparent_header_collection": false,
         "collection_inverse_logo": false,
         "text_color_transparent_collection": ""
