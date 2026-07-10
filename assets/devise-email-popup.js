@@ -87,7 +87,7 @@
     const target = email || dialog;
     if (!target) return;
 
-    const focusDelay = immediate || prefersReducedMotion() ? 40 : 1760;
+    const focusDelay = immediate || prefersReducedMotion() ? 40 : 2140;
 
     window.setTimeout(() => {
       if (!root.classList.contains(OPEN_CLASS)) return;

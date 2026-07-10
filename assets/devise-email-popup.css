@@ -56,6 +56,7 @@
 .devise-email-popup__motion {
   position: absolute;
   inset: 0;
+  z-index: 1;
   overflow: hidden;
   perspective: 900px;
   pointer-events: none;
@@ -80,9 +81,11 @@
   bottom: -22px;
   width: clamp(138px, 18vw, 220px);
   height: auto;
-  opacity: 0.34;
+  opacity: 0.42;
   transform-origin: 50% 100%;
-  filter: drop-shadow(0 24px 36px rgba(4, 45, 36, 0.16));
+  filter:
+    drop-shadow(0 28px 38px rgba(4, 45, 36, 0.18))
+    drop-shadow(0 0 18px rgba(190, 255, 226, 0.08));
 }
 
 .devise-email-popup__palm--left {
@@ -129,20 +132,19 @@
 .devise-email-popup__surfer {
   position: absolute;
   z-index: 3;
-  left: -240px;
-  top: calc(50% - 126px);
-  width: min(34vw, 220px);
-  min-width: 150px;
+  left: -170px;
+  top: calc(50% - 168px);
+  width: clamp(96px, 20vw, 150px);
   opacity: 0;
-  transform: translate3d(-20vw, 24px, 0) rotate(-5deg) rotateY(0deg);
+  transform: translate3d(-18vw, 36px, 0) rotate(-11deg) rotateY(0deg) scale(0.86);
   transform-origin: 58% 74%;
   transform-style: preserve-3d;
   will-change: transform, opacity;
-  filter: drop-shadow(0 18px 24px rgba(3, 43, 56, 0.22));
+  filter: drop-shadow(0 15px 20px rgba(3, 43, 56, 0.24));
 }
 
 .devise-email-popup.is-visible .devise-email-popup__surfer {
-  animation: devise-email-popup-surfer 1260ms cubic-bezier(0.18, 0.78, 0.24, 1) 110ms forwards;
+  animation: devise-email-popup-surfer 1440ms cubic-bezier(0.17, 0.78, 0.2, 1) 110ms forwards;
 }
 
 .devise-email-popup__surfer-trail,
@@ -279,57 +281,101 @@
 
 .devise-email-popup__screen-splash {
   position: absolute;
-  inset: -8%;
-  z-index: 1;
+  inset: -10%;
+  z-index: 3;
   opacity: 0;
   pointer-events: none;
-  transform: translate3d(-18%, 0, 0);
-  filter: drop-shadow(0 24px 42px rgba(109, 232, 244, 0.22));
+  transform: translate3d(-28%, 8%, 0) rotate(-8deg) scale(0.78);
+  transform-origin: 28% 44%;
+  mix-blend-mode: screen;
+  filter:
+    drop-shadow(0 28px 44px rgba(109, 232, 244, 0.34))
+    saturate(1.08);
 }
 
 .devise-email-popup.is-visible .devise-email-popup__screen-splash {
-  animation: devise-email-popup-screen-splash 1350ms cubic-bezier(0.16, 0.82, 0.2, 1) 680ms forwards;
+  animation: devise-email-popup-screen-splash 1560ms cubic-bezier(0.15, 0.82, 0.19, 1) 560ms forwards;
 }
 
 .devise-email-popup__screen-splash span {
   position: absolute;
-  border-radius: 999px;
+  opacity: 0.88;
+  border-radius: 58% 42% 48% 52%;
   background:
-    radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.94) 0 3%, transparent 4%),
-    radial-gradient(circle at 32% 68%, rgba(255, 255, 255, 0.8) 0 2.4%, transparent 3.4%),
-    radial-gradient(circle at 76% 32%, rgba(210, 255, 255, 0.86) 0 2.2%, transparent 3.2%),
-    linear-gradient(100deg, rgba(130, 248, 255, 0), rgba(130, 248, 255, 0.72) 20%, rgba(255, 255, 255, 0.74) 48%, rgba(76, 220, 232, 0.34) 72%, rgba(76, 220, 232, 0));
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+    radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.98) 0 3.4%, transparent 4.3%),
+    radial-gradient(circle at 32% 68%, rgba(255, 255, 255, 0.84) 0 2.8%, transparent 3.8%),
+    radial-gradient(circle at 76% 32%, rgba(210, 255, 255, 0.9) 0 2.5%, transparent 3.5%),
+    linear-gradient(103deg, rgba(130, 248, 255, 0), rgba(130, 248, 255, 0.86) 18%, rgba(255, 255, 255, 0.84) 48%, rgba(76, 220, 232, 0.42) 74%, rgba(76, 220, 232, 0));
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.22) inset,
+    0 22px 55px rgba(58, 223, 232, 0.18);
+  backdrop-filter: blur(3px) saturate(1.2);
+  -webkit-backdrop-filter: blur(3px) saturate(1.2);
 }
 
 .devise-email-popup__screen-splash span:nth-child(1) {
-  top: 18%;
-  left: -4%;
-  width: 112%;
-  height: 30%;
-  clip-path: polygon(0 62%, 8% 42%, 18% 56%, 27% 22%, 38% 52%, 50% 18%, 62% 46%, 73% 26%, 85% 52%, 100% 35%, 100% 100%, 0 100%);
+  top: 14%;
+  left: 0;
+  width: 106%;
+  height: 44%;
+  clip-path: polygon(0 59%, 7% 36%, 15% 52%, 24% 18%, 35% 48%, 46% 12%, 58% 43%, 68% 19%, 80% 48%, 91% 30%, 100% 46%, 100% 100%, 0 100%);
 }
 
 .devise-email-popup__screen-splash span:nth-child(2) {
-  top: 42%;
-  left: 8%;
-  width: 94%;
-  height: 18%;
-  opacity: 0.62;
-  transform: rotate(-3deg);
+  top: 38%;
+  left: 10%;
+  width: 88%;
+  height: 24%;
+  opacity: 0.72;
+  transform: rotate(-4deg);
 }
 
 .devise-email-popup__screen-splash span:nth-child(3) {
-  top: 4%;
-  left: 28%;
-  width: 54%;
-  height: 38%;
-  opacity: 0.46;
+  top: 2%;
+  left: 26%;
+  width: 58%;
+  height: 42%;
+  opacity: 0.58;
   background:
-    radial-gradient(circle at 12% 20%, rgba(255, 255, 255, 0.92) 0 5%, transparent 6%),
-    radial-gradient(circle at 38% 64%, rgba(137, 245, 255, 0.82) 0 4%, transparent 5%),
-    radial-gradient(circle at 74% 34%, rgba(255, 255, 255, 0.78) 0 3.4%, transparent 4.4%);
+    radial-gradient(circle at 12% 20%, rgba(255, 255, 255, 0.95) 0 5%, transparent 6%),
+    radial-gradient(circle at 38% 64%, rgba(137, 245, 255, 0.86) 0 4%, transparent 5%),
+    radial-gradient(circle at 74% 34%, rgba(255, 255, 255, 0.82) 0 3.4%, transparent 4.4%);
+}
+
+.devise-email-popup__screen-splash span:nth-child(4) {
+  top: 19%;
+  left: 8%;
+  width: 18%;
+  height: 17%;
+  opacity: 0.78;
+  transform: rotate(18deg);
+}
+
+.devise-email-popup__screen-splash span:nth-child(5) {
+  top: 13%;
+  left: 74%;
+  width: 20%;
+  height: 16%;
+  opacity: 0.72;
+  transform: rotate(-21deg);
+}
+
+.devise-email-popup__screen-splash span:nth-child(6) {
+  top: 48%;
+  left: 23%;
+  width: 24%;
+  height: 13%;
+  opacity: 0.62;
+  transform: rotate(8deg);
+}
+
+.devise-email-popup__screen-splash span:nth-child(7) {
+  top: 53%;
+  left: 69%;
+  width: 17%;
+  height: 15%;
+  opacity: 0.58;
+  transform: rotate(-10deg);
 }
 
 .devise-email-popup__droplets {
@@ -338,100 +384,262 @@
   z-index: 4;
   opacity: 0;
   pointer-events: none;
+  mix-blend-mode: screen;
 }
 
 .devise-email-popup.is-visible .devise-email-popup__droplets {
-  animation: devise-email-popup-droplets-wrap 1500ms ease 720ms forwards;
+  animation: devise-email-popup-droplets-wrap 2300ms ease 680ms forwards;
 }
 
 .devise-email-popup__droplets span {
   position: absolute;
-  top: 18%;
-  width: 9px;
-  height: 30px;
-  border-radius: 999px;
+  top: var(--dep-start-y, 18%);
+  left: var(--dep-left, 50%);
+  width: var(--dep-drop-w, 10px);
+  height: var(--dep-drop-h, 42px);
+  border-radius: 999px 999px 68% 68%;
   background:
-    radial-gradient(circle at 42% 14%, rgba(255, 255, 255, 0.95), transparent 0 18%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(111, 232, 244, 0.7));
-  box-shadow: 0 10px 30px rgba(88, 230, 241, 0.24);
-  animation: devise-email-popup-droplet 1360ms cubic-bezier(0.3, 0.82, 0.32, 1) forwards;
+    radial-gradient(circle at 38% 13%, rgba(255, 255, 255, 0.98), transparent 0 17%),
+    radial-gradient(circle at 64% 76%, rgba(255, 255, 255, 0.42), transparent 0 19%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(111, 232, 244, 0.62) 70%, rgba(42, 191, 206, 0.2));
+  box-shadow:
+    0 10px 28px rgba(88, 230, 241, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+  backdrop-filter: blur(1.6px);
+  -webkit-backdrop-filter: blur(1.6px);
+  transform-origin: 50% 0;
+  animation: devise-email-popup-droplet var(--dep-drop-time, 1780ms) cubic-bezier(0.22, 0.74, 0.24, 1) var(--dep-delay, 840ms) forwards;
+}
+
+.devise-email-popup__droplets span::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 4px);
+  width: 2px;
+  height: var(--dep-tail-h, 68px);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(210, 255, 255, 0.5), rgba(109, 232, 244, 0.04));
+  transform: translateX(-50%);
+  opacity: 0.7;
 }
 
 .devise-email-popup__droplets span:nth-child(1) {
-  left: 18%;
-  --dep-drop-x: -8vw;
+  --dep-left: 14%;
+  --dep-start-y: 19%;
+  --dep-drop-w: 13px;
+  --dep-drop-h: 74px;
+  --dep-drop-x: -24vw;
+  --dep-drop-mid-x: -5vw;
   --dep-drop-end-x: -2vw;
-  animation-delay: 760ms;
-}
-
-.devise-email-popup__droplets span:nth-child(2) {
-  left: 30%;
-  height: 20px;
-  --dep-drop-x: -13vw;
-  --dep-drop-end-x: 2vw;
-  animation-delay: 820ms;
+  --dep-drop-fall: 78vh;
+  --dep-delay: 760ms;
 }
 
 .devise-email-popup__droplets span:nth-child(3) {
-  left: 42%;
-  width: 8px;
-  height: 24px;
-  --dep-drop-x: -10vw;
+  --dep-left: 33%;
+  --dep-start-y: 11%;
+  --dep-drop-w: 10px;
+  --dep-drop-h: 58px;
+  --dep-drop-x: -21vw;
+  --dep-drop-mid-x: -4vw;
   --dep-drop-end-x: -1vw;
-  animation-delay: 870ms;
+  --dep-drop-fall: 84vh;
+  --dep-delay: 820ms;
+}
+
+.devise-email-popup__droplets span:nth-child(2) {
+  --dep-left: 24%;
+  --dep-start-y: 28%;
+  --dep-drop-w: 8px;
+  --dep-drop-h: 36px;
+  --dep-drop-x: -18vw;
+  --dep-drop-mid-x: -2vw;
+  --dep-drop-end-x: 2vw;
+  --dep-drop-fall: 72vh;
+  --dep-delay: 900ms;
 }
 
 .devise-email-popup__droplets span:nth-child(4) {
-  left: 55%;
-  height: 18px;
-  --dep-drop-x: -16vw;
+  --dep-left: 44%;
+  --dep-start-y: 17%;
+  --dep-drop-w: 12px;
+  --dep-drop-h: 82px;
+  --dep-drop-x: -17vw;
+  --dep-drop-mid-x: -1vw;
   --dep-drop-end-x: 3vw;
-  animation-delay: 930ms;
+  --dep-drop-fall: 80vh;
+  --dep-delay: 860ms;
+  --dep-drop-time: 1900ms;
 }
 
 .devise-email-popup__droplets span:nth-child(5) {
-  left: 67%;
-  width: 7px;
-  height: 22px;
-  --dep-drop-x: -11vw;
+  --dep-left: 57%;
+  --dep-start-y: 9%;
+  --dep-drop-w: 9px;
+  --dep-drop-h: 48px;
+  --dep-drop-x: -14vw;
+  --dep-drop-mid-x: 1vw;
   --dep-drop-end-x: 1vw;
-  animation-delay: 990ms;
+  --dep-drop-fall: 86vh;
+  --dep-delay: 940ms;
 }
 
 .devise-email-popup__droplets span:nth-child(6) {
-  left: 78%;
-  width: 8px;
-  height: 26px;
-  --dep-drop-x: -18vw;
+  --dep-left: 69%;
+  --dep-start-y: 22%;
+  --dep-drop-w: 11px;
+  --dep-drop-h: 68px;
+  --dep-drop-x: -12vw;
+  --dep-drop-mid-x: 3vw;
   --dep-drop-end-x: 4vw;
-  animation-delay: 1040ms;
+  --dep-drop-fall: 74vh;
+  --dep-delay: 980ms;
 }
 
 .devise-email-popup__droplets span:nth-child(7) {
-  left: 86%;
-  width: 6px;
-  height: 19px;
-  --dep-drop-x: -14vw;
+  --dep-left: 81%;
+  --dep-start-y: 15%;
+  --dep-drop-w: 8px;
+  --dep-drop-h: 42px;
+  --dep-drop-x: -10vw;
+  --dep-drop-mid-x: 2vw;
   --dep-drop-end-x: 0vw;
-  animation-delay: 1100ms;
+  --dep-drop-fall: 78vh;
+  --dep-delay: 1040ms;
 }
 
 .devise-email-popup__droplets span:nth-child(8) {
-  left: 24%;
-  width: 7px;
-  height: 23px;
-  --dep-drop-x: -7vw;
+  --dep-left: 88%;
+  --dep-start-y: 33%;
+  --dep-drop-w: 7px;
+  --dep-drop-h: 34px;
+  --dep-drop-x: -8vw;
+  --dep-drop-mid-x: 4vw;
   --dep-drop-end-x: 5vw;
-  animation-delay: 1160ms;
+  --dep-drop-fall: 66vh;
+  --dep-delay: 1090ms;
 }
 
 .devise-email-popup__droplets span:nth-child(9) {
-  left: 61%;
-  width: 6px;
-  height: 18px;
-  --dep-drop-x: -20vw;
+  --dep-left: 39%;
+  --dep-start-y: 30%;
+  --dep-drop-w: 7px;
+  --dep-drop-h: 32px;
+  --dep-drop-x: -16vw;
+  --dep-drop-mid-x: -2vw;
   --dep-drop-end-x: -3vw;
-  animation-delay: 1210ms;
+  --dep-drop-fall: 64vh;
+  --dep-delay: 1150ms;
+}
+
+.devise-email-popup__droplets span:nth-child(10) {
+  --dep-left: 18%;
+  --dep-start-y: 42%;
+  --dep-drop-w: 6px;
+  --dep-drop-h: 28px;
+  --dep-drop-x: -14vw;
+  --dep-drop-mid-x: -1vw;
+  --dep-drop-end-x: 2vw;
+  --dep-drop-fall: 54vh;
+  --dep-delay: 1180ms;
+}
+
+.devise-email-popup__droplets span:nth-child(11) {
+  --dep-left: 51%;
+  --dep-start-y: 38%;
+  --dep-drop-w: 9px;
+  --dep-drop-h: 46px;
+  --dep-drop-x: -13vw;
+  --dep-drop-mid-x: 1vw;
+  --dep-drop-end-x: 3vw;
+  --dep-drop-fall: 58vh;
+  --dep-delay: 1230ms;
+}
+
+.devise-email-popup__droplets span:nth-child(12) {
+  --dep-left: 74%;
+  --dep-start-y: 42%;
+  --dep-drop-w: 6px;
+  --dep-drop-h: 30px;
+  --dep-drop-x: -9vw;
+  --dep-drop-mid-x: 4vw;
+  --dep-drop-end-x: 1vw;
+  --dep-drop-fall: 52vh;
+  --dep-delay: 1280ms;
+}
+
+.devise-email-popup__droplets span:nth-child(13) {
+  --dep-left: 29%;
+  --dep-start-y: 8%;
+  --dep-drop-w: 5px;
+  --dep-drop-h: 22px;
+  --dep-drop-x: -19vw;
+  --dep-drop-mid-x: -3vw;
+  --dep-drop-end-x: -1vw;
+  --dep-drop-fall: 70vh;
+  --dep-delay: 990ms;
+}
+
+.devise-email-popup__droplets span:nth-child(14) {
+  --dep-left: 63%;
+  --dep-start-y: 5%;
+  --dep-drop-w: 6px;
+  --dep-drop-h: 26px;
+  --dep-drop-x: -12vw;
+  --dep-drop-mid-x: 2vw;
+  --dep-drop-end-x: 5vw;
+  --dep-drop-fall: 73vh;
+  --dep-delay: 1060ms;
+}
+
+.devise-email-popup__droplets span:nth-child(15) {
+  --dep-left: 93%;
+  --dep-start-y: 18%;
+  --dep-drop-w: 5px;
+  --dep-drop-h: 24px;
+  --dep-drop-x: -7vw;
+  --dep-drop-mid-x: 2vw;
+  --dep-drop-end-x: -1vw;
+  --dep-drop-fall: 60vh;
+  --dep-delay: 1200ms;
+}
+
+.devise-email-popup__droplets span:nth-child(16) {
+  --dep-left: 8%;
+  --dep-start-y: 31%;
+  --dep-drop-w: 7px;
+  --dep-drop-h: 38px;
+  --dep-drop-x: -25vw;
+  --dep-drop-mid-x: -6vw;
+  --dep-drop-end-x: -2vw;
+  --dep-drop-fall: 62vh;
+  --dep-delay: 1010ms;
+}
+
+.devise-email-popup__droplets span:nth-child(17) {
+  --dep-left: 47%;
+  --dep-start-y: 2%;
+  --dep-drop-w: 5px;
+  --dep-drop-h: 22px;
+  --dep-drop-x: -15vw;
+  --dep-drop-mid-x: 0vw;
+  --dep-drop-end-x: 2vw;
+  --dep-drop-fall: 82vh;
+  --dep-delay: 1120ms;
+}
+
+.devise-email-popup__droplets span:nth-child(18) {
+  --dep-left: 78%;
+  --dep-start-y: 30%;
+  --dep-drop-w: 8px;
+  --dep-drop-h: 50px;
+  --dep-drop-x: -10vw;
+  --dep-drop-mid-x: 3vw;
+  --dep-drop-end-x: 4vw;
+  --dep-drop-fall: 58vh;
+  --dep-delay: 1160ms;
+  --dep-drop-time: 1680ms;
 }
 
 .devise-email-popup__card {
@@ -461,7 +669,7 @@
 }
 
 .devise-email-popup.is-visible .devise-email-popup__card {
-  animation: devise-email-popup-card-in 520ms cubic-bezier(0.2, 0.8, 0.22, 1) 1580ms forwards;
+  animation: devise-email-popup-card-in 520ms cubic-bezier(0.2, 0.8, 0.22, 1) 1840ms forwards;
 }
 
 .devise-email-popup.is-immediate .devise-email-popup__motion {
@@ -508,53 +716,58 @@
   pointer-events: none;
 }
 
-.devise-email-popup__card-palms span {
+.devise-email-popup__card-palm {
   position: absolute;
-  bottom: -48px;
-  width: 96px;
-  height: 188px;
-  opacity: 0.16;
+  bottom: -54px;
+  width: 130px;
+  height: auto;
+  opacity: 0.2;
   transform-origin: 50% 100%;
+  filter: drop-shadow(0 16px 18px rgba(5, 64, 50, 0.12));
 }
 
-.devise-email-popup__card-palms span::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 42px;
-  width: 11px;
-  height: 132px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #8D633C, #4E6F46);
-  transform: rotate(8deg);
-  box-shadow:
-    0 16px 0 -5px rgba(255, 229, 181, 0.22),
-    0 34px 0 -5px rgba(255, 229, 181, 0.18),
-    0 52px 0 -5px rgba(255, 229, 181, 0.14);
+.devise-email-popup__card-palm--left {
+  left: -18px;
+  animation: devise-email-popup-card-palm-a 5s ease-in-out infinite alternate;
 }
 
-.devise-email-popup__card-palms span::after {
-  content: "";
-  position: absolute;
-  top: 6px;
-  left: -2px;
-  width: 100px;
-  height: 94px;
-  background: linear-gradient(135deg, #0B7A61, #75DFAE);
-  clip-path: polygon(50% 50%, 0 27%, 45% 37%, 25% 0, 56% 34%, 92% 3%, 67% 43%, 100% 34%, 64% 55%, 86% 88%, 54% 63%, 22% 94%, 40% 59%, 3% 73%);
-  filter: drop-shadow(0 8px 8px rgba(3, 56, 48, 0.12));
-}
-
-.devise-email-popup__card-palms span:first-child {
-  left: 2px;
-  animation: devise-email-popup-card-palm-a 4.8s ease-in-out infinite alternate;
-}
-
-.devise-email-popup__card-palms span:last-child {
-  right: -16px;
-  bottom: -58px;
+.devise-email-popup__card-palm--right {
+  right: -44px;
+  bottom: -66px;
+  opacity: 0.17;
   transform: scaleX(-1);
-  animation: devise-email-popup-card-palm-b 5.2s ease-in-out infinite alternate;
+  animation: devise-email-popup-card-palm-b 5.4s ease-in-out infinite alternate;
+}
+
+.devise-email-popup__card-palm-trunk {
+  fill: rgba(121, 80, 48, 0.62);
+  stroke: rgba(255, 237, 199, 0.4);
+  stroke-width: 1.8;
+}
+
+.devise-email-popup__card-palm-trunk-mark,
+.devise-email-popup__card-palm-vein {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.devise-email-popup__card-palm-trunk-mark {
+  stroke: rgba(255, 238, 204, 0.36);
+  stroke-width: 2.4;
+}
+
+.devise-email-popup__card-palm-leaf {
+  fill: rgba(20, 117, 88, 0.5);
+  stroke: rgba(199, 255, 228, 0.34);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.devise-email-popup__card-palm-vein {
+  stroke: rgba(218, 255, 232, 0.42);
+  stroke-width: 1.8;
 }
 
 .devise-email-popup__content {
@@ -731,26 +944,30 @@ body.devise-email-popup-is-open {
 @keyframes devise-email-popup-surfer {
   0% {
     opacity: 0;
-    transform: translate3d(-22vw, 24px, 0) rotateZ(-5deg) rotateY(0deg) scale(0.96);
+    transform: translate3d(-18vw, 36px, 0) rotateZ(-11deg) rotateY(0deg) scale(0.82);
   }
   12% {
     opacity: 1;
   }
+  26% {
+    opacity: 1;
+    transform: translate3d(18vw, -22px, 0) rotateZ(-8deg) rotateY(0deg) scale(0.9);
+  }
   44% {
     opacity: 1;
-    transform: translate3d(calc(36vw - 30px), -10px, 0) rotateZ(-2deg) rotateY(0deg) scale(1);
+    transform: translate3d(calc(42vw - 16px), 18px, 18px) rotateZ(10deg) rotateY(12deg) scale(0.94);
   }
   58% {
     opacity: 1;
-    transform: translate3d(calc(48vw + 10px), -22px, 24px) rotateZ(12deg) rotateY(64deg) scaleX(0.72) scaleY(1.02);
+    transform: translate3d(calc(54vw + 8px), -36px, 56px) rotateZ(21deg) rotateY(72deg) scaleX(0.58) scaleY(1.02);
   }
   72% {
     opacity: 1;
-    transform: translate3d(calc(60vw + 40px), -4px, 0) rotateZ(4deg) rotateY(-8deg) scale(0.98);
+    transform: translate3d(calc(64vw + 32px), -4px, 0) rotateZ(1deg) rotateY(-12deg) scale(0.9);
   }
   100% {
     opacity: 0;
-    transform: translate3d(calc(100vw + 270px), 8px, 0) rotateZ(5deg) rotateY(0deg) scale(0.94);
+    transform: translate3d(calc(100vw + 170px), 30px, 0) rotateZ(7deg) rotateY(0deg) scale(0.84);
   }
 }
 
@@ -779,21 +996,25 @@ body.devise-email-popup-is-open {
 @keyframes devise-email-popup-screen-splash {
   0% {
     opacity: 0;
-    transform: translate3d(-24%, 8%, 0) rotate(-5deg) scale(0.78);
+    transform: translate3d(-28%, 10%, 0) rotate(-9deg) scale(0.68, 0.82);
+    filter: blur(5px) drop-shadow(0 28px 44px rgba(109, 232, 244, 0.28)) saturate(1.02);
   }
-  18% {
+  16% {
+    opacity: 1;
+  }
+  36% {
     opacity: 0.96;
+    transform: translate3d(-1%, -2%, 0) rotate(-1deg) scale(1.04, 1);
+    filter: blur(0) drop-shadow(0 32px 54px rgba(109, 232, 244, 0.36)) saturate(1.14);
   }
-  42% {
-    opacity: 0.9;
-    transform: translate3d(0, -2%, 0) rotate(-1deg) scale(1);
-  }
-  72% {
-    opacity: 0.42;
+  68% {
+    opacity: 0.48;
+    transform: translate3d(5%, -6%, 0) rotate(1deg) scale(1.08);
   }
   100% {
     opacity: 0;
-    transform: translate3d(18%, -7%, 0) rotate(2deg) scale(1.04);
+    transform: translate3d(11%, -10%, 0) rotate(3deg) scale(1.1);
+    filter: blur(4px) drop-shadow(0 16px 28px rgba(109, 232, 244, 0.14)) saturate(1.04);
   }
 }
 
@@ -809,18 +1030,19 @@ body.devise-email-popup-is-open {
 
 @keyframes devise-email-popup-droplet {
   0% {
-    transform: translate3d(var(--dep-drop-x, -12vw), -30px, 0) scale(0.62, 0.72);
+    transform: translate3d(var(--dep-drop-x, -12vw), -16vh, 0) scale(0.48, 0.72);
     opacity: 0;
   }
-  12% {
-    opacity: 0.82;
+  16% {
+    transform: translate3d(var(--dep-drop-mid-x, 0vw), 0, 0) scale(1.04, 0.94);
+    opacity: 0.9;
   }
-  42% {
-    transform: translate3d(calc(var(--dep-drop-x, -12vw) * 0.24), 22vh, 0) scale(0.9, 1);
-    opacity: 0.72;
+  38% {
+    transform: translate3d(var(--dep-drop-mid-x, 0vw), 18vh, 0) scale(0.86, 1.22);
+    opacity: 0.74;
   }
   100% {
-    transform: translate3d(var(--dep-drop-end-x, 0vw), 88vh, 0) scale(0.72, 1.36);
+    transform: translate3d(var(--dep-drop-end-x, 0vw), var(--dep-drop-fall, 78vh), 0) scale(0.62, 1.5);
     opacity: 0;
   }
 }
@@ -885,8 +1107,13 @@ body.devise-email-popup-is-open {
   }
 
   .devise-email-popup__surfer {
-    top: calc(50% - 156px);
-    width: 158px;
+    top: calc(50% - 176px);
+    width: 108px;
+  }
+
+  .devise-email-popup__card-palm {
+    width: 104px;
+    opacity: 0.15;
   }
 
   .devise-email-popup__card {
