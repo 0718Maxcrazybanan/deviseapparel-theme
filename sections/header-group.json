@@ -181,12 +181,12 @@
         "padding-block-end": 0
       }
     },
-    "devise_email_popup": {
+    "devise_email_popup_7tttGR": {
       "type": "devise-email-popup",
       "name": "Devise email popup",
       "settings": {
         "enabled": true,
-        "delay_ms": 5000,
+        "delay_ms": 1200,
         "hide_days": 7,
         "accent_color": "#FFDE59",
         "ocean_color": "#36D6DA",
@@ -202,6 +202,6 @@
     "custom_liquid_ctTUhd",
     "custom_liquid_njhg67",
     "custom_liquid_j9wr39",
-    "devise_email_popup"
+    "devise_email_popup_7tttGR"
   ]
 }
