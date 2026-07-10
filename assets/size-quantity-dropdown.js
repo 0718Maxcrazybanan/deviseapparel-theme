@@ -65,6 +65,40 @@ class SizeQuantityDropdown extends HTMLElement {
     return Array.from(itemsByVariant, ([variantId, quantity]) => ({ variantId, quantity }));
   }
 
+  getPriceSummary() {
+    const baseOptions = this.#getBaseOptions();
+    const selectedRows = this.rows
+      .map((item) => {
+        const variant = this.#findVariantForSize(item.size, baseOptions);
+        return {
+          size: item.size,
+          quantity: this.#getQuantity(item),
+          variant,
+        };
+      })
+      .filter((item) => item.quantity > 0 && item.variant?.available !== false);
+
+    if (!selectedRows.length) {
+      const fallbackVariant = this.#getCurrentVariant();
+      return {
+        totalQuantity: 1,
+        totalPrice: Number(fallbackVariant?.price) || 0,
+        items: [],
+      };
+    }
+
+    return {
+      totalQuantity: selectedRows.reduce((sum, item) => sum + item.quantity, 0),
+      totalPrice: selectedRows.reduce((sum, item) => sum + (Number(item.variant?.price) || 0) * item.quantity, 0),
+      items: selectedRows.map((item) => ({
+        size: item.size,
+        quantity: item.quantity,
+        variantId: item.variant?.id?.toString() || '',
+        price: Number(item.variant?.price) || 0,
+      })),
+    };
+  }
+
   validate() {
     const selectedItems = this.getSelectedItems();
 
@@ -353,10 +387,12 @@ class SizeQuantityDropdown extends HTMLElement {
 
     if (!total) {
       this.#setSummaryText(this.dataset.emptySummary || 'Välj storlek och antal');
+      this.#syncPriceSummary();
       return;
     }
 
     this.#setSummaryChips(selectedRows);
+    this.#syncPriceSummary();
   }
 
   #setSummaryText(text) {
@@ -380,6 +416,47 @@ class SizeQuantityDropdown extends HTMLElement {
 
   #setStatus(message) {
     if (this.status) this.status.textContent = message;
+  }
+
+  #syncPriceSummary() {
+    const summary = this.getPriceSummary();
+    const productForm = this.#getProductForm();
+    const priceBox = productForm?.querySelector('[data-devise-cart-price]');
+
+    if (priceBox) {
+      const total = priceBox.querySelector('[data-devise-cart-price-total]');
+      const detail = priceBox.querySelector('[data-devise-cart-price-detail]');
+
+      priceBox.dataset.totalQuantity = summary.totalQuantity.toString();
+      priceBox.dataset.totalPrice = summary.totalPrice.toString();
+
+      if (total) total.textContent = this.#formatMoney(summary.totalPrice, priceBox.dataset.currency);
+      if (detail) {
+        detail.textContent = summary.totalQuantity > 1 ? `${summary.totalQuantity} plagg totalt` : '1 plagg';
+      }
+    }
+
+    this.dispatchEvent(
+      new CustomEvent('size-quantity:price-update', {
+        bubbles: true,
+        detail: summary,
+      })
+    );
+  }
+
+  #formatMoney(cents, currency) {
+    const amount = (Number(cents) || 0) / 100;
+    const currencyCode = currency || 'SEK';
+    const locale = document.documentElement.lang || 'sv-SE';
+
+    try {
+      return new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency: currencyCode,
+      }).format(amount);
+    } catch {
+      return `${amount.toFixed(2).replace('.', ',')} kr`;
+    }
   }
 
   #normalize(value) {

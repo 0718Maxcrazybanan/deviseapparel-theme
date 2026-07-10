@@ -34,6 +34,7 @@
 
   {%- assign picker_id = 'SizeQuantityDropdown-' | append: section.id | append: '-' | append: product_resource.id -%}
   {%- assign product_form_id = 'BuyButtons-ProductForm-' | append: section.id -%}
+  {%- assign size_guide_url = '/pages/storleksguide' -%}
 
   <size-quantity-dropdown
     id="{{ picker_id }}"
@@ -49,9 +50,9 @@
     data-available-label="Tillgänglig"
     data-unavailable-label="Ej tillgänglig"
   >
-    <div class="size-quantity-dropdown__meta">
-      <span>Mängdrabatt vid 5+ plagg</span>
-      <a href="/pages/storleksguide">Storleksguide</a>
+    <div class="size-quantity-dropdown__meta size-quantity-dropdown__meta--guide-only">
+      {% comment %} Change size_guide_url above when you want this link to point somewhere else. {% endcomment %}
+      <a href="{{ size_guide_url }}">Storleksguide</a>
     </div>
 
     <div class="size-quantity-dropdown__control">

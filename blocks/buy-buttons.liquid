@@ -10,6 +10,8 @@
   assign variant = closest.product.selected_or_first_available_variant
   assign inventory_quantity = variant.inventory_quantity
   assign inventory_policy = variant.inventory_policy
+  assign price_info_url = '/policies/terms-of-service'
+  assign price_summary_currency = cart.currency.iso_code | default: shop.currency
 
   if variant.inventory_management == 'shopify'
     assign inventory_managed = true
@@ -227,6 +229,20 @@
             can_add_to_cart: can_add_to_cart,
             add_to_cart_text: add_to_cart_text
           %}
+
+          {% comment %} Change price_info_url above if "Prisuppgifter" should point to another page. {% endcomment %}
+          <div
+            class="devise-product-page__cart-price"
+            data-devise-cart-price
+            data-base-price="{{ variant.price }}"
+            data-currency="{{ price_summary_currency }}"
+          >
+            <strong data-devise-cart-price-total>{{ variant.price | money }}</strong>
+            <span>
+              <a href="{{ price_info_url }}">Prisuppgifter</a>
+              <small data-devise-cart-price-detail>1 plagg</small>
+            </span>
+          </div>
 
           {% content_for 'block',
             type: 'accelerated-checkout',
