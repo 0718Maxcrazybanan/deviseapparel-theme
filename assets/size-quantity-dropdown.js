@@ -1,5 +1,6 @@
 const PRODUCT_SELECT_EVENT = 'shopify:product:select';
 const SIZE_QUANTITY_ADD_EVENT = 'size-quantity:add-to-cart';
+const DESIGN_BUTTON_READY_EVENT = 'devise:design-button-ready';
 
 class SizeQuantityDropdown extends HTMLElement {
   #relocating = false;
@@ -27,14 +28,14 @@ class SizeQuantityDropdown extends HTMLElement {
       variant: null,
     }));
 
-    this.#placeAfterVariantPicker();
     this.#bindEvents();
     this.#hideThemeControls();
     this.#refreshVariants();
     this.#updateLabel();
+    this.#placeAfterDesignButton();
 
-    window.setTimeout(() => this.#placeAfterVariantPicker(), 300);
-    window.setTimeout(() => this.#placeAfterVariantPicker(), 1000);
+    window.setTimeout(() => this.#placeAfterDesignButton(), 300);
+    window.setTimeout(() => this.#placeAfterDesignButton(), 1000);
     window.setTimeout(() => this.#hideThemeControls(), 300);
     window.setTimeout(() => this.#hideThemeControls(), 1000);
   }
@@ -46,6 +47,7 @@ class SizeQuantityDropdown extends HTMLElement {
     document.removeEventListener('keydown', this.handleKeydown);
     document.removeEventListener('submit', this.handleFormSubmit, true);
     document.removeEventListener(PRODUCT_SELECT_EVENT, this.handleProductSelect);
+    document.removeEventListener(DESIGN_BUTTON_READY_EVENT, this.handleDesignButtonReady);
   }
 
   getSelectedItems() {
@@ -76,12 +78,12 @@ class SizeQuantityDropdown extends HTMLElement {
           variant,
         };
       })
-      .filter((item) => item.quantity > 0 && item.variant?.available !== false);
+      .filter((item) => item.quantity > 0 && item.variant && item.variant.available !== false);
 
     if (!selectedRows.length) {
       const fallbackVariant = this.#getCurrentVariant();
       return {
-        totalQuantity: 1,
+        totalQuantity: 0,
         totalPrice: Number(fallbackVariant?.price) || 0,
         items: [],
       };
@@ -95,6 +97,8 @@ class SizeQuantityDropdown extends HTMLElement {
         quantity: item.quantity,
         variantId: item.variant?.id?.toString() || '',
         price: Number(item.variant?.price) || 0,
+        variantTitle: item.variant?.title || '',
+        options: Array.isArray(item.variant?.options) ? [...item.variant.options] : [],
       })),
     };
   }
@@ -103,11 +107,15 @@ class SizeQuantityDropdown extends HTMLElement {
     const selectedItems = this.getSelectedItems();
 
     if (selectedItems.length > 0) {
+      this.classList.remove('is-invalid');
+      this.toggle?.setAttribute('aria-invalid', 'false');
       this.#setStatus('');
       return true;
     }
 
     this.open();
+    this.classList.add('is-invalid');
+    this.toggle?.setAttribute('aria-invalid', 'true');
     this.#setStatus(this.dataset.errorEmpty || 'Välj minst en storlek.');
     this.toggle?.focus();
     return false;
@@ -179,24 +187,56 @@ class SizeQuantityDropdown extends HTMLElement {
 
       this.#refreshVariants();
       event.promise?.finally(() => {
-        this.#placeAfterVariantPicker();
+        this.#placeAfterDesignButton();
         this.#hideThemeControls();
         this.#refreshVariants();
       });
+    };
+
+    this.handleDesignButtonReady = () => {
+      this.#placeAfterDesignButton();
     };
 
     document.addEventListener('click', this.handleOutsideClick);
     document.addEventListener('keydown', this.handleKeydown);
     document.addEventListener('submit', this.handleFormSubmit, true);
     document.addEventListener(PRODUCT_SELECT_EVENT, this.handleProductSelect);
+    document.addEventListener(DESIGN_BUTTON_READY_EVENT, this.handleDesignButtonReady);
   }
 
-  #placeAfterVariantPicker() {
-    const variantPicker = this.#getVariantPicker();
-    if (!variantPicker || variantPicker.nextElementSibling === this) return;
+  #placeAfterDesignButton() {
+    const productRoot = this.closest('.devise-product-page');
+    if (!productRoot) return;
+
+    const candidates = productRoot.querySelectorAll('a, button');
+    const designButton = Array.from(candidates).find((candidate) => {
+      if (candidate.closest('add-to-cart-component')) return false;
+      const label = candidate.textContent?.replace(/\s+/g, ' ').trim() || '';
+      return /(anpassa|skapa)\s+design|designa\s+produkten/i.test(label);
+    });
+
+    if (!designButton) return;
+
+    const form = this.#getForm();
+    const buttonContainer = designButton.closest('.product-form-buttons');
+    let host = designButton;
+    let destination = buttonContainer;
+
+    if (!destination && form?.contains(designButton)) destination = form;
+    if (!destination) {
+      const productFlow = productRoot.querySelector('.product-details > .group-block > .group-block-content');
+      if (productFlow?.contains(designButton)) destination = productFlow;
+    }
+    if (!destination || !destination.contains(host)) return;
+
+    while (host.parentElement && host.parentElement !== destination) {
+      host = host.parentElement;
+    }
+
+    if (host === this || host.nextElementSibling === this) return;
 
     this.#relocating = true;
-    variantPicker.insertAdjacentElement('afterend', this);
+    host.insertAdjacentElement('afterend', this);
     const clearRelocating = () => {
       this.#relocating = false;
     };
@@ -230,7 +270,8 @@ class SizeQuantityDropdown extends HTMLElement {
   }
 
   #getVariantPicker() {
-    return document.querySelector(`variant-picker[data-product-id="${this.dataset.productId}"]`);
+    const productRoot = this.closest('.devise-product-page') || document;
+    return productRoot.querySelector(`variant-picker[data-product-id="${this.dataset.productId}"]`);
   }
 
   #isRelatedProductElement(element) {
@@ -352,7 +393,13 @@ class SizeQuantityDropdown extends HTMLElement {
     item.row.classList.toggle('is-selected', nextQuantity > 0);
 
     if (syncTheme) {
-      this.#setStatus('');
+      if (nextQuantity > 0) {
+        this.classList.remove('is-invalid');
+        this.toggle?.setAttribute('aria-invalid', 'false');
+        this.#setStatus('');
+      } else if (!this.classList.contains('is-invalid')) {
+        this.#setStatus('');
+      }
     }
 
     this.#syncFormToFirstSelection();
@@ -432,7 +479,9 @@ class SizeQuantityDropdown extends HTMLElement {
 
       if (total) total.textContent = this.#formatMoney(summary.totalPrice, priceBox.dataset.currency);
       if (detail) {
-        detail.textContent = summary.totalQuantity > 1 ? `${summary.totalQuantity} plagg totalt` : '1 plagg';
+        if (summary.totalQuantity === 0) detail.textContent = 'Välj storlek';
+        else if (summary.totalQuantity > 1) detail.textContent = `${summary.totalQuantity} plagg totalt`;
+        else detail.textContent = '1 plagg';
       }
     }
 

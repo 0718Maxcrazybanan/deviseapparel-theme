@@ -3,6 +3,7 @@
 
   @param {object} product - The current product.
   @param {object} section - The current section.
+  @param {object} block - The buy buttons block.
 {%- enddoc -%}
 
 {%- liquid
@@ -34,7 +35,6 @@
 
   {%- assign picker_id = 'SizeQuantityDropdown-' | append: section.id | append: '-' | append: product_resource.id -%}
   {%- assign product_form_id = 'BuyButtons-ProductForm-' | append: section.id -%}
-  {%- assign size_guide_url = '/pages/storleksguide' -%}
 
   <size-quantity-dropdown
     id="{{ picker_id }}"
@@ -51,8 +51,12 @@
     data-unavailable-label="Ej tillgänglig"
   >
     <div class="size-quantity-dropdown__meta size-quantity-dropdown__meta--guide-only">
-      {% comment %} Change size_guide_url above when you want this link to point somewhere else. {% endcomment %}
-      <a href="{{ size_guide_url }}">Storleksguide</a>
+      {% render 'devise-size-guide-dialog',
+        product: product_resource,
+        section: section,
+        block: block,
+        size_option: size_option
+      %}
     </div>
 
     <div class="size-quantity-dropdown__control">
@@ -61,6 +65,7 @@
         class="size-quantity-dropdown__toggle"
         aria-expanded="false"
         aria-controls="{{ picker_id }}-menu"
+        aria-describedby="{{ picker_id }}-status"
         data-size-quantity-toggle
       >
         <span>
@@ -117,6 +122,7 @@
     </div>
 
     <p
+      id="{{ picker_id }}-status"
       class="size-quantity-dropdown__status"
       data-size-quantity-status
       role="status"
