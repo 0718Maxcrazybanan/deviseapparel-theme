@@ -176,10 +176,6 @@
     }
   },
   "platform_customizations": {
-    "custom_css": [
-      "/* Transparent header only on product pages */body:has(#MainContent[data-template^=\"product\"]) #header-group,body:has(#MainContent[data-template^=\"product\"]) .header-section,body:has(#MainContent[data-template^=\"product\"]) header-component,body:has(#MainContent[data-template^=\"product\"]) .header__row {background: transparent !important; background-color: transparent !important; box-shadow: none !important; border-color: transparent !important;}",
-      "/* White menu text and icons */body:has(#MainContent[data-template^=\"product\"]) header-component {color: #ffffff !important; --color-foreground: 255 255 255; --menu-top-level-font-color: #ffffff; --menu-top-level-font-color-rgb: 255 255 255;}",
-      "/* Remove any header backdrop or overlay */body:has(#MainContent[data-template^=\"product\"]) .header__underlay {background: transparent !important; backdrop-filter: none !important;}"
-    ]
+    "custom_css": []
   }
 }
