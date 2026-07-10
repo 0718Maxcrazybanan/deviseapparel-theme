@@ -30,34 +30,42 @@
     ></button>
 
     <div class="devise-email-popup__motion" aria-hidden="true">
-      <div class="devise-email-popup__sun"></div>
+      <div class="devise-email-popup__surfer-path">
+        <svg class="devise-email-popup__surfer" viewBox="0 0 260 160" focusable="false" aria-hidden="true">
+          <defs>
+            <linearGradient id="{{ popup_id }}-board" x1="35" x2="218" y1="121" y2="105" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FFDE59" />
+              <stop offset="0.55" stop-color="#FFE98E" />
+              <stop offset="1" stop-color="#36D6DA" />
+            </linearGradient>
+            <linearGradient id="{{ popup_id }}-spray" x1="12" x2="230" y1="126" y2="96" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#EFFFFF" stop-opacity="0" />
+              <stop offset="0.26" stop-color="#EFFFFF" />
+              <stop offset="1" stop-color="#9AF8FF" />
+            </linearGradient>
+          </defs>
+          <path class="devise-email-popup__surfer-wake devise-email-popup__surfer-wake--back" d="M16 130C54 105 94 112 128 122C164 134 199 121 236 92" />
+          <path class="devise-email-popup__surfer-wake devise-email-popup__surfer-wake--front" d="M28 132C66 115 102 116 136 124C174 133 204 119 232 101" />
+          <path class="devise-email-popup__surfer-board" d="M34 119C76 96 164 89 224 105C204 130 88 138 34 119Z" fill="url(#{{ popup_id }}-board)" />
+          <path class="devise-email-popup__surfer-board-shadow" d="M54 121C95 112 158 107 204 110" />
+          <path class="devise-email-popup__surfer-leg" d="M128 89C116 100 109 110 105 124" />
+          <path class="devise-email-popup__surfer-leg" d="M145 88C151 101 163 109 180 113" />
+          <path class="devise-email-popup__surfer-shorts" d="M122 80C135 73 151 75 160 86C153 96 134 98 122 90Z" />
+          <path class="devise-email-popup__surfer-body" d="M142 39C128 52 123 65 126 82C139 89 154 87 164 77C160 60 154 47 142 39Z" />
+          <path class="devise-email-popup__surfer-arm" d="M132 53C116 60 103 70 92 84" />
+          <path class="devise-email-popup__surfer-arm" d="M158 56C176 58 191 66 204 80" />
+          <circle class="devise-email-popup__surfer-head" cx="144" cy="28" r="12" />
+          <path class="devise-email-popup__surfer-hair" d="M132 28C137 14 153 13 162 24C153 22 145 26 141 36C136 34 133 31 132 28Z" />
+          <path class="devise-email-popup__surfer-spray" d="M27 128C65 111 103 112 140 122C178 132 211 116 238 96" fill="none" stroke="url(#{{ popup_id }}-spray)" />
+        </svg>
+      </div>
 
-      <svg class="devise-email-popup__surfer" viewBox="0 0 220 140" focusable="false" aria-hidden="true">
-        <defs>
-          <linearGradient id="{{ popup_id }}-board" x1="36" x2="190" y1="110" y2="98" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#FFDE59" />
-            <stop offset="1" stop-color="#36D6DA" />
-          </linearGradient>
-          <linearGradient id="{{ popup_id }}-water" x1="20" x2="205" y1="112" y2="112" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#8EF4FF" />
-            <stop offset="1" stop-color="#FFFFFF" />
-          </linearGradient>
-        </defs>
-        <path class="devise-email-popup__surfer-trail" d="M18 111C55 98 93 102 127 108C158 113 183 108 205 95" />
-        <path class="devise-email-popup__surfer-board" d="M34 109C75 91 142 88 190 100C177 117 81 122 34 109Z" fill="url(#{{ popup_id }}-board)" />
-        <path class="devise-email-popup__surfer-board-line" d="M57 109C89 102 135 100 171 103" />
-        <path class="devise-email-popup__surfer-leg" d="M110 82C101 91 96 99 93 111" />
-        <path class="devise-email-popup__surfer-leg" d="M127 83C132 93 139 99 151 105" />
-        <path class="devise-email-popup__surfer-short" d="M103 76C114 70 128 72 136 81C130 89 114 91 103 82Z" />
-        <path class="devise-email-popup__surfer-body" d="M121 39C111 49 106 62 108 78C119 83 130 82 139 75C136 60 132 47 121 39Z" />
-        <path class="devise-email-popup__surfer-arm" d="M113 51C101 57 91 66 82 78" />
-        <path class="devise-email-popup__surfer-arm" d="M133 54C146 55 158 61 169 72" />
-        <circle class="devise-email-popup__surfer-head" cx="122" cy="29" r="11" />
-        <path class="devise-email-popup__surfer-hair" d="M112 28C115 16 129 15 137 24C130 22 122 26 119 34C116 32 114 30 112 28Z" />
-        <path class="devise-email-popup__surfer-water" d="M23 117C56 104 94 106 131 112C164 118 190 111 207 101" fill="none" stroke="url(#{{ popup_id }}-water)" />
-      </svg>
-
-      <div class="devise-email-popup__splash">
+      <div class="devise-email-popup__impact-splash">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
         <span></span>
         <span></span>
         <span></span>
@@ -67,8 +75,7 @@
         <span></span>
       </div>
 
-      <div class="devise-email-popup__screen-splash">
-        <span></span>
+      <div class="devise-email-popup__glass-wash">
         <span></span>
         <span></span>
         <span></span>
@@ -77,7 +84,13 @@
         <span></span>
       </div>
 
-      <div class="devise-email-popup__droplets">
+      <div class="devise-email-popup__water-drops">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
         <span></span>
         <span></span>
         <span></span>

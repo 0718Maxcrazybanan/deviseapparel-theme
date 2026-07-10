@@ -1,18 +1,21 @@
 /*
   Devise email popup controls:
-  - Main colors come from section settings and land in --dep-accent, --dep-ocean, --dep-card.
-  - Motion timing lives near the bottom in the animation-delay declarations.
+  - Change colors in the Shopify section settings. They land in --dep-accent, --dep-ocean, --dep-card.
+  - Animation timing is grouped in the custom properties below.
+  - Hide duration is controlled by the section setting and localStorage in devise-email-popup.js.
 */
 .devise-email-popup {
   --dep-ink: #102027;
-  --dep-muted: #52636B;
-  --dep-cream-deep: #F7D9C1;
-  --dep-coral: #FF9E80;
-  --dep-lagoon: #B6F2EC;
-  --dep-lilac: #DCD1FF;
-  --dep-glass: rgba(255, 255, 255, 0.52);
-  --dep-line: rgba(255, 255, 255, 0.7);
+  --dep-muted: #52636b;
+  --dep-cream-deep: #f7d9c1;
+  --dep-coral: #ff9e80;
+  --dep-lagoon: #b6f2ec;
+  --dep-lilac: #dcd1ff;
   --dep-shadow: rgba(8, 41, 52, 0.42);
+  --dep-overlay-delay: 680ms;
+  --dep-card-delay: 760ms;
+  --dep-splash-delay: 600ms;
+  --dep-drops-delay: 760ms;
 
   position: fixed;
   inset: 0;
@@ -24,12 +27,15 @@
   visibility: hidden;
   pointer-events: none;
   font-family: Inter, Arial, sans-serif;
-  transition: opacity 180ms ease, visibility 180ms ease;
+  transition: opacity 160ms ease, visibility 160ms ease;
 }
 
 .devise-email-popup.is-visible {
   opacity: 1;
   visibility: visible;
+}
+
+.devise-email-popup.is-interactive {
   pointer-events: auto;
 }
 
@@ -42,556 +48,445 @@
 .devise-email-popup__overlay {
   position: absolute;
   inset: 0;
+  z-index: 1;
   border: 0;
   padding: 0;
   cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
   background:
-    radial-gradient(circle at 18% 12%, rgba(255, 222, 89, 0.22), transparent 26%),
-    radial-gradient(circle at 76% 18%, rgba(54, 214, 218, 0.34), transparent 32%),
-    linear-gradient(135deg, rgba(5, 39, 53, 0.82), rgba(5, 94, 116, 0.72));
-  backdrop-filter: blur(16px) saturate(1.16);
-  -webkit-backdrop-filter: blur(16px) saturate(1.16);
+    radial-gradient(circle at 20% 16%, rgba(255, 222, 89, 0.18), transparent 27%),
+    radial-gradient(circle at 74% 18%, rgba(54, 214, 218, 0.3), transparent 34%),
+    linear-gradient(135deg, rgba(5, 35, 51, 0.82), rgba(4, 96, 119, 0.72));
+  backdrop-filter: blur(14px) saturate(1.12);
+  -webkit-backdrop-filter: blur(14px) saturate(1.12);
+}
+
+.devise-email-popup.is-visible:not(.is-immediate) .devise-email-popup__overlay {
+  animation: devise-email-popup-overlay-in 420ms ease var(--dep-overlay-delay) forwards;
+}
+
+.devise-email-popup.is-interactive .devise-email-popup__overlay,
+.devise-email-popup.is-immediate .devise-email-popup__overlay {
+  pointer-events: auto;
+}
+
+.devise-email-popup.is-immediate .devise-email-popup__overlay {
+  opacity: 1;
 }
 
 .devise-email-popup__motion {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 5;
   overflow: hidden;
-  perspective: 900px;
   pointer-events: none;
+  perspective: 1000px;
 }
 
-.devise-email-popup__sun {
+.devise-email-popup__surfer-path {
   position: absolute;
-  top: clamp(44px, 11vh, 110px);
-  right: clamp(26px, 10vw, 150px);
-  width: clamp(72px, 11vw, 128px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.76), transparent 18%),
-    linear-gradient(135deg, #FFF3A7, var(--dep-accent));
-  box-shadow: 0 0 70px rgba(255, 222, 89, 0.34);
-  opacity: 0.68;
+  top: 42%;
+  left: 0;
+  width: clamp(118px, 16vw, 172px);
+  opacity: 0;
+  transform-origin: 54% 72%;
+  will-change: transform, opacity;
+}
+
+.devise-email-popup.is-visible:not(.is-immediate) .devise-email-popup__surfer-path {
+  animation: devise-email-popup-surfer-ride 1420ms cubic-bezier(0.18, 0.72, 0.18, 1) 40ms forwards;
 }
 
 .devise-email-popup__surfer {
-  position: absolute;
-  z-index: 3;
-  left: -170px;
-  top: calc(50% - 168px);
-  width: clamp(96px, 20vw, 150px);
-  opacity: 0;
-  transform: translate3d(-18vw, 36px, 0) rotate(-11deg) rotateY(0deg) scale(0.86);
-  transform-origin: 58% 74%;
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
-  filter: drop-shadow(0 15px 20px rgba(3, 43, 56, 0.24));
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 14px 18px rgba(3, 43, 56, 0.22));
 }
 
-.devise-email-popup.is-visible .devise-email-popup__surfer {
-  animation: devise-email-popup-surfer 1440ms cubic-bezier(0.17, 0.78, 0.2, 1) 110ms forwards;
-}
-
-.devise-email-popup__surfer-trail,
-.devise-email-popup__surfer-board-line,
+.devise-email-popup__surfer-wake,
+.devise-email-popup__surfer-board-shadow,
 .devise-email-popup__surfer-leg,
 .devise-email-popup__surfer-arm,
-.devise-email-popup__surfer-water {
+.devise-email-popup__surfer-spray {
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.devise-email-popup__surfer-trail {
-  stroke: rgba(255, 255, 255, 0.62);
+.devise-email-popup__surfer-wake--back {
+  stroke: rgba(255, 255, 255, 0.42);
   stroke-width: 5;
 }
 
-.devise-email-popup__surfer-board {
-  filter: drop-shadow(0 10px 18px rgba(5, 55, 68, 0.28));
+.devise-email-popup__surfer-wake--front {
+  stroke: rgba(151, 248, 255, 0.74);
+  stroke-width: 7;
 }
 
-.devise-email-popup__surfer-board-line {
-  stroke: rgba(16, 32, 39, 0.34);
+.devise-email-popup__surfer-board {
+  filter: drop-shadow(0 9px 16px rgba(5, 55, 68, 0.26));
+}
+
+.devise-email-popup__surfer-board-shadow {
+  stroke: rgba(16, 32, 39, 0.32);
   stroke-width: 3;
 }
 
 .devise-email-popup__surfer-leg,
 .devise-email-popup__surfer-arm {
-  stroke: #7F4F35;
+  stroke: #7f4f35;
   stroke-width: 9;
 }
 
-.devise-email-popup__surfer-short {
-  fill: #0E5B68;
+.devise-email-popup__surfer-shorts {
+  fill: #0e5b68;
 }
 
 .devise-email-popup__surfer-body {
-  fill: #FFF5DB;
+  fill: #fff5db;
   stroke: #102027;
   stroke-width: 3;
 }
 
 .devise-email-popup__surfer-head {
-  fill: #9C6644;
+  fill: #9c6644;
 }
 
 .devise-email-popup__surfer-hair {
   fill: #102027;
 }
 
-.devise-email-popup__surfer-water {
+.devise-email-popup__surfer-spray {
   stroke-width: 8;
-  opacity: 0.88;
+  opacity: 0.9;
 }
 
-.devise-email-popup__splash {
+.devise-email-popup__impact-splash {
   position: absolute;
-  z-index: 4;
-  top: 43%;
-  left: 54%;
-  width: 260px;
-  height: 160px;
+  top: 46%;
+  left: 51%;
+  z-index: 6;
+  width: min(62vw, 440px);
+  height: min(38vw, 250px);
   opacity: 0;
-  pointer-events: none;
-  transform: translate3d(-50%, -50%, 0) rotate(-8deg) scale(0.72);
-  transform-origin: 18% 58%;
-  will-change: transform, opacity;
-}
-
-.devise-email-popup.is-visible .devise-email-popup__splash {
-  animation: devise-email-popup-splash 620ms cubic-bezier(0.12, 0.72, 0.18, 1) 520ms forwards;
-}
-
-.devise-email-popup__splash span {
-  position: absolute;
-  border-radius: 999px;
-  background: rgba(241, 255, 255, 0.88);
-  box-shadow: 0 0 18px rgba(141, 238, 244, 0.28);
-  opacity: 0.95;
-  transform-origin: 0 50%;
-  will-change: transform, opacity;
-}
-
-.devise-email-popup__splash span:nth-child(1) {
-  top: 70px;
-  left: 16px;
-  width: 128px;
-  height: 10px;
-  transform: rotate(-8deg) scaleX(0.2);
-}
-
-.devise-email-popup__splash span:nth-child(2) {
-  top: 46px;
-  left: 34px;
-  width: 92px;
-  height: 8px;
-  transform: rotate(-28deg) scaleX(0.2);
-}
-
-.devise-email-popup__splash span:nth-child(3) {
-  top: 92px;
-  left: 34px;
-  width: 104px;
-  height: 9px;
-  transform: rotate(18deg) scaleX(0.2);
-}
-
-.devise-email-popup__splash span:nth-child(4) {
-  top: 30px;
-  left: 96px;
-  width: 14px;
-  height: 14px;
-}
-
-.devise-email-popup__splash span:nth-child(5) {
-  top: 110px;
-  left: 124px;
-  width: 12px;
-  height: 12px;
-}
-
-.devise-email-popup__splash span:nth-child(6) {
-  top: 26px;
-  left: 162px;
-  width: 8px;
-  height: 8px;
-}
-
-.devise-email-popup__splash span:nth-child(7) {
-  top: 118px;
-  left: 176px;
-  width: 9px;
-  height: 9px;
-}
-
-.devise-email-popup__screen-splash {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  opacity: 0;
-  pointer-events: none;
+  transform: translate3d(-50%, -50%, 0);
   will-change: opacity;
 }
 
-.devise-email-popup.is-visible .devise-email-popup__screen-splash {
-  animation: devise-email-popup-screen-splash 3200ms linear 690ms forwards;
+.devise-email-popup.is-visible:not(.is-immediate) .devise-email-popup__impact-splash {
+  animation: devise-email-popup-impact-shell 860ms ease var(--dep-splash-delay) forwards;
 }
 
-.devise-email-popup__screen-splash span {
+.devise-email-popup__impact-splash span {
   position: absolute;
-  width: var(--dep-streak-w, 12px);
-  height: var(--dep-streak-h, 120px);
-  border: 1px solid rgba(235, 255, 255, 0.6);
-  border-radius: 999px 999px 48% 48%;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.68), rgba(204, 252, 255, 0.24) 48%, rgba(255, 255, 255, 0.08)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(132, 232, 239, 0.26) 70%, rgba(132, 232, 239, 0));
-  box-shadow:
-    inset 1px 0 0 rgba(255, 255, 255, 0.78),
-    0 12px 22px rgba(64, 205, 215, 0.12);
+  left: 46%;
+  top: 50%;
+  border-radius: 999px;
   opacity: 0;
-  transform: translate3d(0, -18px, 0) scaleY(0.76);
+  background:
+    radial-gradient(circle at 32% 25%, rgba(255, 255, 255, 0.95), transparent 0 23%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(170, 248, 255, 0.46));
+  box-shadow:
+    inset 1px 0 0 rgba(255, 255, 255, 0.75),
+    0 10px 24px rgba(54, 214, 218, 0.16);
   will-change: transform, opacity;
-  animation: devise-email-popup-water-streak var(--dep-streak-time, 2400ms) cubic-bezier(0.2, 0.78, 0.26, 1) var(--dep-streak-delay, 780ms) forwards;
 }
 
-.devise-email-popup__screen-splash span:nth-child(1) {
-  top: 11%;
-  left: 18%;
-  --dep-streak-w: 13px;
-  --dep-streak-h: 158px;
-  --dep-streak-fall: 42vh;
-  --dep-streak-delay: 850ms;
+.devise-email-popup.is-visible:not(.is-immediate) .devise-email-popup__impact-splash span {
+  animation: devise-email-popup-impact-particle 780ms cubic-bezier(0.13, 0.72, 0.18, 1) var(--dep-splash-delay) forwards;
 }
 
-.devise-email-popup__screen-splash span:nth-child(2) {
-  top: 17%;
-  left: 33%;
-  --dep-streak-w: 8px;
-  --dep-streak-h: 106px;
-  --dep-streak-fall: 34vh;
-  --dep-streak-delay: 1040ms;
-  --dep-streak-time: 2100ms;
+.devise-email-popup__impact-splash span:nth-child(1) {
+  width: 180px;
+  height: 13px;
+  --dep-x: 56px;
+  --dep-y: -10px;
+  --dep-r: -8deg;
+  --dep-sx: 1.08;
+  --dep-sy: 0.9;
 }
 
-.devise-email-popup__screen-splash span:nth-child(3) {
-  top: 8%;
-  left: 53%;
-  --dep-streak-w: 14px;
-  --dep-streak-h: 176px;
-  --dep-streak-fall: 48vh;
-  --dep-streak-delay: 910ms;
-  --dep-streak-time: 2600ms;
+.devise-email-popup__impact-splash span:nth-child(2) {
+  width: 148px;
+  height: 10px;
+  --dep-x: 40px;
+  --dep-y: -58px;
+  --dep-r: -30deg;
+  --dep-sx: 1;
+  --dep-sy: 0.82;
 }
 
-.devise-email-popup__screen-splash span:nth-child(4) {
-  top: 24%;
-  left: 69%;
-  --dep-streak-w: 9px;
-  --dep-streak-h: 130px;
-  --dep-streak-fall: 35vh;
-  --dep-streak-delay: 1120ms;
+.devise-email-popup__impact-splash span:nth-child(3) {
+  width: 160px;
+  height: 11px;
+  --dep-x: 44px;
+  --dep-y: 48px;
+  --dep-r: 24deg;
+  --dep-sx: 1.04;
+  --dep-sy: 0.84;
 }
 
-.devise-email-popup__screen-splash span:nth-child(5) {
-  top: 31%;
-  left: 82%;
-  --dep-streak-w: 7px;
-  --dep-streak-h: 82px;
-  --dep-streak-fall: 28vh;
-  --dep-streak-delay: 1280ms;
-  --dep-streak-time: 1900ms;
+.devise-email-popup__impact-splash span:nth-child(4) {
+  width: 112px;
+  height: 8px;
+  --dep-x: -92px;
+  --dep-y: -44px;
+  --dep-r: 22deg;
+  --dep-sx: 0.88;
+  --dep-sy: 0.75;
 }
 
-.devise-email-popup__screen-splash span:nth-child(6) {
-  top: 28%;
-  left: 25%;
-  --dep-streak-w: 6px;
-  --dep-streak-h: 72px;
-  --dep-streak-fall: 24vh;
-  --dep-streak-delay: 1320ms;
-  --dep-streak-time: 1800ms;
+.devise-email-popup__impact-splash span:nth-child(5) {
+  width: 118px;
+  height: 9px;
+  --dep-x: -100px;
+  --dep-y: 38px;
+  --dep-r: -18deg;
+  --dep-sx: 0.9;
+  --dep-sy: 0.72;
 }
 
-.devise-email-popup__screen-splash span:nth-child(7) {
-  top: 37%;
-  left: 61%;
-  --dep-streak-w: 6px;
-  --dep-streak-h: 92px;
-  --dep-streak-fall: 22vh;
-  --dep-streak-delay: 1420ms;
-  --dep-streak-time: 1700ms;
+.devise-email-popup__impact-splash span:nth-child(6) {
+  width: 34px;
+  height: 34px;
+  --dep-x: -24px;
+  --dep-y: -18px;
+  --dep-r: 0deg;
+  --dep-sx: 1.55;
+  --dep-sy: 1.08;
 }
 
-.devise-email-popup__droplets {
+.devise-email-popup__impact-splash span:nth-child(7) {
+  width: 24px;
+  height: 24px;
+  --dep-x: 128px;
+  --dep-y: -66px;
+  --dep-r: 0deg;
+  --dep-sx: 1;
+  --dep-sy: 1;
+}
+
+.devise-email-popup__impact-splash span:nth-child(8) {
+  width: 19px;
+  height: 19px;
+  --dep-x: 152px;
+  --dep-y: 64px;
+  --dep-r: 0deg;
+  --dep-sx: 1;
+  --dep-sy: 1;
+}
+
+.devise-email-popup__impact-splash span:nth-child(9) {
+  width: 16px;
+  height: 16px;
+  --dep-x: -142px;
+  --dep-y: -76px;
+  --dep-r: 0deg;
+  --dep-sx: 1;
+  --dep-sy: 1;
+}
+
+.devise-email-popup__impact-splash span:nth-child(10) {
+  width: 14px;
+  height: 14px;
+  --dep-x: -156px;
+  --dep-y: 62px;
+  --dep-r: 0deg;
+  --dep-sx: 1;
+  --dep-sy: 1;
+}
+
+.devise-email-popup__impact-splash span:nth-child(11) {
+  width: 11px;
+  height: 11px;
+  --dep-x: 52px;
+  --dep-y: -104px;
+  --dep-r: 0deg;
+  --dep-sx: 1;
+  --dep-sy: 1;
+}
+
+.devise-email-popup__impact-splash span:nth-child(12) {
+  width: 12px;
+  height: 12px;
+  --dep-x: 82px;
+  --dep-y: 112px;
+  --dep-r: 0deg;
+  --dep-sx: 1;
+  --dep-sy: 1;
+}
+
+.devise-email-popup__glass-wash,
+.devise-email-popup__water-drops {
   position: absolute;
   inset: 0;
-  z-index: 6;
+  z-index: 7;
   opacity: 0;
   pointer-events: none;
 }
 
-.devise-email-popup.is-visible .devise-email-popup__droplets {
-  animation: devise-email-popup-droplets-wrap 3600ms ease 720ms forwards;
+.devise-email-popup.is-visible:not(.is-immediate) .devise-email-popup__glass-wash {
+  animation: devise-email-popup-water-layer 5600ms linear var(--dep-drops-delay) forwards;
 }
 
-.devise-email-popup__droplets span {
+.devise-email-popup.is-visible:not(.is-immediate) .devise-email-popup__water-drops {
+  animation: devise-email-popup-water-layer 6400ms linear var(--dep-drops-delay) forwards;
+}
+
+.devise-email-popup__glass-wash span,
+.devise-email-popup__water-drops span {
   position: absolute;
-  top: var(--dep-start-y, 18%);
-  left: var(--dep-left, 50%);
-  width: var(--dep-drop-w, 8px);
-  height: var(--dep-drop-h, 44px);
-  border: 1px solid rgba(235, 255, 255, 0.62);
-  border-radius: 999px 999px 68% 68%;
-  background:
-    radial-gradient(circle at 36% 13%, rgba(255, 255, 255, 0.96), transparent 0 18%),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.72), rgba(198, 250, 255, 0.28) 46%, rgba(255, 255, 255, 0.08)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(111, 232, 244, 0.3) 70%, rgba(42, 191, 206, 0.04));
-  box-shadow:
-    inset 1px 0 0 rgba(255, 255, 255, 0.7),
-    0 8px 16px rgba(64, 205, 215, 0.12);
-  transform-origin: 50% 0;
+  opacity: 0;
   will-change: transform, opacity;
-  animation: devise-email-popup-droplet var(--dep-drop-time, 2600ms) cubic-bezier(0.18, 0.74, 0.24, 1) var(--dep-delay, 840ms) forwards;
 }
 
-.devise-email-popup__droplets span::after {
+.devise-email-popup__glass-wash span {
+  top: var(--dep-top, 12%);
+  left: var(--dep-left, 50%);
+  width: var(--dep-w, 12px);
+  height: var(--dep-h, 160px);
+  border: 1px solid rgba(232, 255, 255, 0.56);
+  border-radius: 999px 999px 48% 48%;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.76), rgba(202, 252, 255, 0.28) 46%, rgba(255, 255, 255, 0.08)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(111, 232, 244, 0.28) 76%, rgba(111, 232, 244, 0.02));
+  box-shadow:
+    inset 1px 0 0 rgba(255, 255, 255, 0.82),
+    0 2px 3px rgba(3, 50, 60, 0.1),
+    0 16px 34px rgba(54, 214, 218, 0.12);
+  transform: translate3d(0, -28px, 0) scaleY(0.7);
+}
+
+.devise-email-popup.is-visible:not(.is-immediate) .devise-email-popup__glass-wash span {
+  animation: devise-email-popup-glass-run var(--dep-time, 5200ms) cubic-bezier(0.16, 0.72, 0.22, 1) calc(var(--dep-drops-delay) + var(--dep-delay, 0ms)) forwards;
+}
+
+.devise-email-popup__glass-wash span:nth-child(1) {
+  --dep-top: 5%;
+  --dep-left: 19%;
+  --dep-w: 15px;
+  --dep-h: 200px;
+  --dep-fall: 49vh;
+  --dep-delay: 80ms;
+  --dep-time: 5600ms;
+}
+
+.devise-email-popup__glass-wash span:nth-child(2) {
+  --dep-top: 9%;
+  --dep-left: 38%;
+  --dep-w: 9px;
+  --dep-h: 138px;
+  --dep-fall: 42vh;
+  --dep-delay: 260ms;
+  --dep-time: 5000ms;
+}
+
+.devise-email-popup__glass-wash span:nth-child(3) {
+  --dep-top: 3%;
+  --dep-left: 55%;
+  --dep-w: 16px;
+  --dep-h: 220px;
+  --dep-fall: 55vh;
+  --dep-delay: 140ms;
+  --dep-time: 6100ms;
+}
+
+.devise-email-popup__glass-wash span:nth-child(4) {
+  --dep-top: 17%;
+  --dep-left: 70%;
+  --dep-w: 11px;
+  --dep-h: 166px;
+  --dep-fall: 40vh;
+  --dep-delay: 420ms;
+  --dep-time: 4800ms;
+}
+
+.devise-email-popup__glass-wash span:nth-child(5) {
+  --dep-top: 26%;
+  --dep-left: 83%;
+  --dep-w: 7px;
+  --dep-h: 98px;
+  --dep-fall: 31vh;
+  --dep-delay: 580ms;
+  --dep-time: 4300ms;
+}
+
+.devise-email-popup__glass-wash span:nth-child(6) {
+  --dep-top: 32%;
+  --dep-left: 27%;
+  --dep-w: 8px;
+  --dep-h: 116px;
+  --dep-fall: 34vh;
+  --dep-delay: 720ms;
+  --dep-time: 4600ms;
+}
+
+.devise-email-popup__water-drops span {
+  top: var(--dep-top, 20%);
+  left: var(--dep-left, 50%);
+  width: var(--dep-size, 9px);
+  height: calc(var(--dep-size, 9px) * var(--dep-ratio, 4.8));
+  border: 1px solid rgba(232, 255, 255, 0.62);
+  border-radius: 999px 999px 58% 58%;
+  background:
+    radial-gradient(circle at 36% 12%, rgba(255, 255, 255, 0.96), transparent 0 18%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.76), rgba(202, 252, 255, 0.26) 48%, rgba(255, 255, 255, 0.06)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(111, 232, 244, 0.3) 68%, rgba(111, 232, 244, 0.02));
+  box-shadow:
+    inset 1px 0 0 rgba(255, 255, 255, 0.8),
+    0 1px 2px rgba(3, 50, 60, 0.12),
+    0 10px 22px rgba(54, 214, 218, 0.1);
+  transform: translate3d(var(--dep-start-x, -9vw), -14vh, 0) scale(0.48, 0.72);
+}
+
+.devise-email-popup.is-visible:not(.is-immediate) .devise-email-popup__water-drops span {
+  animation: devise-email-popup-drop-run var(--dep-time, 5400ms) cubic-bezier(0.15, 0.68, 0.2, 1) calc(var(--dep-drops-delay) + var(--dep-delay, 0ms)) forwards;
+}
+
+.devise-email-popup__water-drops span::after {
   content: "";
   position: absolute;
   left: 50%;
   bottom: calc(100% - 4px);
   width: 2px;
-  height: var(--dep-tail-h, 68px);
+  height: var(--dep-tail, 74px);
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(235, 255, 255, 0.52), rgba(109, 232, 244, 0.02));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(232, 255, 255, 0.54), rgba(111, 232, 244, 0.02));
+  opacity: 0.76;
   transform: translateX(-50%);
-  opacity: 0.72;
 }
 
-.devise-email-popup__droplets span:nth-child(1) {
-  --dep-left: 14%;
-  --dep-start-y: 19%;
-  --dep-drop-w: 13px;
-  --dep-drop-h: 74px;
-  --dep-drop-x: -24vw;
-  --dep-drop-mid-x: -5vw;
-  --dep-drop-end-x: -2vw;
-  --dep-drop-fall: 78vh;
-  --dep-delay: 760ms;
-}
-
-.devise-email-popup__droplets span:nth-child(3) {
-  --dep-left: 33%;
-  --dep-start-y: 11%;
-  --dep-drop-w: 10px;
-  --dep-drop-h: 58px;
-  --dep-drop-x: -21vw;
-  --dep-drop-mid-x: -4vw;
-  --dep-drop-end-x: -1vw;
-  --dep-drop-fall: 84vh;
-  --dep-delay: 820ms;
-}
-
-.devise-email-popup__droplets span:nth-child(2) {
-  --dep-left: 24%;
-  --dep-start-y: 28%;
-  --dep-drop-w: 8px;
-  --dep-drop-h: 36px;
-  --dep-drop-x: -18vw;
-  --dep-drop-mid-x: -2vw;
-  --dep-drop-end-x: 2vw;
-  --dep-drop-fall: 72vh;
-  --dep-delay: 900ms;
-}
-
-.devise-email-popup__droplets span:nth-child(4) {
-  --dep-left: 44%;
-  --dep-start-y: 17%;
-  --dep-drop-w: 12px;
-  --dep-drop-h: 82px;
-  --dep-drop-x: -17vw;
-  --dep-drop-mid-x: -1vw;
-  --dep-drop-end-x: 3vw;
-  --dep-drop-fall: 80vh;
-  --dep-delay: 860ms;
-  --dep-drop-time: 1900ms;
-}
-
-.devise-email-popup__droplets span:nth-child(5) {
-  --dep-left: 57%;
-  --dep-start-y: 9%;
-  --dep-drop-w: 9px;
-  --dep-drop-h: 48px;
-  --dep-drop-x: -14vw;
-  --dep-drop-mid-x: 1vw;
-  --dep-drop-end-x: 1vw;
-  --dep-drop-fall: 86vh;
-  --dep-delay: 940ms;
-}
-
-.devise-email-popup__droplets span:nth-child(6) {
-  --dep-left: 69%;
-  --dep-start-y: 22%;
-  --dep-drop-w: 11px;
-  --dep-drop-h: 68px;
-  --dep-drop-x: -12vw;
-  --dep-drop-mid-x: 3vw;
-  --dep-drop-end-x: 4vw;
-  --dep-drop-fall: 74vh;
-  --dep-delay: 980ms;
-}
-
-.devise-email-popup__droplets span:nth-child(7) {
-  --dep-left: 81%;
-  --dep-start-y: 15%;
-  --dep-drop-w: 8px;
-  --dep-drop-h: 42px;
-  --dep-drop-x: -10vw;
-  --dep-drop-mid-x: 2vw;
-  --dep-drop-end-x: 0vw;
-  --dep-drop-fall: 78vh;
-  --dep-delay: 1040ms;
-}
-
-.devise-email-popup__droplets span:nth-child(8) {
-  --dep-left: 88%;
-  --dep-start-y: 33%;
-  --dep-drop-w: 7px;
-  --dep-drop-h: 34px;
-  --dep-drop-x: -8vw;
-  --dep-drop-mid-x: 4vw;
-  --dep-drop-end-x: 5vw;
-  --dep-drop-fall: 66vh;
-  --dep-delay: 1090ms;
-}
-
-.devise-email-popup__droplets span:nth-child(9) {
-  --dep-left: 39%;
-  --dep-start-y: 30%;
-  --dep-drop-w: 7px;
-  --dep-drop-h: 32px;
-  --dep-drop-x: -16vw;
-  --dep-drop-mid-x: -2vw;
-  --dep-drop-end-x: -3vw;
-  --dep-drop-fall: 64vh;
-  --dep-delay: 1150ms;
-}
-
-.devise-email-popup__droplets span:nth-child(10) {
-  --dep-left: 18%;
-  --dep-start-y: 42%;
-  --dep-drop-w: 6px;
-  --dep-drop-h: 28px;
-  --dep-drop-x: -14vw;
-  --dep-drop-mid-x: -1vw;
-  --dep-drop-end-x: 2vw;
-  --dep-drop-fall: 54vh;
-  --dep-delay: 1180ms;
-}
-
-.devise-email-popup__droplets span:nth-child(11) {
-  --dep-left: 51%;
-  --dep-start-y: 38%;
-  --dep-drop-w: 9px;
-  --dep-drop-h: 46px;
-  --dep-drop-x: -13vw;
-  --dep-drop-mid-x: 1vw;
-  --dep-drop-end-x: 3vw;
-  --dep-drop-fall: 58vh;
-  --dep-delay: 1230ms;
-}
-
-.devise-email-popup__droplets span:nth-child(12) {
-  --dep-left: 74%;
-  --dep-start-y: 42%;
-  --dep-drop-w: 6px;
-  --dep-drop-h: 30px;
-  --dep-drop-x: -9vw;
-  --dep-drop-mid-x: 4vw;
-  --dep-drop-end-x: 1vw;
-  --dep-drop-fall: 52vh;
-  --dep-delay: 1280ms;
-}
-
-.devise-email-popup__droplets span:nth-child(13) {
-  --dep-left: 29%;
-  --dep-start-y: 8%;
-  --dep-drop-w: 5px;
-  --dep-drop-h: 22px;
-  --dep-drop-x: -19vw;
-  --dep-drop-mid-x: -3vw;
-  --dep-drop-end-x: -1vw;
-  --dep-drop-fall: 70vh;
-  --dep-delay: 990ms;
-}
-
-.devise-email-popup__droplets span:nth-child(14) {
-  --dep-left: 63%;
-  --dep-start-y: 5%;
-  --dep-drop-w: 6px;
-  --dep-drop-h: 26px;
-  --dep-drop-x: -12vw;
-  --dep-drop-mid-x: 2vw;
-  --dep-drop-end-x: 5vw;
-  --dep-drop-fall: 73vh;
-  --dep-delay: 1060ms;
-}
-
-.devise-email-popup__droplets span:nth-child(15) {
-  --dep-left: 93%;
-  --dep-start-y: 18%;
-  --dep-drop-w: 5px;
-  --dep-drop-h: 24px;
-  --dep-drop-x: -7vw;
-  --dep-drop-mid-x: 2vw;
-  --dep-drop-end-x: -1vw;
-  --dep-drop-fall: 60vh;
-  --dep-delay: 1200ms;
-}
-
-.devise-email-popup__droplets span:nth-child(16) {
-  --dep-left: 8%;
-  --dep-start-y: 31%;
-  --dep-drop-w: 7px;
-  --dep-drop-h: 38px;
-  --dep-drop-x: -25vw;
-  --dep-drop-mid-x: -6vw;
-  --dep-drop-end-x: -2vw;
-  --dep-drop-fall: 62vh;
-  --dep-delay: 1010ms;
-}
-
-.devise-email-popup__droplets span:nth-child(17) {
-  --dep-left: 47%;
-  --dep-start-y: 2%;
-  --dep-drop-w: 5px;
-  --dep-drop-h: 22px;
-  --dep-drop-x: -15vw;
-  --dep-drop-mid-x: 0vw;
-  --dep-drop-end-x: 2vw;
-  --dep-drop-fall: 82vh;
-  --dep-delay: 1120ms;
-}
-
-.devise-email-popup__droplets span:nth-child(18) {
-  --dep-left: 78%;
-  --dep-start-y: 30%;
-  --dep-drop-w: 8px;
-  --dep-drop-h: 50px;
-  --dep-drop-x: -10vw;
-  --dep-drop-mid-x: 3vw;
-  --dep-drop-end-x: 4vw;
-  --dep-drop-fall: 58vh;
-  --dep-delay: 1160ms;
-  --dep-drop-time: 1680ms;
-}
+.devise-email-popup__water-drops span:nth-child(1) { --dep-left: 9%; --dep-top: 20%; --dep-size: 7px; --dep-ratio: 5.2; --dep-start-x: -18vw; --dep-mid-x: -2vw; --dep-end-x: 1vw; --dep-fall: 68vh; --dep-delay: 0ms; --dep-time: 5600ms; }
+.devise-email-popup__water-drops span:nth-child(2) { --dep-left: 16%; --dep-top: 13%; --dep-size: 12px; --dep-ratio: 6.2; --dep-start-x: -20vw; --dep-mid-x: -4vw; --dep-end-x: -1vw; --dep-fall: 76vh; --dep-delay: 120ms; --dep-time: 6200ms; }
+.devise-email-popup__water-drops span:nth-child(3) { --dep-left: 24%; --dep-top: 31%; --dep-size: 6px; --dep-ratio: 4.7; --dep-start-x: -14vw; --dep-mid-x: -1vw; --dep-end-x: 2vw; --dep-fall: 54vh; --dep-delay: 360ms; --dep-time: 4400ms; }
+.devise-email-popup__water-drops span:nth-child(4) { --dep-left: 31%; --dep-top: 9%; --dep-size: 8px; --dep-ratio: 5.4; --dep-start-x: -16vw; --dep-mid-x: -3vw; --dep-end-x: -2vw; --dep-fall: 80vh; --dep-delay: 210ms; --dep-time: 6000ms; }
+.devise-email-popup__water-drops span:nth-child(5) { --dep-left: 39%; --dep-top: 24%; --dep-size: 10px; --dep-ratio: 5.8; --dep-start-x: -12vw; --dep-mid-x: -1vw; --dep-end-x: 3vw; --dep-fall: 63vh; --dep-delay: 60ms; --dep-time: 5400ms; }
+.devise-email-popup__water-drops span:nth-child(6) { --dep-left: 47%; --dep-top: 4%; --dep-size: 6px; --dep-ratio: 4.4; --dep-start-x: -10vw; --dep-mid-x: 0vw; --dep-end-x: 1vw; --dep-fall: 82vh; --dep-delay: 460ms; --dep-time: 5200ms; }
+.devise-email-popup__water-drops span:nth-child(7) { --dep-left: 55%; --dep-top: 17%; --dep-size: 13px; --dep-ratio: 6.4; --dep-start-x: -9vw; --dep-mid-x: 1vw; --dep-end-x: 3vw; --dep-fall: 78vh; --dep-delay: 160ms; --dep-time: 6300ms; }
+.devise-email-popup__water-drops span:nth-child(8) { --dep-left: 63%; --dep-top: 34%; --dep-size: 7px; --dep-ratio: 4.9; --dep-start-x: -7vw; --dep-mid-x: 2vw; --dep-end-x: 4vw; --dep-fall: 48vh; --dep-delay: 620ms; --dep-time: 4200ms; }
+.devise-email-popup__water-drops span:nth-child(9) { --dep-left: 71%; --dep-top: 12%; --dep-size: 9px; --dep-ratio: 5.6; --dep-start-x: -7vw; --dep-mid-x: 3vw; --dep-end-x: 2vw; --dep-fall: 72vh; --dep-delay: 300ms; --dep-time: 5800ms; }
+.devise-email-popup__water-drops span:nth-child(10) { --dep-left: 81%; --dep-top: 22%; --dep-size: 8px; --dep-ratio: 5.1; --dep-start-x: -6vw; --dep-mid-x: 4vw; --dep-end-x: 1vw; --dep-fall: 61vh; --dep-delay: 480ms; --dep-time: 5000ms; }
+.devise-email-popup__water-drops span:nth-child(11) { --dep-left: 89%; --dep-top: 35%; --dep-size: 5px; --dep-ratio: 4.2; --dep-start-x: -5vw; --dep-mid-x: 2vw; --dep-end-x: -1vw; --dep-fall: 42vh; --dep-delay: 780ms; --dep-time: 3800ms; }
+.devise-email-popup__water-drops span:nth-child(12) { --dep-left: 93%; --dep-top: 14%; --dep-size: 6px; --dep-ratio: 4.5; --dep-start-x: -4vw; --dep-mid-x: 3vw; --dep-end-x: 5vw; --dep-fall: 58vh; --dep-delay: 540ms; --dep-time: 4400ms; }
+.devise-email-popup__water-drops span:nth-child(13) { --dep-left: 13%; --dep-top: 44%; --dep-size: 5px; --dep-ratio: 4.2; --dep-start-x: -16vw; --dep-mid-x: -2vw; --dep-end-x: 0vw; --dep-fall: 34vh; --dep-delay: 860ms; --dep-time: 3600ms; }
+.devise-email-popup__water-drops span:nth-child(14) { --dep-left: 28%; --dep-top: 47%; --dep-size: 7px; --dep-ratio: 4.8; --dep-start-x: -13vw; --dep-mid-x: -1vw; --dep-end-x: 2vw; --dep-fall: 38vh; --dep-delay: 720ms; --dep-time: 3900ms; }
+.devise-email-popup__water-drops span:nth-child(15) { --dep-left: 43%; --dep-top: 41%; --dep-size: 6px; --dep-ratio: 4.6; --dep-start-x: -9vw; --dep-mid-x: 1vw; --dep-end-x: -1vw; --dep-fall: 40vh; --dep-delay: 940ms; --dep-time: 4100ms; }
+.devise-email-popup__water-drops span:nth-child(16) { --dep-left: 57%; --dep-top: 43%; --dep-size: 8px; --dep-ratio: 5.2; --dep-start-x: -8vw; --dep-mid-x: 1vw; --dep-end-x: 3vw; --dep-fall: 39vh; --dep-delay: 680ms; --dep-time: 4200ms; }
+.devise-email-popup__water-drops span:nth-child(17) { --dep-left: 73%; --dep-top: 45%; --dep-size: 5px; --dep-ratio: 4.1; --dep-start-x: -6vw; --dep-mid-x: 2vw; --dep-end-x: 1vw; --dep-fall: 33vh; --dep-delay: 980ms; --dep-time: 3400ms; }
+.devise-email-popup__water-drops span:nth-child(18) { --dep-left: 84%; --dep-top: 50%; --dep-size: 7px; --dep-ratio: 4.7; --dep-start-x: -5vw; --dep-mid-x: 3vw; --dep-end-x: 4vw; --dep-fall: 30vh; --dep-delay: 1060ms; --dep-time: 3500ms; }
+.devise-email-popup__water-drops span:nth-child(19) { --dep-left: 21%; --dep-top: 6%; --dep-size: 4px; --dep-ratio: 3.8; --dep-start-x: -18vw; --dep-mid-x: -3vw; --dep-end-x: -1vw; --dep-fall: 58vh; --dep-delay: 700ms; --dep-time: 3700ms; }
+.devise-email-popup__water-drops span:nth-child(20) { --dep-left: 35%; --dep-top: 3%; --dep-size: 5px; --dep-ratio: 4.1; --dep-start-x: -13vw; --dep-mid-x: -2vw; --dep-end-x: 1vw; --dep-fall: 65vh; --dep-delay: 620ms; --dep-time: 4300ms; }
+.devise-email-popup__water-drops span:nth-child(21) { --dep-left: 50%; --dep-top: 28%; --dep-size: 5px; --dep-ratio: 4.2; --dep-start-x: -10vw; --dep-mid-x: 0vw; --dep-end-x: 2vw; --dep-fall: 42vh; --dep-delay: 820ms; --dep-time: 3600ms; }
+.devise-email-popup__water-drops span:nth-child(22) { --dep-left: 67%; --dep-top: 6%; --dep-size: 5px; --dep-ratio: 4.4; --dep-start-x: -7vw; --dep-mid-x: 2vw; --dep-end-x: 0vw; --dep-fall: 62vh; --dep-delay: 760ms; --dep-time: 4000ms; }
+.devise-email-popup__water-drops span:nth-child(23) { --dep-left: 76%; --dep-top: 29%; --dep-size: 6px; --dep-ratio: 4.5; --dep-start-x: -6vw; --dep-mid-x: 3vw; --dep-end-x: 2vw; --dep-fall: 43vh; --dep-delay: 900ms; --dep-time: 3700ms; }
+.devise-email-popup__water-drops span:nth-child(24) { --dep-left: 91%; --dep-top: 7%; --dep-size: 4px; --dep-ratio: 3.9; --dep-start-x: -4vw; --dep-mid-x: 3vw; --dep-end-x: 5vw; --dep-fall: 55vh; --dep-delay: 1040ms; --dep-time: 3600ms; }
 
 .devise-email-popup__card {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   width: min(100%, 455px);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.78);
@@ -610,13 +505,13 @@
     0 24px 90px rgba(54, 214, 218, 0.28),
     0 -22px 70px rgba(255, 222, 89, 0.18);
   opacity: 0;
-  transform: translate3d(0, 20px, 0) scale(0.96);
+  transform: translate3d(0, 22px, 0) scale(0.955);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
 
-.devise-email-popup.is-visible .devise-email-popup__card {
-  animation: devise-email-popup-card-in 520ms cubic-bezier(0.2, 0.8, 0.22, 1) 1840ms forwards;
+.devise-email-popup.is-visible:not(.is-immediate) .devise-email-popup__card {
+  animation: devise-email-popup-card-in 620ms cubic-bezier(0.18, 0.82, 0.22, 1) var(--dep-card-delay) forwards;
 }
 
 .devise-email-popup.is-immediate .devise-email-popup__motion {
@@ -626,7 +521,6 @@
 .devise-email-popup.is-immediate .devise-email-popup__card {
   opacity: 1;
   transform: none;
-  animation: none;
 }
 
 .devise-email-popup__card::before {
@@ -674,6 +568,8 @@
   mix-blend-mode: multiply;
   transform-origin: 50% 100%;
   filter: saturate(1.12) contrast(1.04);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0 54%, transparent 75%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 0 54%, transparent 75%);
 }
 
 .devise-email-popup__card-palm--left {
@@ -690,7 +586,7 @@
 
 .devise-email-popup__content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   padding: clamp(26px, 5vw, 38px);
 }
 
@@ -815,7 +711,7 @@
 
 .devise-email-popup__field button:hover,
 .devise-email-popup__field button:focus-visible {
-  background: #FFE777;
+  background: #ffe777;
   transform: translateY(-1px);
   box-shadow:
     0 16px 30px rgba(255, 222, 89, 0.36),
@@ -845,74 +741,91 @@
 .devise-email-popup__success {
   border: 1px solid rgba(54, 156, 110, 0.18);
   background: rgba(209, 255, 229, 0.72);
-  color: #15593D;
+  color: #15593d;
 }
 
 .devise-email-popup__error {
   margin-bottom: 14px;
   border: 1px solid rgba(204, 54, 54, 0.18);
   background: rgba(255, 232, 225, 0.76);
-  color: #8E2B1E;
+  color: #8e2b1e;
 }
 
 body.devise-email-popup-is-open {
   overflow: hidden;
 }
 
-@keyframes devise-email-popup-surfer {
-  0% {
-    opacity: 0;
-    transform: translate3d(-18vw, 36px, 0) rotateZ(-11deg) rotateY(0deg) scale(0.82);
-  }
-  12% {
+@keyframes devise-email-popup-overlay-in {
+  to {
     opacity: 1;
-  }
-  26% {
-    opacity: 1;
-    transform: translate3d(18vw, -22px, 0) rotateZ(-8deg) rotateY(0deg) scale(0.9);
-  }
-  44% {
-    opacity: 1;
-    transform: translate3d(calc(42vw - 16px), 18px, 18px) rotateZ(10deg) rotateY(12deg) scale(0.94);
-  }
-  58% {
-    opacity: 1;
-    transform: translate3d(calc(54vw + 8px), -36px, 56px) rotateZ(21deg) rotateY(72deg) scaleX(0.58) scaleY(1.02);
-  }
-  72% {
-    opacity: 1;
-    transform: translate3d(calc(64vw + 32px), -4px, 0) rotateZ(1deg) rotateY(-12deg) scale(0.9);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(calc(100vw + 170px), 30px, 0) rotateZ(7deg) rotateY(0deg) scale(0.84);
   }
 }
 
-@keyframes devise-email-popup-splash {
+@keyframes devise-email-popup-surfer-ride {
   0% {
     opacity: 0;
-    transform: translate3d(-50%, -50%, 0) rotate(-8deg) scale(0.72);
+    transform: translate3d(-24vw, 8vh, 0) rotateZ(-9deg) rotateY(0deg) scale(0.78);
+  }
+  7% {
+    opacity: 1;
   }
   18% {
     opacity: 1;
+    transform: translate3d(8vw, -3vh, 0) rotateZ(-7deg) rotateY(0deg) scale(0.84);
+  }
+  36% {
+    transform: translate3d(31vw, 1.5vh, 0) rotateZ(6deg) rotateY(0deg) scale(0.9);
+  }
+  48% {
+    transform: translate3d(47vw, -2vh, 24px) rotateZ(14deg) rotateY(42deg) scaleX(0.72) scaleY(0.92);
+  }
+  58% {
+    transform: translate3d(58vw, -0.5vh, 0) rotateZ(3deg) rotateY(-10deg) scale(0.88);
+  }
+  78% {
+    opacity: 1;
+    transform: translate3d(84vw, -3.5vh, 0) rotateZ(-4deg) rotateY(0deg) scale(0.84);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(122vw, 4vh, 0) rotateZ(7deg) rotateY(0deg) scale(0.78);
+  }
+}
+
+@keyframes devise-email-popup-impact-shell {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  12%,
+  68% {
+    opacity: 1;
+  }
+}
+
+@keyframes devise-email-popup-impact-particle {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) rotate(var(--dep-r, 0deg)) scale(0.18, 0.48);
+  }
+  14% {
+    opacity: 0.96;
   }
   72% {
     opacity: 0.88;
-    transform: translate3d(-48%, -52%, 0) rotate(-2deg) scale(1.02);
   }
   100% {
     opacity: 0;
-    transform: translate3d(-44%, -56%, 0) rotate(4deg) scale(1.18);
+    transform: translate3d(calc(-50% + var(--dep-x, 0px)), calc(-50% + var(--dep-y, 0px)), 0) rotate(var(--dep-r, 0deg)) scale(var(--dep-sx, 1), var(--dep-sy, 1));
   }
 }
 
-@keyframes devise-email-popup-screen-splash {
+@keyframes devise-email-popup-water-layer {
   0% {
     opacity: 0;
   }
-  10%,
-  78% {
+  6%,
+  82% {
     opacity: 1;
   }
   100% {
@@ -920,49 +833,39 @@ body.devise-email-popup-is-open {
   }
 }
 
-@keyframes devise-email-popup-water-streak {
+@keyframes devise-email-popup-glass-run {
   0% {
     opacity: 0;
-    transform: translate3d(0, -18px, 0) scaleY(0.72);
+    transform: translate3d(0, -28px, 0) scaleY(0.7);
   }
-  12% {
-    opacity: 0.9;
-  }
-  72% {
-    opacity: 0.74;
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(0, var(--dep-streak-fall, 36vh), 0) scaleY(1.12);
-  }
-}
-
-@keyframes devise-email-popup-droplets-wrap {
-  0%,
-  20% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes devise-email-popup-droplet {
-  0% {
-    transform: translate3d(var(--dep-drop-x, -10vw), -8vh, 0) scale(0.48, 0.72);
-    opacity: 0;
-  }
-  16% {
-    transform: translate3d(var(--dep-drop-mid-x, 0vw), 0, 0) scale(1.04, 0.94);
+  10% {
     opacity: 0.92;
   }
-  68% {
-    transform: translate3d(var(--dep-drop-mid-x, 0vw), 32vh, 0) scale(0.82, 1.24);
-    opacity: 0.72;
+  72% {
+    opacity: 0.66;
   }
   100% {
-    transform: translate3d(var(--dep-drop-end-x, 0vw), var(--dep-drop-fall, 78vh), 0) scale(0.62, 1.5);
     opacity: 0;
+    transform: translate3d(0, var(--dep-fall, 44vh), 0) scaleY(1.14);
+  }
+}
+
+@keyframes devise-email-popup-drop-run {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--dep-start-x, -9vw), -14vh, 0) scale(0.48, 0.72);
+  }
+  11% {
+    opacity: 0.94;
+    transform: translate3d(var(--dep-mid-x, 0vw), 0, 0) scale(1.02, 0.96);
+  }
+  74% {
+    opacity: 0.72;
+    transform: translate3d(var(--dep-mid-x, 0vw), var(--dep-mid-fall, 38vh), 0) scale(0.84, 1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dep-end-x, 0vw), var(--dep-fall, 62vh), 0) scale(0.58, 1.42);
   }
 }
 
@@ -996,15 +899,16 @@ body.devise-email-popup-is-open {
     padding: 14px;
   }
 
-  .devise-email-popup__sun {
-    top: 46px;
-    right: 22px;
-    width: 76px;
+  .devise-email-popup__surfer-path {
+    top: 38%;
+    width: 114px;
   }
 
-  .devise-email-popup__surfer {
-    top: calc(50% - 176px);
-    width: 108px;
+  .devise-email-popup__impact-splash {
+    top: 43%;
+    left: 50%;
+    width: 310px;
+    height: 190px;
   }
 
   .devise-email-popup__card-palm {
@@ -1069,6 +973,7 @@ body.devise-email-popup-is-open {
     display: none;
   }
 
+  .devise-email-popup.is-visible .devise-email-popup__overlay,
   .devise-email-popup.is-visible .devise-email-popup__card {
     opacity: 1;
     transform: none;

@@ -6,11 +6,13 @@
   const ERROR_SELECTOR = '[data-devise-email-popup-error]';
   const OPEN_CLASS = 'is-visible';
   const IMMEDIATE_CLASS = 'is-immediate';
+  const INTERACTIVE_CLASS = 'is-interactive';
   const BODY_LOCK_CLASS = 'devise-email-popup-is-open';
 
   // Timing controls: Shopify section settings write these values to data attributes.
   const DEFAULT_DELAY_MS = 5000;
   const DEFAULT_HIDE_DAYS = 7;
+  const INTERACTIVE_DELAY_MS = 1050;
 
   // Storage controls: change these keys only if you intentionally want to reset popup history.
   const CLOSED_UNTIL_KEY = 'devise_email_popup_closed_until';
@@ -87,7 +89,7 @@
     const target = email || dialog;
     if (!target) return;
 
-    const focusDelay = immediate || prefersReducedMotion() ? 40 : 2140;
+    const focusDelay = immediate || prefersReducedMotion() ? 40 : 1500;
 
     window.setTimeout(() => {
       if (!root.classList.contains(OPEN_CLASS)) return;
@@ -99,9 +101,20 @@
     const immediate = Boolean(options.immediate);
 
     root.classList.toggle(IMMEDIATE_CLASS, immediate);
+    root.classList.remove(INTERACTIVE_CLASS);
     root.classList.add(OPEN_CLASS);
     root.setAttribute('aria-hidden', 'false');
     lockBody();
+
+    if (immediate || prefersReducedMotion()) {
+      root.classList.add(INTERACTIVE_CLASS);
+    } else {
+      window.setTimeout(() => {
+        if (!root.classList.contains(OPEN_CLASS)) return;
+        root.classList.add(INTERACTIVE_CLASS);
+      }, INTERACTIVE_DELAY_MS);
+    }
+
     focusDialog(root, immediate);
   };
 
@@ -111,6 +124,7 @@
 
     root.classList.remove(OPEN_CLASS);
     root.classList.remove(IMMEDIATE_CLASS);
+    root.classList.remove(INTERACTIVE_CLASS);
     root.setAttribute('aria-hidden', 'true');
 
     if (persist && !isDesignMode()) {
