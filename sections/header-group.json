@@ -129,7 +129,7 @@
         "enable_transparent_header_home": false,
         "home_inverse_logo": false,
         "text_color_transparent_home": "",
-        "enable_transparent_header_product": false,
+        "enable_transparent_header_product": true,
         "product_inverse_logo": false,
         "text_color_transparent_product": "",
         "enable_transparent_header_collection": false,
@@ -169,18 +169,6 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
-    },
-    "devise_email_popup_B8bmfQ": {
-      "type": "devise-email-popup",
-      "name": "Devise email popup",
-      "settings": {
-        "enabled": true,
-        "delay_ms": 4000,
-        "hide_days": 7,
-        "accent_color": "#ffde59",
-        "ocean_color": "#36d6da",
-        "card_color": "#fff4e4"
-      }
     }
   },
   "order": [
@@ -189,7 +177,6 @@
     "header_section",
     "custom_liquid_B66N9k",
     "custom_liquid_ctTUhd",
-    "custom_liquid_j9wr39",
-    "devise_email_popup_B8bmfQ"
+    "custom_liquid_j9wr39"
   ]
 }
