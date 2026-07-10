@@ -22,6 +22,9 @@
     assign has_custom_variant_buttons = true
   endif
   assign fieldset_index = 0
+  assign has_print_option = false
+  assign print_dialog_id = 'DevisePrintComparison-' | append: section.id | append: '-' | append: product_resource.id
+  assign print_comparison_label = block_settings.print_comparison_link_label | default: 'Jämför DTG och DTF'
 %}
 
 {% unless product_resource.has_only_default_variant %}
@@ -59,10 +62,16 @@
           assign swatch_count = product_option.values | map: 'swatch' | compact | size
           assign variant_style = block_settings.variant_style
           assign is_color_option = false
+          assign is_print_option = false
           assign force_image_swatch = false
 
           if option_name_downcase contains 'color' or option_name_downcase contains 'colour' or option_name_downcase contains 'färg' or option_name_downcase contains 'farg'
             assign is_color_option = true
+          endif
+
+          if option_name_downcase contains 'tryck' or option_name_downcase contains 'print'
+            assign is_print_option = true
+            assign has_print_option = true
           endif
 
           if is_color_option and block_settings.show_swatches
@@ -85,16 +94,27 @@
 
         {%- if product_option.values.size == 1 and variant_style != 'swatch' -%}
           <div
-            class="variant-option"
+            class="variant-option{% if is_print_option %} variant-option--print-technique{% endif %}"
             data-testid="variant-option-single"
           >
-            {{- product_option.name | escape -}}
-            <span
-              class="variant-option__swatch-value"
-              data-testid="variant-option-single-value"
-            >
-              {{- product_option.selected_value -}}
+            <span>
+              {{- product_option.name | escape -}}
+              <span
+                class="variant-option__swatch-value"
+                data-testid="variant-option-single-value"
+              >
+                {{- product_option.selected_value -}}
+              </span>
             </span>
+            {%- if is_print_option -%}
+              <button
+                type="button"
+                class="button button-unstyled devise-print-comparison-trigger"
+                on:click="#{{ print_dialog_id }}/showDialog"
+              >
+                {{ print_comparison_label | escape }}
+              </button>
+            {%- endif -%}
           </div>
         {%- elsif variant_style == 'swatch' or block_settings.variant_style == 'buttons' -%}
           <fieldset
@@ -103,11 +123,22 @@
             ref="fieldsets[]"
             {{ option_id_attribute }}
           >
-            <legend>
-              {{ product_option.name | escape -}}
-              {%- if variant_style == 'swatch' -%}
-                <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
-              {%- endif %}
+            <legend{% if is_print_option %} class="devise-variant-heading"{% endif %}>
+              <span>
+                {{ product_option.name | escape -}}
+                {%- if variant_style == 'swatch' -%}
+                  <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
+                {%- endif %}
+              </span>
+              {%- if is_print_option -%}
+                <button
+                  type="button"
+                  class="button button-unstyled devise-print-comparison-trigger"
+                  on:click="#{{ print_dialog_id }}/showDialog"
+                >
+                  {{ print_comparison_label | escape }}
+                </button>
+              {%- endif -%}
             </legend>
             {%- for product_option_value in product_option.values -%}
               {% if product_option_value.size > longest_value and option_id_attribute %}
@@ -222,8 +253,19 @@
             endif
           %}
 
-          <div class="variant-option variant-option--dropdowns">
-            <label for="Option-{{ block.id }}-{{ forloop.index0 }}">{{ product_option.name | escape }}</label>
+          <div class="variant-option variant-option--dropdowns{% if is_print_option %} variant-option--print-technique{% endif %}">
+            <div class="devise-variant-heading">
+              <label for="Option-{{ block.id }}-{{ forloop.index0 }}">{{ product_option.name | escape }}</label>
+              {%- if is_print_option -%}
+                <button
+                  type="button"
+                  class="button button-unstyled devise-print-comparison-trigger"
+                  on:click="#{{ print_dialog_id }}/showDialog"
+                >
+                  {{ print_comparison_label | escape }}
+                </button>
+              {%- endif -%}
+            </div>
             <div
               class="variant-option__select-wrapper"
               style="
@@ -275,6 +317,10 @@
       </script>
     </form>
   </variant-picker>
+
+  {% if has_print_option %}
+    {% render 'devise-print-comparison-dialog', product: product_resource, section: section, block: block %}
+  {% endif %}
 {% endunless %}
 
 {% render 'variant-picker-styles' %}
