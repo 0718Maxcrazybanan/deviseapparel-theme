@@ -76,9 +76,6 @@ export class AddToCartComponent extends Component {
     const productForm = /** @type {ProductFormComponent | null} */ (this.closest('product-form-component'));
     const sizeQuantityDropdown = productForm?.getSizeQuantityDropdown?.();
     if (sizeQuantityDropdown?.validate && !sizeQuantityDropdown.validate()) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      event.stopPropagation();
       return;
     }
 
@@ -332,10 +329,7 @@ class ProductFormComponent extends Component {
 
     const sizeQuantityDropdown = this.getSizeQuantityDropdown();
     if (sizeQuantityDropdown) {
-      if (!sizeQuantityDropdown.validate()) {
-        event.stopImmediatePropagation();
-        return;
-      }
+      if (!sizeQuantityDropdown.validate()) return;
 
       const selectedItems = sizeQuantityDropdown.getSelectedItems();
       if (!selectedItems.length) return;
@@ -470,13 +464,7 @@ class ProductFormComponent extends Component {
       formData.append('sections', cartItemComponentsSectionIds.join(','));
     });
 
-    const rawQuantity = formData.get('quantity');
-    const parsedQuantity = Number(rawQuantity);
-    const itemCount =
-      rawQuantity !== null && rawQuantity !== '' && Number.isFinite(parsedQuantity)
-        ? parsedQuantity
-        : Number(this.dataset.quantityDefault) || 1;
-    if (itemCount <= 0) return;
+    const itemCount = Number(formData.get('quantity')) || Number(this.dataset.quantityDefault);
     const deferredEventPromise = CartLinesUpdateEvent.createPromise();
 
     this.dispatchEvent(
@@ -629,7 +617,6 @@ class ProductFormComponent extends Component {
    * @param {Event} [event]
    */
   #processBatchAddToCart(items, event) {
-    items = this.#normalizeCartItems(items);
     if (items.length === 0) return;
 
     const { addToCartTextError } = this.refs;
@@ -646,17 +633,6 @@ class ProductFormComponent extends Component {
 
     const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
     const deferredEventPromise = CartLinesUpdateEvent.createPromise();
-    const sourceForm = this.querySelector('form');
-    const sharedFormFields = [];
-
-    // Print.App and other personalization apps store their configuration as line item properties.
-    if (sourceForm) {
-      for (const [name, value] of new FormData(sourceForm).entries()) {
-        if (name === 'selling_plan' || name.startsWith('properties[')) {
-          sharedFormFields.push([name, value]);
-        }
-      }
-    }
 
     this.dispatchEvent(
       new CartLinesUpdateEvent({
@@ -677,9 +653,6 @@ class ProductFormComponent extends Component {
         const formData = new FormData();
         formData.set('id', item.variantId);
         formData.set('quantity', item.quantity.toString());
-        for (const [name, value] of sharedFormFields) {
-          formData.append(name, value);
-        }
         formData.append('sections', cartItemComponentsSectionIds.join(','));
         formData.append('sections_url', window.location.pathname);
 
@@ -791,22 +764,6 @@ class ProductFormComponent extends Component {
           cartPerformance.measureFromEvent('add:user-action', event);
         }
       });
-  }
-
-  /**
-   * @param {Array<{variantId: string, quantity: number}>} items
-   */
-  #normalizeCartItems(items) {
-    const itemsByVariant = new Map();
-
-    for (const item of items) {
-      const variantId = item.variantId?.toString() || '';
-      const quantity = Number(item.quantity) || 0;
-      if (!variantId || quantity <= 0) continue;
-      itemsByVariant.set(variantId, (itemsByVariant.get(variantId) || 0) + quantity);
-    }
-
-    return Array.from(itemsByVariant, ([variantId, quantity]) => ({ variantId, quantity }));
   }
 
   /**
