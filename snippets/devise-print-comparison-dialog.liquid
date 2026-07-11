@@ -1,0 +1,123 @@
+{%- doc -%}
+  Renders the DTG/DTF comparison dialog used by the print-technique variant option.
+
+  @param {object} product - Current product.
+  @param {object} section - Current section.
+  @param {object} block - Variant picker block with editable comparison settings.
+{%- enddoc -%}
+
+{%- liquid
+  assign dialog_id = 'DevisePrintComparison-' | append: section.id | append: '-' | append: product.id
+  assign dtg_image = block.settings.dtg_comparison_image
+  assign dtf_image = block.settings.dtf_comparison_image
+  assign dtg_description = block.settings.dtg_description
+  assign dtf_description = block.settings.dtf_description
+  assign dtg_alt = dtg_image.alt | default: 'Närbild av DTG-tryck'
+  assign dtf_alt = dtf_image.alt | default: 'Närbild av DTF-tryck'
+-%}
+
+<dialog-component
+  id="{{ dialog_id }}"
+  class="devise-product-dialog devise-print-dialog"
+>
+  <dialog
+    ref="dialog"
+    class="devise-product-dialog__surface devise-print-dialog__surface dialog-modal color-custom-popover"
+    scroll-lock
+    aria-labelledby="{{ dialog_id }}-heading"
+  >
+    <header class="devise-product-dialog__header">
+      <div>
+        <span class="devise-product-dialog__eyebrow">Välj rätt tryck</span>
+        <h2 id="{{ dialog_id }}-heading">DTG eller DTF?</h2>
+      </div>
+      <button
+        type="button"
+        class="button button-unstyled close-button devise-product-dialog__close"
+        on:click="/closeDialog"
+        aria-label="{{ 'accessibility.close_dialog' | t }}"
+      >
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </button>
+    </header>
+
+    <p class="devise-print-dialog__lead">
+      Dra reglaget för att jämföra hur trycken möter tyget. Slutresultatet påverkas även av plagg, färg och motiv.
+    </p>
+
+    <div class="devise-print-comparison" data-devise-print-comparison style="--devise-compare: 50%;">
+      <div class="devise-print-comparison__layer devise-print-comparison__layer--dtf">
+        {% if dtf_image != blank %}
+          {{
+            dtf_image
+            | image_url: width: 1400
+            | image_tag: loading: 'lazy', alt: dtf_alt, widths: '560, 900, 1400'
+          }}
+        {% else %}
+          <img
+            src="{{ 'devise-dtf-detail.svg' | asset_url }}"
+            alt="Illustrerad närbild av DTF-tryck på tyg"
+            width="1200"
+            height="760"
+            loading="lazy"
+          >
+        {% endif %}
+        <span class="devise-print-comparison__label devise-print-comparison__label--right">DTF</span>
+      </div>
+      <div class="devise-print-comparison__layer devise-print-comparison__layer--dtg">
+        {% if dtg_image != blank %}
+          {{
+            dtg_image
+            | image_url: width: 1400
+            | image_tag: loading: 'lazy', alt: dtg_alt, widths: '560, 900, 1400'
+          }}
+        {% else %}
+          <img
+            src="{{ 'devise-dtg-detail.svg' | asset_url }}"
+            alt="Illustrerad närbild av DTG-tryck på tyg"
+            width="1200"
+            height="760"
+            loading="lazy"
+          >
+        {% endif %}
+        <span class="devise-print-comparison__label">DTG</span>
+      </div>
+      <span class="devise-print-comparison__divider" aria-hidden="true">
+        <span>{{- 'icon-chevron-left.svg' | inline_asset_content -}}{{- 'icon-chevron-right.svg' | inline_asset_content -}}</span>
+      </span>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        value="50"
+        aria-label="Jämför DTG och DTF"
+        data-devise-print-range
+      >
+    </div>
+
+    <div class="devise-print-dialog__methods">
+      <article>
+        <span>DTG</span>
+        <h3>Mjukt och detaljrikt</h3>
+        {% if dtg_description != blank %}
+          <div class="rte">{{ dtg_description }}</div>
+        {% else %}
+          <p>Färgen trycks direkt in i textilfibrerna. Passar detaljer, toningar och mindre serier, särskilt på bomull.</p>
+        {% endif %}
+      </article>
+      <article>
+        <span>DTF</span>
+        <h3>Skarpt och mångsidigt</h3>
+        {% if dtf_description != blank %}
+          <div class="rte">{{ dtf_description }}</div>
+        {% else %}
+          <p>Motivet överförs från film med värme. Ger tydliga färger, bra slitstyrka och fungerar på fler material.</p>
+        {% endif %}
+      </article>
+    </div>
+
+    <p class="devise-print-dialog__footnote">
+      Osäker? Vi kontrollerar alltid att vald metod passar motivet och produkten innan tillverkning.
+    </p>
+  </dialog>
+</dialog-component>
