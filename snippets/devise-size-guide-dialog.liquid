@@ -9,8 +9,14 @@
   assign size_guide_file = product.metafields.custom.size_guide_image.value
   assign size_guide_image = blank
 
-  if size_guide_file != blank and size_guide_file.media_type == 'image'
-    assign size_guide_image = size_guide_file.preview_image | default: size_guide_file
+  if size_guide_file != blank
+    if size_guide_file.preview_image != blank
+      assign size_guide_image = size_guide_file.preview_image
+    elsif size_guide_file.media_type == 'image'
+      assign size_guide_image = size_guide_file
+    elsif size_guide_file.width != blank and size_guide_file.height != blank
+      assign size_guide_image = size_guide_file
+    endif
   endif
 -%}
 
