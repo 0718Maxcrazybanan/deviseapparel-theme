@@ -159,6 +159,11 @@
   gap: 12px;
 }
 
+.devise-product-page .devise-variant-heading--size-guide {
+  justify-content: flex-start;
+  gap: 10px;
+}
+
 .devise-product-page .devise-print-comparison-trigger,
 .devise-product-page .devise-size-guide__trigger {
   min-height: auto;
@@ -178,11 +183,8 @@
   cursor: pointer;
 }
 
-.devise-product-page variant-picker .devise-size-guide {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  margin-block: -7px 8px;
+.devise-product-page .devise-variant-heading--size-guide .devise-size-guide {
+  display: inline-flex;
 }
 
 .devise-product-page .buy-buttons-block {
