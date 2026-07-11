@@ -48,6 +48,9 @@
       </button>
     </header>
 
+    {% if guide_page != blank %}
+      <div class="devise-size-guide__custom-content rte">{{ guide_page.content }}</div>
+    {% else %}
     <div
       class="devise-size-guide__tabs"
       role="tablist"
@@ -88,10 +91,7 @@
         <p>Måtten anges i centimeter. Lägg ett plagg som passar dig plant och jämför med tabellen.</p>
       </div>
 
-      {% if guide_page != blank %}
-        <div class="devise-size-guide__custom-content rte">{{ guide_page.content }}</div>
-      {% else %}
-        <div class="devise-size-guide__measurement-card">
+      <div class="devise-size-guide__measurement-card">
           <div class="devise-size-guide__visual">
             {% if product_measurement_image != blank %}
               {{
@@ -131,7 +131,6 @@
             <div><dt>C Ärmlängd</dt><dd>Från axelsömmen till ärmens ytterkant.</dd></div>
           </dl>
         </div>
-      {% endif %}
     </section>
 
     <section
@@ -263,5 +262,6 @@
       </div>
       <p class="devise-size-guide__note">Produktmått kan variera med upp till 5 cm.</p>
     </section>
+    {% endif %}
   </dialog>
 </dialog-component>
