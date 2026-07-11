@@ -1,5 +1,5 @@
 {%- doc -%}
-  Renders the live price breakdown dialog for the multi-size product picker.
+  Renders the live price breakdown dialog for Shopify's selected variant and quantity picker.
 
   @param {object} product - Current product.
   @param {object} section - Current section.
@@ -7,7 +7,20 @@
   @param {string} currency - ISO currency code.
 {%- enddoc -%}
 
-{%- assign dialog_id = 'DevisePriceDialog-' | append: section.id | append: '-' | append: product.id -%}
+{%- liquid
+  assign dialog_id = 'DevisePriceDialog-' | append: section.id | append: '-' | append: product.id
+  assign selected_options = ''
+
+  for product_option in product.options_with_values
+    if selected_options != ''
+      assign selected_options = selected_options | append: ' / '
+    endif
+    assign selected_options = selected_options | append: product_option.name | append: ': ' | append: product_option.selected_value
+  endfor
+
+  assign initial_quantity = variant.quantity_rule.min | default: 1
+  assign initial_total = variant.price | times: initial_quantity
+-%}
 
 <dialog-component
   id="{{ dialog_id }}"
@@ -47,33 +60,36 @@
 
     <div class="devise-price-dialog__product">
       <strong>{{ product.title | escape }}</strong>
-      <span data-devise-price-options>Välj färg, tryckteknik och storlek</span>
+      <span data-devise-price-options>{{ selected_options | escape }}</span>
     </div>
 
-    <p class="devise-price-dialog__empty" data-devise-price-empty>
-      Inga storlekar är valda ännu. Välj minst en storlek och ange antal för att se prisuppgifterna.
-    </p>
-
-    <div class="devise-price-dialog__table-wrap" data-devise-price-table hidden>
+    <div class="devise-price-dialog__table-wrap" data-devise-price-table>
       <table class="devise-price-dialog__table">
         <thead>
           <tr>
-            <th scope="col">Storlek</th>
+            <th scope="col">Val</th>
             <th scope="col">Antal</th>
             <th scope="col">Pris/st</th>
             <th scope="col">Summa</th>
           </tr>
         </thead>
-        <tbody data-devise-price-lines></tbody>
+        <tbody>
+          <tr>
+            <th scope="row" data-devise-price-line-options>{{ selected_options | escape }}</th>
+            <td data-devise-price-line-quantity>{{ initial_quantity }}</td>
+            <td data-devise-price-line-unit>{{ variant.price | money }}</td>
+            <td data-devise-price-line-total>{{ initial_total | money }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
 
-    <footer class="devise-price-dialog__total" data-devise-price-total-wrapper hidden>
+    <footer class="devise-price-dialog__total" data-devise-price-total-wrapper>
       <span>
         Totalt
-        <small data-devise-price-total-quantity>0 plagg</small>
+        <small data-devise-price-total-quantity>{{ initial_quantity }} plagg</small>
       </span>
-      <strong data-devise-price-total>{{ variant.price | money }}</strong>
+      <strong data-devise-price-total>{{ initial_total | money }}</strong>
     </footer>
   </dialog>
 </dialog-component>

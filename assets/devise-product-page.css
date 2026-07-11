@@ -213,10 +213,12 @@
 
 .devise-product-page .product-form-buttons add-to-cart-component {
   min-width: 0;
+  grid-column: 2;
   order: 2;
 }
 
 .devise-product-page .product-form-buttons .devise-product-page__cart-price {
+  grid-column: 1;
   order: 1;
 }
 
