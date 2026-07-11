@@ -28,6 +28,12 @@
   if product != blank
     assign size_guide_product = product
   endif
+  assign size_guide_file = size_guide_product.metafields.custom.size_guide_image.value
+  assign has_size_guide_image = false
+  if size_guide_file != blank and size_guide_file.media_type == 'image'
+    assign has_size_guide_image = true
+  endif
+  assign size_guide_dialog_id = 'DeviseSizeGuide-' | append: section.id | append: '-' | append: size_guide_product.id
   assign print_dialog_id = 'DevisePrintComparison-' | append: section.id | append: '-' | append: product_resource.id
   assign print_comparison_label = block_settings.print_comparison_link_label | default: 'Jämför DTG och DTF'
 %}
@@ -147,9 +153,23 @@
                   {{ print_comparison_label | escape }}
                 </button>
               {%- endif -%}
+              {%- if is_size_option and has_size_guide_image -%}
+                <button
+                  type="button"
+                  class="button button-unstyled devise-size-guide__trigger"
+                  on:click="#{{ size_guide_dialog_id }}/showDialog"
+                >
+                  Storleksguide
+                </button>
+              {%- endif -%}
             </legend>
             {%- if is_size_option and has_rendered_size_guide == false -%}
-              {% render 'devise-size-guide-dialog', product: size_guide_product, section: section %}
+              {% render 'devise-size-guide-dialog',
+                product: size_guide_product,
+                section: section,
+                dialog_id: size_guide_dialog_id,
+                show_trigger: false
+              %}
               {%- assign has_rendered_size_guide = true -%}
             {%- endif -%}
             {%- for product_option_value in product_option.values -%}

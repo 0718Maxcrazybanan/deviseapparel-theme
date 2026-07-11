@@ -3,6 +3,8 @@
 
   @param {object} product - Current product.
   @param {object} section - Current section.
+  @param {string} [dialog_id] - Optional dialog id.
+  @param {boolean} [show_trigger] - Whether to render the built-in trigger button.
 {%- enddoc -%}
 
 {%- liquid
@@ -16,7 +18,13 @@
 
 {%- if size_guide_image != blank -%}
   {%- liquid
-    assign dialog_id = 'DeviseSizeGuide-' | append: section.id | append: '-' | append: product.id
+    if dialog_id == blank
+      assign dialog_id = 'DeviseSizeGuide-' | append: section.id | append: '-' | append: product.id
+    endif
+    assign render_trigger = true
+    if show_trigger == false
+      assign render_trigger = false
+    endif
     assign guide_heading = 'Storleksguide'
     assign image_alt = size_guide_image.alt | default: guide_heading
   -%}
@@ -25,13 +33,15 @@
     id="{{ dialog_id }}"
     class="devise-product-dialog devise-size-guide"
   >
-    <button
-      type="button"
-      class="button button-unstyled devise-size-guide__trigger"
-      on:click="/showDialog"
-    >
-      {{ guide_heading }}
-    </button>
+    {%- if render_trigger -%}
+      <button
+        type="button"
+        class="button button-unstyled devise-size-guide__trigger"
+        on:click="/showDialog"
+      >
+        {{ guide_heading }}
+      </button>
+    {%- endif -%}
 
     <dialog
       ref="dialog"
