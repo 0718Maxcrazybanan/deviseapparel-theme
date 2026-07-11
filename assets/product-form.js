@@ -12,7 +12,6 @@ const ERROR_BUTTON_REENABLE_DELAY = 1000;
 
 // Success message display duration for screen readers
 const SUCCESS_MESSAGE_DISPLAY_DURATION = 5000;
-const SIZE_QUANTITY_ADD_EVENT = 'size-quantity:add-to-cart';
 
 /**
  * @typedef {HTMLElement & {
@@ -74,13 +73,6 @@ export class AddToCartComponent extends Component {
 
     // Check if adding would exceed max before animating
     const productForm = /** @type {ProductFormComponent | null} */ (this.closest('product-form-component'));
-    const sizeQuantityDropdown = productForm?.getSizeQuantityDropdown?.();
-    if (sizeQuantityDropdown?.validate && !sizeQuantityDropdown.validate()) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
-
     const quantitySelector = productForm?.refs.quantitySelector;
     if (quantitySelector?.canAddToCart) {
       const validation = quantitySelector.canAddToCart();
@@ -209,9 +201,6 @@ class ProductFormComponent extends Component {
   /** @type {number} */
   #variantChangeGeneration = 0;
 
-  /** @type {Array<{variantId: string, quantity: number}>} */
-  #addToCartQueue = [];
-
   connectedCallback() {
     super.connectedCallback();
 
@@ -221,7 +210,6 @@ class ProductFormComponent extends Component {
 
     // Listen for cart updates to sync data-cart-quantity
     document.addEventListener(StandardEvents.cartLinesUpdate, this.#onCartUpdate, { signal });
-    this.addEventListener(SIZE_QUANTITY_ADD_EVENT, this.#onSizeQuantityAddToCart, { signal });
   }
 
   disconnectedCallback() {
@@ -304,78 +292,16 @@ class ProductFormComponent extends Component {
       });
   };
 
-  /** @param {CustomEvent<{items?: Array<{variantId: string, quantity: number}>, sourceEvent?: Event}>} event */
-  #onSizeQuantityAddToCart = (event) => {
-    const selectedItems = Array.isArray(event.detail?.items) ? event.detail.items : [];
-    const items = selectedItems
-      .map((item) => ({
-        variantId: item.variantId?.toString() || '',
-        quantity: Number(item.quantity) || 0,
-      }))
-      .filter((item) => item.variantId && item.quantity > 0);
-
-    if (!items.length) return;
-
-    if (this.#variantChangeInProgress) {
-      this.#addToCartQueue.push(...items);
-      this.refs.addToCartButtonContainer?.animateAddToCart?.();
-      return;
-    }
-
-    this.#processBatchAddToCart(items, event.detail?.sourceEvent);
-  };
-
   /** @param {Event} event */
   handleSubmit(event) {
     event.preventDefault();
 
-    const sizeQuantityDropdown = this.getSizeQuantityDropdown();
-    if (sizeQuantityDropdown) {
-      if (!sizeQuantityDropdown.validate()) return;
-
-      const selectedItems = sizeQuantityDropdown.getSelectedItems();
-      if (!selectedItems.length) return;
-
-      if (this.#variantChangeInProgress) {
-        this.#addToCartQueue.push(...selectedItems);
-        this.refs.addToCartButtonContainer?.animateAddToCart?.();
-        return;
-      }
-
-      if (selectedItems.length === 1) {
-        this.#processAddToCart(selectedItems[0].variantId, selectedItems[0].quantity, event);
-      } else {
-        this.#processBatchAddToCart(selectedItems, event);
-      }
-
-      return;
-    }
-
     if (this.#variantChangeInProgress) {
-      const intendedVariantId = this.#getIntendedVariantId();
-      const quantity = this.#getQuantity();
-
-      if (intendedVariantId) {
-        this.#addToCartQueue.push({ variantId: intendedVariantId, quantity });
-      }
-
       this.refs.addToCartButtonContainer?.animateAddToCart?.();
       return;
     }
 
     this.#processAddToCart(undefined, undefined, event);
-  }
-
-  getSizeQuantityDropdown() {
-    const form = this.querySelector('form');
-    if (!form?.id) return null;
-
-    return /** @type {any} */ (document.querySelector(`size-quantity-dropdown[data-form-id="${form.id}"]`));
-  }
-
-  /** @returns {string | undefined} */
-  #getIntendedVariantId() {
-    return new URL(window.location.href).searchParams.get('variant') || this.refs.variantId?.value || undefined;
   }
 
   /** @returns {number} */
@@ -615,174 +541,6 @@ class ProductFormComponent extends Component {
   }
 
   /**
-   * @param {Array<{variantId: string, quantity: number}>} items
-   * @param {Event} [event]
-   */
-  #processBatchAddToCart(items, event) {
-    if (items.length === 0) return;
-
-    const { addToCartTextError } = this.refs;
-
-    if (this.#timeout) clearTimeout(this.#timeout);
-
-    const cartItemsComponents = document.querySelectorAll('cart-items-component');
-    const cartItemComponentsSectionIds = [];
-    for (const item of cartItemsComponents) {
-      if (item instanceof HTMLElement && item.dataset.sectionId) {
-        cartItemComponentsSectionIds.push(item.dataset.sectionId);
-      }
-    }
-
-    const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
-    const deferredEventPromise = CartLinesUpdateEvent.createPromise();
-    const sourceForm = this.querySelector('form');
-    const sharedFormFields = [];
-
-    // Print.App and other personalization apps store their configuration as line item properties.
-    if (sourceForm) {
-      for (const [name, value] of new FormData(sourceForm).entries()) {
-        if (name === 'selling_plan' || name.startsWith('properties[')) {
-          sharedFormFields.push([name, value]);
-        }
-      }
-    }
-
-    this.dispatchEvent(
-      new CartLinesUpdateEvent({
-        action: 'add',
-        context: 'product',
-        lines: items.map((item) => ({
-          merchandiseId: item.variantId,
-          quantity: item.quantity,
-        })),
-        promise: deferredEventPromise.promise,
-      })
-    );
-
-    const addItems = async () => {
-      let lastResponse = null;
-
-      for (const item of items) {
-        const formData = new FormData();
-        formData.set('id', item.variantId);
-        formData.set('quantity', item.quantity.toString());
-        for (const [name, value] of sharedFormFields) {
-          formData.append(name, value);
-        }
-        formData.append('sections', cartItemComponentsSectionIds.join(','));
-        formData.append('sections_url', window.location.pathname);
-
-        const fetchCfg = fetchConfig('javascript', { body: formData });
-        const response = await fetch(Theme.routes.cart_add_url, {
-          ...fetchCfg,
-          headers: {
-            ...fetchCfg.headers,
-            Accept: 'application/json',
-          },
-        });
-        const parsedResponse = await response.json();
-
-        if (!response.ok || parsedResponse.status) {
-          this.dispatchEvent(
-            new CartErrorEvent({
-              error: parsedResponse.message || 'Add to cart failed',
-              code: 'INVALID',
-              detail: {
-                description: parsedResponse.description,
-                errors: parsedResponse.errors,
-              },
-            })
-          );
-
-          this.#refreshCart()
-            .then((ajaxCart) =>
-              deferredEventPromise.resolve({
-                cart: CartLinesUpdateEvent.createCartFromAjaxResponse(ajaxCart),
-                detail: {
-                  didError: true,
-                  items: ajaxCart.items,
-                  source: 'product-form-component',
-                  sourceId: this.id.toString(),
-                  itemCount: totalQuantity,
-                  productId: this.dataset.productId,
-                },
-              })
-            )
-            .catch(deferredEventPromise.reject);
-
-          if (!addToCartTextError) return;
-          addToCartTextError.classList.remove('hidden');
-          const textNode = addToCartTextError.childNodes[2];
-          if (textNode) {
-            textNode.textContent = parsedResponse.message;
-          } else {
-            addToCartTextError.appendChild(document.createTextNode(parsedResponse.message));
-          }
-          this.#setLiveRegionText(parsedResponse.message);
-
-          this.#timeout = setTimeout(() => {
-            addToCartTextError.classList.add('hidden');
-            this.#clearLiveRegionText();
-          }, ERROR_MESSAGE_DISPLAY_DURATION);
-
-          return;
-        }
-
-        lastResponse = parsedResponse;
-      }
-
-      if (addToCartTextError) {
-        addToCartTextError.classList.add('hidden');
-        addToCartTextError.removeAttribute('aria-live');
-      }
-
-      const allAddToCartContainers = /** @type {NodeListOf<AddToCartComponent>} */ (
-        this.querySelectorAll('add-to-cart-component')
-      );
-      const anyAddToCartButton = allAddToCartContainers[0]?.refs.addToCartButton;
-      if (anyAddToCartButton) {
-        const addedTextElement = anyAddToCartButton.querySelector('.add-to-cart-text--added');
-        const addedText = addedTextElement?.textContent?.trim() || Theme.translations.added;
-        this.#setLiveRegionText(addedText);
-        setTimeout(() => this.#clearLiveRegionText(), SUCCESS_MESSAGE_DISPLAY_DURATION);
-      }
-
-      const cart = await this.#refreshCart();
-      deferredEventPromise.resolve({
-        cart: CartLinesUpdateEvent.createCartFromAjaxResponse(cart),
-        detail: {
-          items: cart.items,
-          source: 'product-form-component',
-          sourceId: this.id.toString(),
-          itemCount: totalQuantity,
-          productId: this.dataset.productId,
-          sections: lastResponse?.sections,
-          didError: false,
-        },
-      });
-      this.#updateCartQuantity(cart);
-    };
-
-    addItems()
-      .catch((error) => {
-        console.error(error);
-        deferredEventPromise.reject(error);
-
-        this.dispatchEvent(
-          new CartErrorEvent({
-            error: error?.message || 'Network error during add to cart',
-            code: 'SERVICE_UNAVAILABLE',
-          })
-        );
-      })
-      .finally(() => {
-        if (event) {
-          cartPerformance.measureFromEvent('add:user-action', event);
-        }
-      });
-  }
-
-  /**
    * Updates the quantity label with the current cart quantity
    * @param {number} cartQty - The quantity in cart
    */
@@ -984,13 +742,6 @@ class ProductFormComponent extends Component {
       // Only clear the flag if no newer variant selection has started
       if (generation === this.#variantChangeGeneration) {
         this.#variantChangeInProgress = false;
-
-        // Drain any queued add-to-cart requests that accumulated during the variant change
-        if (this.#addToCartQueue.length > 0) {
-          const queuedItems = [...this.#addToCartQueue];
-          this.#addToCartQueue = [];
-          this.#processBatchAddToCart(queuedItems);
-        }
       }
     }
   };

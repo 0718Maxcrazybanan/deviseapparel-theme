@@ -69,7 +69,7 @@
           value="{{ product.selected_or_first_available_variant.id }}"
         >
         {%- if template.name == 'product' or request.page_type == 'product' -%}
-          {% render 'size-quantity-dropdown', product: product, section: section, block: block %}
+          {% render 'devise-size-guide-dialog', product: product, section: section %}
         {%- endif -%}
         {%- if block_settings.gift_card_form and product.gift_card? -%}
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section, block: block -%}
@@ -421,32 +421,6 @@
       "id": "text_color",
       "label": "t:settings.text_color",
       "placeholder": "t:settings.default"
-    },
-    {
-      "type": "header",
-      "content": "Storleksguide"
-    },
-    {
-      "type": "text",
-      "id": "size_guide_heading",
-      "label": "Länktext och rubrik",
-      "default": "Storleksguide"
-    },
-    {
-      "type": "page",
-      "id": "size_guide_page",
-      "label": "Eget innehåll för produktmått",
-      "info": "Lämna tomt för den inbyggda guiden och tabellen."
-    },
-    {
-      "type": "image_picker",
-      "id": "size_guide_product_image",
-      "label": "Bild för produktmått"
-    },
-    {
-      "type": "image_picker",
-      "id": "size_guide_body_image",
-      "label": "Bild för Mät dig själv"
     },
     {
       "type": "header",
