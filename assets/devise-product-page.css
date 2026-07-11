@@ -176,11 +176,11 @@
 
 .devise-product-page .buy-buttons-block {
   display: block;
-  margin-top: 14px;
+  margin-top: 6px;
 }
 
 .devise-product-page .buy-buttons-block .size-quantity-dropdown {
-  margin-block: 16px 10px;
+  margin-block: 6px 9px;
 }
 
 .devise-product-page .buy-buttons-block .product-form-buttons {
@@ -844,14 +844,6 @@
   .devise-product-page .buy-buttons-block .product-form-buttons {
     grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
     gap: 8px;
-  }
-
-  .devise-product-page .buy-buttons-block {
-    margin-top: 12px;
-  }
-
-  .devise-product-page .buy-buttons-block .size-quantity-dropdown {
-    margin-block: 14px 9px;
   }
 
   .devise-product-page .devise-product-page__cart-price > strong {
