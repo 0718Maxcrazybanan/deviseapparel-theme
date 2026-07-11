@@ -207,19 +207,26 @@
 .devise-product-page .product-form-buttons .volume-pricing,
 .devise-product-page .product-form-buttons .quantity-selector-wrapper,
 .devise-product-page .product-form-buttons .shopify-payment-button,
+.devise-product-page .product-form-buttons > .devise-product-page__purchase-row,
 .devise-product-page .product-form-buttons > .devise-product-design-button {
   grid-column: 1 / -1;
 }
 
-.devise-product-page .product-form-buttons add-to-cart-component {
-  min-width: 0;
-  grid-column: 2;
-  order: 2;
+.devise-product-page .devise-product-page__purchase-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+  align-items: stretch;
+  gap: 9px;
 }
 
-.devise-product-page .product-form-buttons .devise-product-page__cart-price {
+.devise-product-page .devise-product-page__purchase-row add-to-cart-component {
+  min-width: 0;
+  grid-column: 2;
+}
+
+.devise-product-page .devise-product-page__purchase-row .devise-product-page__cart-price {
   grid-column: 1;
-  order: 1;
 }
 
 .devise-product-page .devise-product-page__cart-price {
@@ -721,6 +728,10 @@
 
   .devise-product-page .buy-buttons-block .product-form-buttons {
     grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+    gap: 8px;
+  }
+
+  .devise-product-page .devise-product-page__purchase-row {
     gap: 8px;
   }
 
