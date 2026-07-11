@@ -77,6 +77,7 @@ export class AddToCartComponent extends Component {
     const sizeQuantityDropdown = productForm?.getSizeQuantityDropdown?.();
     if (sizeQuantityDropdown?.validate && !sizeQuantityDropdown.validate()) {
       event.preventDefault();
+      event.stopImmediatePropagation();
       event.stopPropagation();
       return;
     }
@@ -331,7 +332,10 @@ class ProductFormComponent extends Component {
 
     const sizeQuantityDropdown = this.getSizeQuantityDropdown();
     if (sizeQuantityDropdown) {
-      if (!sizeQuantityDropdown.validate()) return;
+      if (!sizeQuantityDropdown.validate()) {
+        event.stopImmediatePropagation();
+        return;
+      }
 
       const selectedItems = sizeQuantityDropdown.getSelectedItems();
       if (!selectedItems.length) return;
@@ -466,7 +470,13 @@ class ProductFormComponent extends Component {
       formData.append('sections', cartItemComponentsSectionIds.join(','));
     });
 
-    const itemCount = Number(formData.get('quantity')) || Number(this.dataset.quantityDefault);
+    const rawQuantity = formData.get('quantity');
+    const parsedQuantity = Number(rawQuantity);
+    const itemCount =
+      rawQuantity !== null && rawQuantity !== '' && Number.isFinite(parsedQuantity)
+        ? parsedQuantity
+        : Number(this.dataset.quantityDefault) || 1;
+    if (itemCount <= 0) return;
     const deferredEventPromise = CartLinesUpdateEvent.createPromise();
 
     this.dispatchEvent(
@@ -619,6 +629,7 @@ class ProductFormComponent extends Component {
    * @param {Event} [event]
    */
   #processBatchAddToCart(items, event) {
+    items = this.#normalizeCartItems(items);
     if (items.length === 0) return;
 
     const { addToCartTextError } = this.refs;
@@ -780,6 +791,22 @@ class ProductFormComponent extends Component {
           cartPerformance.measureFromEvent('add:user-action', event);
         }
       });
+  }
+
+  /**
+   * @param {Array<{variantId: string, quantity: number}>} items
+   */
+  #normalizeCartItems(items) {
+    const itemsByVariant = new Map();
+
+    for (const item of items) {
+      const variantId = item.variantId?.toString() || '';
+      const quantity = Number(item.quantity) || 0;
+      if (!variantId || quantity <= 0) continue;
+      itemsByVariant.set(variantId, (itemsByVariant.get(variantId) || 0) + quantity);
+    }
+
+    return Array.from(itemsByVariant, ([variantId, quantity]) => ({ variantId, quantity }));
   }
 
   /**
