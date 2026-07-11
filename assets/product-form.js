@@ -76,6 +76,8 @@ export class AddToCartComponent extends Component {
     const productForm = /** @type {ProductFormComponent | null} */ (this.closest('product-form-component'));
     const sizeQuantityDropdown = productForm?.getSizeQuantityDropdown?.();
     if (sizeQuantityDropdown?.validate && !sizeQuantityDropdown.validate()) {
+      event.preventDefault();
+      event.stopPropagation();
       return;
     }
 
@@ -633,6 +635,17 @@ class ProductFormComponent extends Component {
 
     const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
     const deferredEventPromise = CartLinesUpdateEvent.createPromise();
+    const sourceForm = this.querySelector('form');
+    const sharedFormFields = [];
+
+    // Print.App and other personalization apps store their configuration as line item properties.
+    if (sourceForm) {
+      for (const [name, value] of new FormData(sourceForm).entries()) {
+        if (name === 'selling_plan' || name.startsWith('properties[')) {
+          sharedFormFields.push([name, value]);
+        }
+      }
+    }
 
     this.dispatchEvent(
       new CartLinesUpdateEvent({
@@ -653,6 +666,9 @@ class ProductFormComponent extends Component {
         const formData = new FormData();
         formData.set('id', item.variantId);
         formData.set('quantity', item.quantity.toString());
+        for (const [name, value] of sharedFormFields) {
+          formData.append(name, value);
+        }
         formData.append('sections', cartItemComponentsSectionIds.join(','));
         formData.append('sections_url', window.location.pathname);
 
