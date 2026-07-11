@@ -1,4 +1,5 @@
 const PRODUCT_SELECT_EVENT = 'shopify:product:select';
+const SIZE_QUANTITY_ADD_EVENT = 'size-quantity:add-to-cart';
 const DESIGN_BUTTON_READY_EVENT = 'devise:design-button-ready';
 
 class SizeQuantityDropdown extends HTMLElement {
@@ -44,6 +45,7 @@ class SizeQuantityDropdown extends HTMLElement {
 
     document.removeEventListener('click', this.handleOutsideClick);
     document.removeEventListener('keydown', this.handleKeydown);
+    document.removeEventListener('submit', this.handleFormSubmit, true);
     document.removeEventListener(PRODUCT_SELECT_EVENT, this.handleProductSelect);
     document.removeEventListener(DESIGN_BUTTON_READY_EVENT, this.handleDesignButtonReady);
   }
@@ -111,6 +113,7 @@ class SizeQuantityDropdown extends HTMLElement {
       return true;
     }
 
+    this.open();
     this.classList.add('is-invalid');
     this.toggle?.setAttribute('aria-invalid', 'true');
     this.#setStatus(this.dataset.errorEmpty || 'Välj minst en storlek.');
@@ -152,6 +155,32 @@ class SizeQuantityDropdown extends HTMLElement {
       if (event.key === 'Escape') this.close();
     };
 
+    this.handleFormSubmit = (event) => {
+      if (event.target !== this.#getForm()) return;
+      if (event.target instanceof HTMLFormElement && !event.target.checkValidity()) return;
+
+      const productForm = this.#getProductForm();
+      if (!productForm) return;
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      const selectedItems = this.getSelectedItems();
+      if (!selectedItems.length) {
+        this.validate();
+        return;
+      }
+
+      productForm.dispatchEvent(
+        new CustomEvent(SIZE_QUANTITY_ADD_EVENT, {
+          detail: {
+            items: selectedItems,
+            sourceEvent: event,
+          },
+        })
+      );
+    };
+
     this.handleProductSelect = (event) => {
       const target = event.target;
       if (target instanceof Element && !this.#isRelatedProductElement(target)) return;
@@ -170,6 +199,7 @@ class SizeQuantityDropdown extends HTMLElement {
 
     document.addEventListener('click', this.handleOutsideClick);
     document.addEventListener('keydown', this.handleKeydown);
+    document.addEventListener('submit', this.handleFormSubmit, true);
     document.addEventListener(PRODUCT_SELECT_EVENT, this.handleProductSelect);
     document.addEventListener(DESIGN_BUTTON_READY_EVENT, this.handleDesignButtonReady);
   }
@@ -379,15 +409,10 @@ class SizeQuantityDropdown extends HTMLElement {
   #syncFormToFirstSelection() {
     const selectedItem = this.getSelectedItems()[0];
     const form = this.#getForm();
-    if (!form) return;
+    if (!selectedItem || !form) return;
 
     const variantInput = form.querySelector('input[name="id"]');
     const quantityInput = form.querySelector('input[name="quantity"]');
-
-    if (!selectedItem) {
-      if (quantityInput) quantityInput.value = '0';
-      return;
-    }
 
     if (variantInput) variantInput.value = selectedItem.variantId;
     if (quantityInput) quantityInput.value = selectedItem.quantity.toString();
