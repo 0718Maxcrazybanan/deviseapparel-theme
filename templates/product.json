@@ -255,7 +255,7 @@
                 "stacking": false,
                 "text_color": "",
                 "size_guide_heading": "Storleksguide",
-                "size_guide_page": "",
+                "size_guide_page": "storleksguide",
                 "show_pickup_availability": false,
                 "gift_card_form": true,
                 "recipient_button_style": "default",
