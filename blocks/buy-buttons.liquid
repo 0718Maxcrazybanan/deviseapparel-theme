@@ -222,34 +222,36 @@
               </div>
             </volume-pricing>
           {%- endif -%}
-          {% content_for 'block',
-            type: 'add-to-cart',
-            id: 'add-to-cart',
-            can_add_to_cart: can_add_to_cart,
-            add_to_cart_text: add_to_cart_text
-          %}
-
           {%- liquid
             assign initial_cart_quantity = variant.quantity_rule.min | default: 1
             assign initial_cart_total = variant.price | times: initial_cart_quantity
           -%}
 
-          <div
-            class="devise-product-page__cart-price"
-            data-devise-cart-price
-            data-base-price="{{ variant.price }}"
-            data-currency="{{ price_summary_currency }}"
-          >
-            <strong data-devise-cart-price-total>{{ initial_cart_total | money }}</strong>
-            <span>
-              {% render 'devise-price-details-dialog',
-                product: product,
-                section: section,
-                variant: variant,
-                currency: price_summary_currency
-              %}
-              <small data-devise-cart-price-detail>{{ initial_cart_quantity }} plagg</small>
-            </span>
+          <div class="devise-product-page__purchase-row">
+            <div
+              class="devise-product-page__cart-price"
+              data-devise-cart-price
+              data-base-price="{{ variant.price }}"
+              data-currency="{{ price_summary_currency }}"
+            >
+              <strong data-devise-cart-price-total>{{ initial_cart_total | money }}</strong>
+              <span>
+                {% render 'devise-price-details-dialog',
+                  product: product,
+                  section: section,
+                  variant: variant,
+                  currency: price_summary_currency
+                %}
+                <small data-devise-cart-price-detail>{{ initial_cart_quantity }} plagg</small>
+              </span>
+            </div>
+
+            {% content_for 'block',
+              type: 'add-to-cart',
+              id: 'add-to-cart',
+              can_add_to_cart: can_add_to_cart,
+              add_to_cart_text: add_to_cart_text
+            %}
           </div>
 
           {% content_for 'block',
