@@ -228,6 +228,9 @@
               "settings": {
                 "variant_style": "buttons",
                 "show_swatches": true,
+                "print_comparison_link_label": "Jämför DTG och DTF",
+                "dtg_description": "<p>Färgen trycks direkt in i textilfibrerna. Passar detaljer, toningar och mindre serier, särskilt på bomull.</p>",
+                "dtf_description": "<p>Motivet överförs från film med värme. Ger tydliga färger, bra slitstyrka och fungerar på fler material.</p>",
                 "option_label_text_color": "",
                 "variant_style_class": "default",
                 "custom_variant_background": "{{ settings.color_palette.background }}",
@@ -251,6 +254,8 @@
               "settings": {
                 "stacking": false,
                 "text_color": "",
+                "size_guide_heading": "Storleksguide",
+                "size_guide_page": "",
                 "show_pickup_availability": false,
                 "gift_card_form": true,
                 "recipient_button_style": "default",
