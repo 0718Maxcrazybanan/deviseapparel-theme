@@ -57,6 +57,7 @@
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
 }
 
 .devise-product-page .popup-link__button svg {
@@ -84,7 +85,7 @@
 .devise-product-page .variant-option--dropdowns .devise-variant-heading > label,
 .devise-product-page .variant-option[data-testid='variant-option-single'] {
   margin-bottom: 7px;
-  color: var(--devise-product-muted);
+  color: var(--devise-product-ink);
   font-size: 12px;
   line-height: 1.2;
   font-weight: 900;
@@ -96,8 +97,9 @@
 }
 
 .devise-product-page .variant-option__swatch-value {
-  color: var(--devise-product-ink);
-  font-weight: 950;
+  margin-left: 4px;
+  color: var(--devise-product-muted);
+  font-weight: 850;
 }
 
 .devise-product-page .variant-option--swatches {
@@ -172,7 +174,15 @@
   text-transform: none;
   text-decoration: underline;
   text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
   cursor: pointer;
+}
+
+.devise-product-page variant-picker .devise-size-guide {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-block: -7px 8px;
 }
 
 .devise-product-page .buy-buttons-block {
@@ -263,6 +273,7 @@
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
   cursor: pointer;
 }
 

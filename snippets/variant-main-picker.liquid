@@ -23,6 +23,7 @@
   endif
   assign fieldset_index = 0
   assign has_print_option = false
+  assign has_rendered_size_guide = false
   assign print_dialog_id = 'DevisePrintComparison-' | append: section.id | append: '-' | append: product_resource.id
   assign print_comparison_label = block_settings.print_comparison_link_label | default: 'Jämför DTG och DTF'
 %}
@@ -126,9 +127,7 @@
             <legend{% if is_print_option %} class="devise-variant-heading"{% endif %}>
               <span>
                 {{ product_option.name | escape -}}
-                {%- if variant_style == 'swatch' -%}
-                  <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
-                {%- endif %}
+                <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
               </span>
               {%- if is_print_option -%}
                 <button
@@ -255,7 +254,10 @@
 
           <div class="variant-option variant-option--dropdowns{% if is_print_option %} variant-option--print-technique{% endif %}">
             <div class="devise-variant-heading">
-              <label for="Option-{{ block.id }}-{{ forloop.index0 }}">{{ product_option.name | escape }}</label>
+              <label for="Option-{{ block.id }}-{{ forloop.index0 }}">
+                {{ product_option.name | escape }}
+                <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
+              </label>
               {%- if is_print_option -%}
                 <button
                   type="button"
@@ -310,7 +312,15 @@
             </div>
           </div>
         {%- endif -%}
+        {%- if is_print_option and has_rendered_size_guide == false -%}
+          {% render 'devise-size-guide-dialog', product: product_resource, section: section %}
+          {%- assign has_rendered_size_guide = true -%}
+        {%- endif -%}
       {%- endfor -%}
+
+      {%- if has_rendered_size_guide == false -%}
+        {% render 'devise-size-guide-dialog', product: product_resource, section: section %}
+      {%- endif -%}
 
       <script type="application/json">
         {{ product_resource.selected_or_first_available_variant | json }}
