@@ -157,7 +157,8 @@
   gap: 12px;
 }
 
-.devise-product-page .devise-print-comparison-trigger {
+.devise-product-page .devise-print-comparison-trigger,
+.devise-product-page .devise-size-guide__trigger {
   min-height: auto;
   flex: 0 0 auto;
   padding: 0;
@@ -179,10 +180,6 @@
   margin-top: 6px;
 }
 
-.devise-product-page .buy-buttons-block .size-quantity-dropdown {
-  margin-block: 6px 9px;
-}
-
 .devise-product-page .buy-buttons-block .product-form-buttons {
   display: grid;
   grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
@@ -197,7 +194,6 @@
 .devise-product-page .product-form-buttons .volume-pricing,
 .devise-product-page .product-form-buttons .quantity-selector-wrapper,
 .devise-product-page .product-form-buttons .shopify-payment-button,
-.devise-product-page .product-form-buttons > .size-quantity-dropdown,
 .devise-product-page .product-form-buttons > .devise-product-design-button {
   grid-column: 1 / -1;
 }
@@ -454,31 +450,26 @@
   display: none;
 }
 
-.devise-product-page .devise-price-dialog__table-wrap,
-.devise-product-page .devise-size-guide__table-wrap {
+.devise-product-page .devise-price-dialog__table-wrap {
   width: 100%;
   overflow-x: auto;
 }
 
-.devise-product-page .devise-price-dialog__table,
-.devise-product-page .devise-size-guide__table-wrap table {
+.devise-product-page .devise-price-dialog__table {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
 }
 
 .devise-product-page .devise-price-dialog__table th,
-.devise-product-page .devise-price-dialog__table td,
-.devise-product-page .devise-size-guide__table-wrap th,
-.devise-product-page .devise-size-guide__table-wrap td {
+.devise-product-page .devise-price-dialog__table td {
   padding: 11px 12px;
   border-bottom: 1px solid rgba(9, 9, 9, 0.1);
   text-align: left;
   white-space: nowrap;
 }
 
-.devise-product-page .devise-price-dialog__table thead th,
-.devise-product-page .devise-size-guide__table-wrap thead th {
+.devise-product-page .devise-price-dialog__table thead th {
   color: var(--devise-product-muted);
   font-size: 10px;
   letter-spacing: 0.04em;
@@ -518,135 +509,6 @@
 
 .devise-product-page .devise-size-guide__surface {
   width: min(840px, calc(100vw - 32px));
-}
-
-.devise-product-page .devise-size-guide__tabs {
-  display: flex;
-  gap: 4px;
-  padding: 12px 18px 0;
-  border-bottom: 1px solid var(--devise-product-line);
-}
-
-.devise-product-page .devise-size-guide__tabs button {
-  min-height: 38px;
-  padding: 8px 12px;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  color: var(--devise-product-muted);
-  font: inherit;
-  font-size: 12px;
-  font-weight: 750;
-  cursor: pointer;
-}
-
-.devise-product-page .devise-size-guide__tabs button[aria-selected='true'] {
-  border-bottom-color: var(--devise-product-ink);
-  color: var(--devise-product-ink);
-}
-
-.devise-product-page .devise-size-guide__panel {
-  padding: 18px;
-}
-
-.devise-product-page .devise-size-guide__panel[hidden] {
-  display: none;
-}
-
-.devise-product-page .devise-size-guide__intro h3,
-.devise-product-page .devise-size-guide__chart h3 {
-  margin: 0;
-  font-size: 18px;
-  line-height: 1.2;
-}
-
-.devise-product-page .devise-size-guide__intro p {
-  margin: 5px 0 14px;
-  color: var(--devise-product-muted);
-  font-size: 12px;
-}
-
-.devise-product-page .devise-size-guide__custom-content {
-  padding: 16px;
-  background: #f5f5f3;
-}
-
-.devise-product-page .devise-size-guide__measurement-card {
-  display: grid;
-  grid-template-columns: minmax(230px, 0.9fr) minmax(0, 1.1fr);
-  align-items: center;
-  gap: 24px;
-  padding: 18px;
-  background: #f5f5f3;
-}
-
-.devise-product-page .devise-size-guide__visual {
-  min-width: 0;
-}
-
-.devise-product-page .devise-size-guide__visual img,
-.devise-product-page .devise-size-guide__visual svg {
-  width: 100%;
-  max-height: 260px;
-  display: block;
-  object-fit: contain;
-}
-
-.devise-product-page .devise-size-guide__visual--body img,
-.devise-product-page .devise-size-guide__visual--body svg {
-  max-height: 285px;
-}
-
-.devise-product-page .devise-size-guide__definitions {
-  margin: 0;
-}
-
-.devise-product-page .devise-size-guide__definitions div + div {
-  margin-top: 12px;
-}
-
-.devise-product-page .devise-size-guide__definitions dt {
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.devise-product-page .devise-size-guide__definitions dd {
-  margin: 3px 0 0;
-  color: var(--devise-product-muted);
-  font-size: 11px;
-  line-height: 1.45;
-}
-
-.devise-product-page .devise-size-guide__chart {
-  padding: 0 18px 18px;
-}
-
-.devise-product-page .devise-size-guide__chart-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 14px 14px 12px;
-  background: #f5f5f3;
-}
-
-.devise-product-page .devise-size-guide__chart-heading span {
-  display: block;
-  margin-bottom: 3px;
-  color: var(--devise-product-muted);
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.devise-product-page .devise-size-guide__chart-heading strong {
-  font-size: 11px;
-}
-
-.devise-product-page .devise-size-guide__note {
-  margin: 10px 0 0;
-  color: var(--devise-product-muted);
-  font-size: 10px;
 }
 
 .devise-product-page .devise-print-dialog__surface {
@@ -871,41 +733,6 @@
     font-size: 20px;
   }
 
-  .devise-product-page .devise-size-guide__tabs {
-    padding-inline: 12px;
-  }
-
-  .devise-product-page .devise-size-guide__panel,
-  .devise-product-page .devise-size-guide__chart {
-    padding: 13px;
-  }
-
-  .devise-product-page .devise-size-guide__measurement-card {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 13px;
-  }
-
-  .devise-product-page .devise-size-guide__visual img,
-  .devise-product-page .devise-size-guide__visual svg {
-    max-height: 220px;
-  }
-
-  .devise-product-page .devise-size-guide__definitions {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .devise-product-page .devise-size-guide__definitions div + div {
-    margin-top: 0;
-  }
-
-  .devise-product-page .devise-size-guide__table-wrap th,
-  .devise-product-page .devise-size-guide__table-wrap td {
-    padding: 9px 10px;
-  }
-
   .devise-product-page .devise-print-dialog__lead {
     padding: 13px 13px 10px;
   }
@@ -924,13 +751,8 @@
 }
 
 @media screen and (max-width: 430px) {
-  .devise-product-page .devise-size-guide__definitions,
   .devise-product-page .devise-print-dialog__methods {
     grid-template-columns: 1fr;
-  }
-
-  .devise-product-page .devise-size-guide__definitions div + div {
-    margin-top: 8px;
   }
 
   .devise-product-page .devise-print-comparison {
