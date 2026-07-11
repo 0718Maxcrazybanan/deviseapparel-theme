@@ -95,7 +95,7 @@
     {% render 'skip-to-content-link', href: product_href, text: 'accessibility.skip_to_product_info' %}
   {% endif %}
   <product-component
-    class="{{ product_grid_class }} devise-product-page"
+    class="{{ product_grid_class }}"
     data-product-grid-content
     {% # theme-check-disable UnknownFilter %}
     view-event-payload="{{ product | standard_event_data: 'view' | escape }}"
