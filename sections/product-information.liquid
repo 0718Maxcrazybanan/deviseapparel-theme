@@ -4,13 +4,6 @@
   {{ closest.product | structured_data }}
 </script>
 
-{{ 'devise-product-page.css' | asset_url | stylesheet_tag }}
-<script
-  src="{{ 'devise-product-page.js' | asset_url }}"
-  type="module"
-  defer
-></script>
-
 {% capture media_gallery %}
   {%- content_for 'block',
     type: '_product-media-gallery',
