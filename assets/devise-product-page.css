@@ -177,7 +177,8 @@
   line-height: 1.2;
   font-weight: 750;
   text-transform: none;
-  text-decoration: underline;
+  text-decoration-line: underline !important;
+  text-decoration-style: solid;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
   cursor: pointer;
