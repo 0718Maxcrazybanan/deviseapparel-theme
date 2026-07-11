@@ -175,6 +175,11 @@ class StickyAddToCartComponent extends Component {
    */
   handleAddToCartClick = async () => {
     if (!this.#targetAddToCartButton) return;
+
+    const productForm = this.#getProductForm();
+    const sizeQuantityDropdown = productForm?.getSizeQuantityDropdown?.();
+    if (sizeQuantityDropdown?.validate && !sizeQuantityDropdown.validate()) return;
+
     this.#targetAddToCartButton.dataset.puppet = 'true';
     this.#targetAddToCartButton.click();
     const cartIcon = document.querySelector('.header-actions__cart-icon');
