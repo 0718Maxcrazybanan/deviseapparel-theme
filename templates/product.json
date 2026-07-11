@@ -108,6 +108,14 @@
                 "padding-inline-end": 0
               },
               "blocks": {
+                "custom_liquid_6y8DCi": {
+                  "type": "custom-liquid",
+                  "name": "t:names.custom_liquid",
+                  "settings": {
+                    "custom_liquid": "{% render 'size-quantity-dropdown', product: product, section: section %}"
+                  },
+                  "blocks": {}
+                },
                 "text_xrnftG": {
                   "type": "text",
                   "name": "Product title",
@@ -128,6 +136,28 @@
                     "background_color": "#00000026",
                     "corner_radius": 0,
                     "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "price_tVjtKg": {
+                  "type": "price",
+                  "settings": {
+                    "show_sale_price_first": true,
+                    "show_installments": false,
+                    "show_tax_info": false,
+                    "type_preset": "paragraph",
+                    "width": "100%",
+                    "alignment": "left",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "text_color": "",
+                    "padding-block-start": 4,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
@@ -205,7 +235,9 @@
                 }
               },
               "block_order": [
+                "custom_liquid_6y8DCi",
                 "text_xrnftG",
+                "price_tVjtKg",
                 "popup_link_8faQP8"
               ]
             },
@@ -239,7 +271,7 @@
                 "custom_selected_variant_border": "{{ settings.color_palette.foreground }}",
                 "alignment": "left",
                 "padding-block-start": 0,
-                "padding-block-end": 0,
+                "padding-block-end": 100,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
@@ -267,7 +299,7 @@
                 "input_border_color": "{{ settings.color_palette.foreground }}",
                 "border_width": 1,
                 "border_radius": 0,
-                "padding-block-start": 0,
+                "padding-block-start": 100,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0

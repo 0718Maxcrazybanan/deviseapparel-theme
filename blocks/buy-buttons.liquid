@@ -10,7 +10,6 @@
   assign variant = closest.product.selected_or_first_available_variant
   assign inventory_quantity = variant.inventory_quantity
   assign inventory_policy = variant.inventory_policy
-  assign price_summary_currency = cart.currency.iso_code | default: shop.currency
 
   if variant.inventory_management == 'shopify'
     assign inventory_managed = true
@@ -68,9 +67,6 @@
           ref="variantId"
           value="{{ product.selected_or_first_available_variant.id }}"
         >
-        {%- if template.name == 'product' or request.page_type == 'product' -%}
-          {% render 'size-quantity-dropdown', product: product, section: section, block: block %}
-        {%- endif -%}
         {%- if block_settings.gift_card_form and product.gift_card? -%}
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section, block: block -%}
           <span class="buy-buttons-block__bar">
@@ -231,24 +227,6 @@
             can_add_to_cart: can_add_to_cart,
             add_to_cart_text: add_to_cart_text
           %}
-
-          <div
-            class="devise-product-page__cart-price"
-            data-devise-cart-price
-            data-base-price="{{ variant.price }}"
-            data-currency="{{ price_summary_currency }}"
-          >
-            <strong data-devise-cart-price-total>{{ variant.price | money }}</strong>
-            <span>
-              {% render 'devise-price-details-dialog',
-                product: product,
-                section: section,
-                variant: variant,
-                currency: price_summary_currency
-              %}
-              <small data-devise-cart-price-detail>Välj storlek</small>
-            </span>
-          </div>
 
           {% content_for 'block',
             type: 'accelerated-checkout',
@@ -421,32 +399,6 @@
       "id": "text_color",
       "label": "t:settings.text_color",
       "placeholder": "t:settings.default"
-    },
-    {
-      "type": "header",
-      "content": "Storleksguide"
-    },
-    {
-      "type": "text",
-      "id": "size_guide_heading",
-      "label": "Länktext och rubrik",
-      "default": "Storleksguide"
-    },
-    {
-      "type": "page",
-      "id": "size_guide_page",
-      "label": "Eget innehåll för produktmått",
-      "info": "Lämna tomt för den inbyggda guiden och tabellen."
-    },
-    {
-      "type": "image_picker",
-      "id": "size_guide_product_image",
-      "label": "Bild för produktmått"
-    },
-    {
-      "type": "image_picker",
-      "id": "size_guide_body_image",
-      "label": "Bild för Mät dig själv"
     },
     {
       "type": "header",
