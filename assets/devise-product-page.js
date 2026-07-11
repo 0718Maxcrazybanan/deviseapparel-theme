@@ -1,4 +1,5 @@
 const PRODUCT_SELECT_EVENT = 'shopify:product:select';
+const QUANTITY_SELECTOR_UPDATE_EVENT = 'quantity-selector:update';
 const DESIGN_BUTTON_READY_EVENT = 'devise:design-button-ready';
 const DESIGN_BUTTON_TEXT = /(anpassa|skapa)\s+design|designa\s+produkten/i;
 const DESIGN_BUTTON_RENAME = /anpassa\s+design/gi;
@@ -68,6 +69,61 @@ function updateColorLabel(target) {
   if (selectedValue) selectedValue.textContent = input.value;
 }
 
+function getSelectedOptionSummary(productRoot) {
+  const values = new Map();
+
+  for (const input of productRoot.querySelectorAll('variant-picker input[data-option-name]:checked')) {
+    const name = input.dataset.optionName?.trim();
+    if (name) values.set(name, input.value);
+  }
+
+  for (const select of productRoot.querySelectorAll('variant-picker select')) {
+    const option = select.selectedOptions[0];
+    const name = option?.dataset.optionName?.trim() || select.name?.replace(/^options\[|\]$/g, '').trim();
+    if (name) values.set(name, option?.value || select.value);
+  }
+
+  for (const row of productRoot.querySelectorAll(
+    "variant-picker .variant-option[data-testid='variant-option-single'], variant-picker .variant-option--buttons"
+  )) {
+    const label = row.querySelector('legend > span, :scope > span');
+    const value = row.querySelector('.variant-option__swatch-value');
+    if (!label || !value) continue;
+
+    const valueText = value.textContent?.trim();
+    const labelText = label.textContent?.replace(valueText || '', '').trim();
+    if (labelText && valueText && !values.has(labelText)) values.set(labelText, valueText);
+  }
+
+  return Array.from(values, ([name, value]) => `${name}: ${value}`).join(' / ');
+}
+
+function syncPriceDialog(productForm, summary) {
+  const productRoot = productForm.closest('.devise-product-page');
+  if (!productRoot) return;
+
+  const optionSummary = getSelectedOptionSummary(productRoot) || 'Vald variant';
+  const quantityText = summary.quantity === 1 ? '1 plagg' : `${summary.quantity} plagg`;
+
+  for (const dialog of productRoot.querySelectorAll('[data-devise-price-dialog]')) {
+    const options = dialog.querySelector('[data-devise-price-options]');
+    const lineOptions = dialog.querySelector('[data-devise-price-line-options]');
+    const lineQuantity = dialog.querySelector('[data-devise-price-line-quantity]');
+    const lineUnit = dialog.querySelector('[data-devise-price-line-unit]');
+    const lineTotal = dialog.querySelector('[data-devise-price-line-total]');
+    const totalQuantity = dialog.querySelector('[data-devise-price-total-quantity]');
+    const total = dialog.querySelector('[data-devise-price-total]');
+
+    if (options) options.textContent = optionSummary;
+    if (lineOptions) lineOptions.textContent = optionSummary;
+    if (lineQuantity) lineQuantity.textContent = summary.quantity.toString();
+    if (lineUnit) lineUnit.textContent = formatMoney(summary.unitPrice, summary.currency);
+    if (lineTotal) lineTotal.textContent = formatMoney(summary.totalPrice, summary.currency);
+    if (totalQuantity) totalQuantity.textContent = quantityText;
+    if (total) total.textContent = formatMoney(summary.totalPrice, summary.currency);
+  }
+}
+
 function syncSingleVariantPrice(productForm, basePrice) {
   const priceBox = productForm.querySelector('[data-devise-cart-price]');
   if (!priceBox) return;
@@ -84,6 +140,13 @@ function syncSingleVariantPrice(productForm, basePrice) {
 
   if (total) total.textContent = formatMoney(totalValue, priceBox.dataset.currency);
   if (detail) detail.textContent = quantity > 1 ? `${quantity} plagg totalt` : '1 plagg';
+
+  syncPriceDialog(productForm, {
+    quantity,
+    unitPrice: Number(priceBox.dataset.basePrice) || 0,
+    totalPrice: totalValue,
+    currency: priceBox.dataset.currency,
+  });
 }
 
 function handleProductSelect(event) {
@@ -114,6 +177,14 @@ function handleQuantityInput(event) {
   if (productForm) syncSingleVariantPrice(productForm, basePrice);
 }
 
+function handleQuantitySelectorUpdate(event) {
+  const target = event.target instanceof Element ? event.target : null;
+  const productForm = target?.closest('.devise-product-page product-form-component');
+  const basePrice = Number(productForm?.querySelector('[data-devise-cart-price]')?.dataset.basePrice) || 0;
+
+  if (productForm) syncSingleVariantPrice(productForm, basePrice);
+}
+
 function handlePrintComparison(event) {
   const input = event.target instanceof HTMLInputElement ? event.target : null;
   if (!input?.matches('[data-devise-print-range]')) return;
@@ -128,6 +199,7 @@ document.addEventListener('input', (event) => {
   handleQuantityInput(event);
   handlePrintComparison(event);
 });
+document.addEventListener(QUANTITY_SELECTOR_UPDATE_EVENT, handleQuantitySelectorUpdate);
 document.addEventListener(PRODUCT_SELECT_EVENT, handleProductSelect);
 
 enhanceDesignButtons();

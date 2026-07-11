@@ -229,13 +229,18 @@
             add_to_cart_text: add_to_cart_text
           %}
 
+          {%- liquid
+            assign initial_cart_quantity = variant.quantity_rule.min | default: 1
+            assign initial_cart_total = variant.price | times: initial_cart_quantity
+          -%}
+
           <div
             class="devise-product-page__cart-price"
             data-devise-cart-price
             data-base-price="{{ variant.price }}"
             data-currency="{{ price_summary_currency }}"
           >
-            <strong data-devise-cart-price-total>{{ variant.price | money }}</strong>
+            <strong data-devise-cart-price-total>{{ initial_cart_total | money }}</strong>
             <span>
               {% render 'devise-price-details-dialog',
                 product: product,
@@ -243,7 +248,7 @@
                 variant: variant,
                 currency: price_summary_currency
               %}
-              <small data-devise-cart-price-detail>Välj storlek</small>
+              <small data-devise-cart-price-detail>{{ initial_cart_quantity }} plagg</small>
             </span>
           </div>
 
