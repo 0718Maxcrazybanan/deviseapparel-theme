@@ -64,6 +64,7 @@
           assign variant_style = block_settings.variant_style
           assign is_color_option = false
           assign is_print_option = false
+          assign is_size_option = false
           assign force_image_swatch = false
 
           if option_name_downcase contains 'color' or option_name_downcase contains 'colour' or option_name_downcase contains 'färg' or option_name_downcase contains 'farg'
@@ -73,6 +74,10 @@
           if option_name_downcase contains 'tryck' or option_name_downcase contains 'print'
             assign is_print_option = true
             assign has_print_option = true
+          endif
+
+          if option_name_downcase contains 'size' or option_name_downcase contains 'storlek'
+            assign is_size_option = true
           endif
 
           if is_color_option and block_settings.show_swatches
@@ -124,7 +129,7 @@
             ref="fieldsets[]"
             {{ option_id_attribute }}
           >
-            <legend{% if is_print_option %} class="devise-variant-heading"{% endif %}>
+            <legend{% if is_print_option or is_size_option %} class="devise-variant-heading{% if is_size_option %} devise-variant-heading--size-guide{% endif %}"{% endif %}>
               <span>
                 {{ product_option.name | escape -}}
                 <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
@@ -137,6 +142,10 @@
                 >
                   {{ print_comparison_label | escape }}
                 </button>
+              {%- endif -%}
+              {%- if is_size_option and has_rendered_size_guide == false -%}
+                {% render 'devise-size-guide-dialog', product: product_resource, section: section %}
+                {%- assign has_rendered_size_guide = true -%}
               {%- endif -%}
             </legend>
             {%- for product_option_value in product_option.values -%}
@@ -312,15 +321,7 @@
             </div>
           </div>
         {%- endif -%}
-        {%- if is_print_option and has_rendered_size_guide == false -%}
-          {% render 'devise-size-guide-dialog', product: product_resource, section: section %}
-          {%- assign has_rendered_size_guide = true -%}
-        {%- endif -%}
       {%- endfor -%}
-
-      {%- if has_rendered_size_guide == false -%}
-        {% render 'devise-size-guide-dialog', product: product_resource, section: section %}
-      {%- endif -%}
 
       <script type="application/json">
         {{ product_resource.selected_or_first_available_variant | json }}
