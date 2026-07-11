@@ -160,8 +160,8 @@
 }
 
 .devise-product-page .devise-variant-heading--size-guide {
-  justify-content: flex-start;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .devise-product-page .devise-print-comparison-trigger,
