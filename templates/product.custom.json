@@ -352,7 +352,7 @@
               },
               "blocks": {}
             },
-            "accordion_MGrKp7": {
+            "accordion_KmKJtB": {
               "type": "accordion",
               "name": "t:names.accordion",
               "settings": {
@@ -373,19 +373,19 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "accordion_row_3yFYxL": {
+                "accordion_row_Qr9w7b": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Returpolicy",
-                    "open_by_default": true,
-                    "icon": "none",
+                    "heading": "Skötselråd",
+                    "open_by_default": false,
+                    "icon": "washing",
                     "width": 20
                   },
                   "blocks": {
-                    "text_D9ztAV": {
+                    "text_7rYKQj": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Vårt mål är att varje kund ska vara helt nöjd med sitt köp. Om så inte är fallet, meddela oss så gör vi vårt bästa för att lösa det tillsammans med dig.</p>",
+                        "text": "<ul><li>Allmänt:  En slitstark, bekväm och mångsidig t-shirt som utmärker sig när det gäller tryckbarhet och som är enkel att bära, vilket gör den till ett förstahandsval för anpassade designer.</li></ul><p></p><ul><li>Tvättråd:  T-shirten bör tvättas med liknande färger och tål regelbunden tvätt utan att tappa färg eller form</li></ul><p></p><ul><li>Torkning:  Torktumla på låg värme eller hängtorka för att bevara tygets och tryckets kvalitet.</li></ul><p></p><ul><li>Förvaring:  Förvara t-shirten på en sval, torr plats som inte utsätts för direkt solljus för att bevara dess färg och tygets kvalitet.</li></ul>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -398,7 +398,7 @@
                         "wrap": "pretty",
                         "text_color": "",
                         "background": false,
-                        "background_color": "#00000026",
+                        "background_color": "#FFFFFF26",
                         "corner_radius": 0,
                         "padding-block-start": 0,
                         "padding-block-end": 0,
@@ -409,22 +409,22 @@
                     }
                   },
                   "block_order": [
-                    "text_D9ztAV"
+                    "text_7rYKQj"
                   ]
                 },
-                "accordion_row_zBaWnQ": {
+                "accordion_row_TyFUGf": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Frakt",
+                    "heading": "Leverans",
                     "open_by_default": false,
-                    "icon": "none",
+                    "icon": "truck",
                     "width": 20
                   },
                   "blocks": {
-                    "text_ykWipz": {
+                    "text_Yk7XYR": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Vi kommer att arbeta snabbt för att leverera din order så snart som möjligt. När din order har skickats får du ett e-postmeddelande med ytterligare information. Leveranstiderna varierar beroende på var du befinner dig.</p>",
+                        "text": "<p>Beräknad leverans: 5–8 arbetsdagar. För mer info tryck här: <a href=\"/pages/shipping-returns\" target=\"_blank\" title=\"Shipping & Returns\">Frakt och Returer</a></p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -448,22 +448,22 @@
                     }
                   },
                   "block_order": [
-                    "text_ykWipz"
+                    "text_Yk7XYR"
                   ]
                 },
-                "accordion_row_z8t793": {
+                "accordion_row_6L8Ht8": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Tillverkning",
+                    "heading": "Returrätt",
                     "open_by_default": false,
-                    "icon": "none",
+                    "icon": "return",
                     "width": 20
                   },
                   "blocks": {
-                    "text_HNYnVq": {
+                    "text_qRXRTP": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Våra produkter tillverkas både lokalt och globalt. Vi väljer noggrant ut våra tillverkningspartners för att säkerställa att våra produkter är av hög kvalitet och prisvärda.</p>",
+                        "text": "<p>Du har 14 dagars returrätt när du handlar hos oss. För mer info, läs våra returvillkor.<br/><br/></p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -487,14 +487,14 @@
                     }
                   },
                   "block_order": [
-                    "text_HNYnVq"
+                    "text_qRXRTP"
                   ]
                 }
               },
               "block_order": [
-                "accordion_row_3yFYxL",
-                "accordion_row_zBaWnQ",
-                "accordion_row_z8t793"
+                "accordion_row_Qr9w7b",
+                "accordion_row_TyFUGf",
+                "accordion_row_6L8Ht8"
               ]
             }
           },
@@ -506,7 +506,7 @@
             "custom_liquid_ynpBcU",
             "buy_buttons_TWnB4G",
             "product_description_idQyEV",
-            "accordion_MGrKp7"
+            "accordion_KmKJtB"
           ]
         }
       },
