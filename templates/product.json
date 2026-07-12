@@ -399,16 +399,16 @@
                 "accordion_row_TyFUGf": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Frakt",
+                    "heading": "Leverans",
                     "open_by_default": false,
-                    "icon": "none",
+                    "icon": "truck",
                     "width": 20
                   },
                   "blocks": {
                     "text_Yk7XYR": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Vi kommer att arbeta snabbt för att leverera din order så snart som möjligt. När din order har skickats får du ett e-postmeddelande med ytterligare information. Leveranstiderna varierar beroende på var du befinner dig.</p>",
+                        "text": "<p>Beräknad leverans: 5–8 arbetsdagar. För mer info tryck här: </p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -438,16 +438,16 @@
                 "accordion_row_6L8Ht8": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Tillverkning",
+                    "heading": "Returrätt",
                     "open_by_default": false,
-                    "icon": "none",
+                    "icon": "return",
                     "width": 20
                   },
                   "blocks": {
                     "text_qRXRTP": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Våra produkter tillverkas både lokalt och globalt. Vi väljer noggrant ut våra tillverkningspartners för att säkerställa att våra produkter är av hög kvalitet och prisvärda.</p>",
+                        "text": "<p>Du har 14 dagars returrätt när du handlar hos oss. För mer info, läs våra returvillkor.<br/><br/></p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
