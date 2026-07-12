@@ -197,7 +197,7 @@
           "settings": {
             "menu": "f-retags-information",
             "heading": "Företagsinformation",
-            "menu_spacing": 12,
+            "menu_spacing": 0,
             "show_as_accordion": false,
             "accordion_icon": "caret",
             "accordion_dividers": false,
