@@ -248,6 +248,14 @@
               },
               "blocks": {}
             },
+            "custom_liquid_VXRpC8": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "settings": {
+                "custom_liquid": "<div id=\"printapp-preview-target\"></div>"
+              },
+              "blocks": {}
+            },
             "custom_liquid_ynpBcU": {
               "type": "custom-liquid",
               "name": "t:names.custom_liquid",
@@ -323,6 +331,7 @@
             "group_icgrde",
             "divider_VJhene",
             "variant_picker_mgW8zq",
+            "custom_liquid_VXRpC8",
             "custom_liquid_ynpBcU",
             "buy_buttons_TWnB4G"
           ]
