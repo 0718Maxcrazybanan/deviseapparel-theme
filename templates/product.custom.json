@@ -351,6 +351,151 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "accordion_MGrKp7": {
+              "type": "accordion",
+              "name": "t:names.accordion",
+              "settings": {
+                "icon": "caret",
+                "dividers": true,
+                "divider_color": "",
+                "type_preset": "h6",
+                "background_color": "",
+                "text_color": "",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "accordion_row_3yFYxL": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Returpolicy",
+                    "open_by_default": true,
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_D9ztAV": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Vårt mål är att varje kund ska vara helt nöjd med sitt köp. Om så inte är fallet, meddela oss så gör vi vårt bästa för att lösa det tillsammans med dig.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_D9ztAV"
+                  ]
+                },
+                "accordion_row_zBaWnQ": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Frakt",
+                    "open_by_default": false,
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_ykWipz": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Vi kommer att arbeta snabbt för att leverera din order så snart som möjligt. När din order har skickats får du ett e-postmeddelande med ytterligare information. Leveranstiderna varierar beroende på var du befinner dig.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_ykWipz"
+                  ]
+                },
+                "accordion_row_z8t793": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Tillverkning",
+                    "open_by_default": false,
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_HNYnVq": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Våra produkter tillverkas både lokalt och globalt. Vi väljer noggrant ut våra tillverkningspartners för att säkerställa att våra produkter är av hög kvalitet och prisvärda.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_HNYnVq"
+                  ]
+                }
+              },
+              "block_order": [
+                "accordion_row_3yFYxL",
+                "accordion_row_zBaWnQ",
+                "accordion_row_z8t793"
+              ]
             }
           },
           "block_order": [
@@ -360,7 +505,8 @@
             "custom_liquid_VXRpC8",
             "custom_liquid_ynpBcU",
             "buy_buttons_TWnB4G",
-            "product_description_idQyEV"
+            "product_description_idQyEV",
+            "accordion_MGrKp7"
           ]
         }
       },
