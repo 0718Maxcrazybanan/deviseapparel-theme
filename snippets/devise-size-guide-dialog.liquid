@@ -47,24 +47,18 @@
       ref="dialog"
       class="devise-product-dialog__surface devise-size-guide__surface dialog-modal color-custom-popover"
       scroll-lock
-      aria-labelledby="{{ dialog_id }}-heading"
+      aria-label="{{ guide_heading }}"
     >
-      <header class="devise-product-dialog__header">
-        <div>
-          <span class="devise-product-dialog__eyebrow">Passform</span>
-          <h2 id="{{ dialog_id }}-heading">{{ guide_heading }}</h2>
-        </div>
-        <button
-          type="button"
-          class="button button-unstyled close-button devise-product-dialog__close"
-          on:click="/closeDialog"
-          aria-label="{{ 'accessibility.close_dialog' | t }}"
-        >
-          {{- 'icon-close.svg' | inline_asset_content -}}
-        </button>
-      </header>
+      <button
+        type="button"
+        class="button button-unstyled close-button devise-product-dialog__close devise-size-guide__close"
+        on:click="/closeDialog"
+        aria-label="{{ 'accessibility.close_dialog' | t }}"
+      >
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </button>
 
-      <div style="padding: 16px;">
+      <div class="devise-size-guide__media">
         {{
           size_guide_image
           | image_url: width: 1800
@@ -73,7 +67,7 @@
             widths: '360, 540, 720, 900, 1200, 1600, 1800',
             sizes: '(max-width: 749px) calc(100vw - 32px), min(90vw, 1200px)',
             alt: image_alt,
-            style: 'display:block;width:auto;max-width:100%;height:auto;max-height:calc(100vh - 160px);margin:0 auto;object-fit:contain;'
+            style: 'display:block;width:auto;max-width:100%;height:auto;max-height:calc(100dvh - 32px);margin:0 auto;object-fit:contain;'
         }}
       </div>
     </dialog>
