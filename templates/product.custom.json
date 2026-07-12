@@ -68,6 +68,14 @@
             "padding-inline-end": 0
           },
           "blocks": {
+            "custom_liquid_BTrKbJ": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "settings": {
+                "custom_liquid": "<div id=\"printapp-inline-target\"></div>"
+              },
+              "blocks": {}
+            },
             "group_icgrde": {
               "type": "group",
               "name": "Header",
@@ -312,6 +320,7 @@
             }
           },
           "block_order": [
+            "custom_liquid_BTrKbJ",
             "group_icgrde",
             "divider_VJhene",
             "variant_picker_mgW8zq",
