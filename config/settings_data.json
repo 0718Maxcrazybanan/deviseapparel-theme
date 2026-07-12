@@ -124,8 +124,26 @@
       },
       "11634302023677443840": {
         "type": "shopify://apps/print-app-web2print-customizer/blocks/print_app_core/019c7e22-29e0-7c21-8d97-96deaeec484c",
-        "disabled": true,
+        "disabled": false,
         "settings": {}
+      },
+      "13851756539466573627": {
+        "type": "shopify://apps/gelato-print-on-demand/blocks/product-personalizer/9f8f1130-ec83-4e2f-a417-5e69fb8f6e45",
+        "disabled": false,
+        "settings": {
+          "hidden-selector": "",
+          "in-page-personalization-preview-selector": "",
+          "cart-edit-selector": "",
+          "cart-item-info-selector": "",
+          "personalized-cart-preview-selector": "",
+          "dropdown-selectors-desktop": "None",
+          "dropdown-selectors-mobile": "None",
+          "show-personalize-tab": true,
+          "hide-preview-button": false,
+          "hide-preview-scroll-bar": false,
+          "zoom-in-preview": false,
+          "enable-manual-save-draft": false
+        }
       }
     },
     "color_palette": {
