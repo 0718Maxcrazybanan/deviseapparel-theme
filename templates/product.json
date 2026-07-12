@@ -408,7 +408,7 @@
                     "text_Yk7XYR": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Beräknad leverans: 5–8 arbetsdagar. För mer info tryck här: </p>",
+                        "text": "<p>Beräknad leverans: 5–8 arbetsdagar. För mer info tryck här: <a href=\"/pages/shipping-returns\" target=\"_blank\" title=\"Shipping & Returns\">Frakt och Returer</a></p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
