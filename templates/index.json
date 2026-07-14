@@ -169,16 +169,17 @@
                 "text_DdBKiJ"
               ]
             },
-            "button_ti93Ne": {
+            "button_CqmeAW": {
               "type": "button",
+              "name": "t:names.button",
               "settings": {
-                "label": "Designa Själv",
-                "link": "shopify://collections/custom-page",
+                "label": "Handla nu",
+                "link": "shopify://pages/designidea",
                 "open_in_new_tab": false,
-                "style_class": "button-custom",
+                "style_class": "button",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
                 "custom_button_text": "{{ settings.color_palette.background }}",
-                "custom_button_border": "{{ settings.color_palette.color4 }}",
+                "custom_button_border": "{{ settings.color_palette.background }}",
                 "link_text_color": "",
                 "width": "fit-content",
                 "custom_width": 100,
@@ -190,7 +191,7 @@
           },
           "block_order": [
             "group_dwFatj",
-            "button_ti93Ne"
+            "button_CqmeAW"
           ]
         }
       },
