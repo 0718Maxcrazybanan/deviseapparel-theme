@@ -42,7 +42,7 @@
           "static": true,
           "settings": {
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "space-between",
+            "vertical_alignment_flex_direction_column": "center",
             "gap": 0
           },
           "blocks": {
@@ -90,7 +90,7 @@
                 "height": "fit",
                 "custom_height": 100,
                 "background_media": "none",
-                "background_color": "{{ settings.color_palette.background }}",
+                "background_color": "#090202",
                 "video_position": "cover",
                 "background_image_position": "cover",
                 "toggle_overlay": false,
@@ -115,7 +115,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>Designa Din Egna Tröja</h2>",
+                    "text": "<h1>Designa Din Egna Tröja</h1>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -140,7 +140,7 @@
                 "text_8Qp8qb": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Våran Hemsida erbjuder möjligheten att designa din egna tröja, där du skapar exakt det du vill bära!                                   </p>",
+                    "text": "<p>Våran Hemsida erbjuder möjligheten att designa din egna tröja, där du skapar exakt det du vill bära!    <br/>Med stor variation av redigeringsverktyg.                               </p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -226,7 +226,7 @@
         "media_position": "left",
         "media_width": "medium",
         "media_height": "60svh",
-        "section_width": "full-width",
+        "section_width": "page-width",
         "extend_media": true,
         "background_color": "{{ settings.color_palette.background }}",
         "padding-block-start": 0,
