@@ -114,7 +114,7 @@
             "text_EARdHE": {
               "type": "text",
               "settings": {
-                "text": "<p>Våran Hemsida erbjuder möjligheten att designa din egna tröja, där du skapar exakt det du vill bära!<br/>Med stor variation av redigeringsverktyg.</p><p><br/>Välj Produkt ⭢ Applicera Text Eller Egen Bild ⭢ Beställ</p>",
+                "text": "<p>Våran Hemsida erbjuder möjligheten att designa din egna tröja, där du skapar exakt det du vill bära!<br/>Med stor variation av redigeringsverktyg.</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -130,6 +130,32 @@
                 "background_color": "#00000026",
                 "corner_radius": 0,
                 "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_xeHYp6": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<h6>Välj Produkt ⭢ Designa ⭢ Beställ</h6>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 31,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
@@ -158,6 +184,7 @@
           "block_order": [
             "text_7XMx6m",
             "text_EARdHE",
+            "text_xeHYp6",
             "button_K3JbED"
           ]
         }
