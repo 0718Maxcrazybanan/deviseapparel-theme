@@ -114,9 +114,9 @@
             "text_EARdHE": {
               "type": "text",
               "settings": {
-                "text": "<p>Denna bästsäljare är tillverkad med omsorg och villkorslöst älskad av våra kunder och överträffar alla förväntningar.</p>",
+                "text": "<p>Våran Hemsida erbjuder möjligheten att designa din egna tröja, där du skapar exakt det du vill bära!<br/>Med stor variation av redigeringsverktyg.</p><p><br/>Välj Produkt ⭢ Applicera Text Eller Egen Bild ⭢ Beställ</p>",
                 "width": "fit-content",
-                "max_width": "narrow",
+                "max_width": "normal",
                 "alignment": "left",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
