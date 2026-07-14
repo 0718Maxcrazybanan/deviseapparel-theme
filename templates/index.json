@@ -46,32 +46,6 @@
             "gap": 0
           },
           "blocks": {
-            "text_zAL8Vt": {
-              "type": "text",
-              "name": "t:names.caption",
-              "settings": {
-                "text": "<h4>Hittar du inte vad du letar efter? Skapa det!</h4>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h6",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
             "group_dwFatj": {
               "type": "group",
               "settings": {
@@ -215,7 +189,6 @@
             }
           },
           "block_order": [
-            "text_zAL8Vt",
             "group_dwFatj",
             "button_ti93Ne"
           ]
@@ -228,7 +201,7 @@
         "media_height": "60svh",
         "section_width": "page-width",
         "extend_media": true,
-        "background_color": "{{ settings.color_palette.background }}",
+        "background_color": "#090202",
         "padding-block-start": 0,
         "padding-block-end": 0
       }

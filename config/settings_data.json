@@ -75,7 +75,7 @@
     "drawer_background_color": "#ffffff",
     "drawer_text_color": "#101010",
     "icon_stroke": "default",
-    "palette_input_background": "#ffffff",
+    "palette_input_background": "#F6F6F6",
     "palette_input_text": "#101010",
     "palette_input_border": "#c9c9c3",
     "input_border_width": 1,
@@ -86,7 +86,7 @@
     "currency_code_enabled_product_pages": false,
     "currency_code_enabled_product_cards": true,
     "currency_code_enabled_cart_items": false,
-    "quick_add_background": "#ffffff",
+    "quick_add_background": "#F6F6F6",
     "quick_add_text": "#101010",
     "show_second_image_on_hover": false,
     "product_corner_radius": 4,
@@ -153,7 +153,7 @@
       "color3": "#ffffff",
       "color4": "#ffde59",
       "color9": "#181818",
-      "color10": "#eef1ea"
+      "color10": "#EFEFEF"
     }
   },
   "presets": {
