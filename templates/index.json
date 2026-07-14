@@ -89,7 +89,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<h2>Vår signaturprodukt</h2>",
+                "text": "<h1><em><strong>Designa Din Egna Tröja</strong></em></h1>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
