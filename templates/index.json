@@ -20,7 +20,7 @@
         "padding-block-end": 0
       }
     },
-    "media_with_content_LqaDNF": {
+    "media_with_content_LpENqN": {
       "type": "media-with-content",
       "blocks": {
         "media": {
@@ -43,14 +43,14 @@
           "settings": {
             "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "space-between",
-            "gap": 24
+            "gap": 0
           },
           "blocks": {
-            "text_DGtcai": {
+            "text_zAL8Vt": {
               "type": "text",
               "name": "t:names.caption",
               "settings": {
-                "text": "<p>Oändliga Möjligheter</p><p></p>",
+                "text": "<h4>Hittar du inte vad du letar efter? Skapa det!</h4>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -72,7 +72,7 @@
               },
               "blocks": {}
             },
-            "group_Cec7QH": {
+            "group_dwFatj": {
               "type": "group",
               "settings": {
                 "content_direction": "column",
@@ -90,7 +90,7 @@
                 "height": "fit",
                 "custom_height": 100,
                 "background_media": "none",
-                "background_color": "",
+                "background_color": "{{ settings.color_palette.background }}",
                 "video_position": "cover",
                 "background_image_position": "cover",
                 "toggle_overlay": false,
@@ -111,11 +111,11 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "text_RGtpm7": {
+                "text_DH3FF7": {
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>Skapa Din Egna Design</h2>",
+                    "text": "<h2>Designa Din Egna Tröja</h2>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -130,19 +130,19 @@
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
-                    "padding-block-start": 0,
+                    "padding-block-start": 82,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
                   "blocks": {}
                 },
-                "text_iLtBwd": {
+                "text_8Qp8qb": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Våran hemsida erbjuder möjligheten att själv designa dina plagg med oändliga möjligheter.</p>",
-                    "width": "fit-content",
-                    "max_width": "narrow",
+                    "text": "<p>Våran Hemsida erbjuder möjligheten att designa din egna tröja, där du skapar exakt det du vill bära!                                   </p>",
+                    "width": "100%",
+                    "max_width": "normal",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -156,6 +156,32 @@
                     "background_color": "#00000026",
                     "corner_radius": 0,
                     "padding-block-start": 0,
+                    "padding-block-end": 100,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_DdBKiJ": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<h5>Välj Produkt ⭢ Applicera Text Eller Egen Bild ⭢ Beställ</h5>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 19,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
@@ -164,20 +190,21 @@
                 }
               },
               "block_order": [
-                "text_RGtpm7",
-                "text_iLtBwd"
+                "text_DH3FF7",
+                "text_8Qp8qb",
+                "text_DdBKiJ"
               ]
             },
-            "button_CG8kfL": {
+            "button_ti93Ne": {
               "type": "button",
               "settings": {
-                "label": "Handla nu",
-                "link": "shopify://pages/contact",
+                "label": "Designa Själv",
+                "link": "shopify://collections/all",
                 "open_in_new_tab": false,
-                "style_class": "button-unstyled",
+                "style_class": "button-custom",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
                 "custom_button_text": "{{ settings.color_palette.background }}",
-                "custom_button_border": "{{ settings.color_palette.background }}",
+                "custom_button_border": "{{ settings.color_palette.color4 }}",
                 "link_text_color": "",
                 "width": "fit-content",
                 "custom_width": 100,
@@ -188,9 +215,9 @@
             }
           },
           "block_order": [
-            "text_DGtcai",
-            "group_Cec7QH",
-            "button_CG8kfL"
+            "text_zAL8Vt",
+            "group_dwFatj",
+            "button_ti93Ne"
           ]
         }
       },
@@ -201,7 +228,7 @@
         "media_height": "60svh",
         "section_width": "full-width",
         "extend_media": true,
-        "background_color": "",
+        "background_color": "{{ settings.color_palette.background }}",
         "padding-block-start": 0,
         "padding-block-end": 0
       }
@@ -305,7 +332,7 @@
   },
   "order": [
     "custom_liquid_ULmi8h",
-    "media_with_content_LqaDNF",
+    "media_with_content_LpENqN",
     "custom_liquid_BVaKUF",
     "blocks_8QfKCe",
     "custom_liquid_g3zGrb",
